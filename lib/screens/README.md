@@ -1,0 +1,3 @@
+# Screens
+
+Common application screens
