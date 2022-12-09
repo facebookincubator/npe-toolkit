@@ -1,0 +1,16 @@
+{
+  "main": "./index.js",
+  "bin": {
+    "npe:postinstall": "./install.js"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0",
+    "@expo/webpack-config": "^0.15.0",
+    "expo": "~41.0.1",
+    "jest-expo": "~41.0.0",
+    "react-native": "0.63.4"
+  },
+  "name": "@npe/config",
+  "private": true,
+  "version": "0.0.1"
+}
