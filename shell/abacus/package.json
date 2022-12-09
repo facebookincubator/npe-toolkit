@@ -81,8 +81,8 @@
   "localDependencies": {
     "@toolkit": "../../lib",
     "@npe/pads": "../../../libraries/pads/prototype",
-    "app": "../../../apps/h2/client",
-    "hax-app-common": "../../../apps/h2/common"
+    "app": "../../templates/faves/client",
+    "hax-app-common": "../../templates/faves/common"
   },
   "resolutions": {
     "**/@babel/core": "^7.17.5",

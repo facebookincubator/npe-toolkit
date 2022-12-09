@@ -3,4 +3,4 @@
  */
 
 // TODO: Make this configurable
-require('../../../apps/h2/client/index');
+require('../../templates/faves/client/index');
