@@ -2920,7 +2920,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@npe/config@file:../../../tools/config":
+"@npe/config@file:../../tools/config":
   version "0.0.1"
 
 "@npmcli/fs@^1.0.0":
