@@ -1,0 +1,26 @@
+{
+  "include": [
+    ".",
+    "../../../toolkit/shell/abacus/types"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "hax-app-common/*": [
+        "../common/*"
+      ],
+      "@toolkit/*": [
+        "../../../lib/*"
+      ],
+      "*": [
+        "*",
+        "../../../shell/abacus/node_modules/*",
+        "../../../shell/abacus/node_modules/@types/*"
+      ],
+      "@npe/pads/*": [
+        "../../../libraries/pads/prototype/*"
+      ]
+    }
+  },
+  "extends": "../../../shell/abacus/tsconfig"
+}
