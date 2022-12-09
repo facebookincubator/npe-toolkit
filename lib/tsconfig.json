@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "typeRoots": [
+      "./ts-declarations",
+      "node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@toolkit/*": [
+        "*"
+      ],
+      "*": [
+        "../shell/abacus/node_modules/*",
+        "../shell/abacus/node_modules/@types/*",
+        "../shell/abacus/server/node_modules/*",
+        "../shell/abacus/server/node_modules/@types/*"
+      ],
+      "@npe/pads/*": [
+        "../../libraries/pads/prototype/*"
+      ]
+    },
+    "inlineSourceMap": true,
+    "declaration": true,
+    "inlineSources": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "outDir": "./dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}

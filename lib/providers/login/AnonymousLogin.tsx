@@ -1,0 +1,51 @@
+/**
+ * (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+ *
+ * @format
+ */
+
+import {AuthType} from '@toolkit/core/api/Auth';
+import {IdentityProvider} from '@toolkit/core/api/Login';
+import {getStored, setStored, STRING} from '@toolkit/core/client/Storage';
+import {uuidv4} from '@toolkit/core/util/Util';
+
+const CLIENT_UUID_KEY = 'client_uuid';
+
+function getKey(product: string, key: string) {
+  return `${product}:${key}`;
+}
+
+// Anonymout auth provider just returns a token that is the anonymous client UUID
+export function anonAuthProvider(): IdentityProvider {
+  async function getAuthInfo(product: string) {
+    let uuid = await getStored(getKey(product, CLIENT_UUID_KEY), STRING, null);
+    if (uuid == null) {
+      uuid = uuidv4();
+      setStored(getKey(product, CLIENT_UUID_KEY), STRING, uuid);
+    }
+    const type: AuthType = 'anon';
+    return {token: uuid, id: uuid, type};
+  }
+
+  return {
+    init: async () => {},
+
+    tryConnect: async (product: string, scopes: string[]) => {
+      return getAuthInfo(product);
+    },
+
+    getAuthInfo: async (product: string) => {
+      return getAuthInfo(product);
+    },
+
+    disconnect: async (product: string) => {
+      await setStored(getKey(product, CLIENT_UUID_KEY), STRING, null);
+    },
+
+    getType: (): AuthType => 'anon',
+  };
+}
+
+export async function devSetAnonymousClientId(uuid: string, product: string) {
+  await setStored(getKey(product, CLIENT_UUID_KEY), STRING, uuid);
+}
