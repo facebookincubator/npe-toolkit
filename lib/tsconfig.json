@@ -18,10 +18,10 @@
         "*"
       ],
       "*": [
-        "../shell/abacus/node_modules/*",
-        "../shell/abacus/node_modules/@types/*",
-        "../shell/abacus/server/node_modules/*",
-        "../shell/abacus/server/node_modules/@types/*"
+        "../shell/latest/node_modules/*",
+        "../shell/latest/node_modules/@types/*",
+        "../shell/latest/server/node_modules/*",
+        "../shell/latest/server/node_modules/@types/*"
       ],
       "@npe/pads/*": [
         "../../libraries/pads/prototype/*"
