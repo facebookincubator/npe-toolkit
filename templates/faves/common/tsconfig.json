@@ -31,11 +31,8 @@
       ],
       "*": [
         "*",
-        "../../../toolkit/shell/abacus/node_modules/*",
-        "../../../toolkit/shell/abacus/node_modules/@types/*"
-      ],
-      "@npe/pads/*": [
-        "../../../libraries/pads/prototype/*"
+        "../../../toolkit/shell/latest/node_modules/*",
+        "../../../toolkit/shell/latest/node_modules/@types/*"
       ]
     }
   }

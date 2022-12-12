@@ -5,18 +5,6 @@
  * @oncall npe_central_engineering
  */
 
-import {
-  Edge,
-  Field,
-  Filter,
-  FilterOp,
-  Limit,
-  Order,
-  OrderDirection,
-  Query,
-} from '@npe/pads/src/query';
-import {Repo, RepoQuery, RunWithTransactionCallback} from '@npe/pads/src/repo';
-import {OptionalId, Success} from '@npe/pads/src/utils';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   BaseModel,
@@ -30,6 +18,22 @@ import {
   Updater,
   Where,
 } from '@toolkit/data/DataStore';
+import {
+  Edge,
+  Field,
+  Filter,
+  FilterOp,
+  Limit,
+  Order,
+  OrderDirection,
+  Query,
+} from '@toolkit/data/pads/query';
+import {
+  Repo,
+  RepoQuery,
+  RunWithTransactionCallback,
+} from '@toolkit/data/pads/repo';
+import {OptionalId, Success} from '@toolkit/data/pads/utils';
 import {toRepoRepresentation} from '@toolkit/providers/firebase/DataStore';
 import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';

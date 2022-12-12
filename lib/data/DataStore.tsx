@@ -5,12 +5,12 @@
  */
 
 // This file is the client API, and references React-specific constructs
-import {BaseModel, ModelClass} from '@npe/pads/src/model';
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
 import {Opt} from '@toolkit/core/util/Types';
+import {BaseModel, ModelClass} from '@toolkit/data/pads/model';
 
 // Export for convenience
-export * from '@npe/pads/src/deletion';
+export * from '@toolkit/data/pads/deletion';
 export {
   BaseModel,
   Field,
@@ -19,14 +19,14 @@ export {
   ModelClass,
   ModelUtil,
   R,
-} from '@npe/pads/src/model';
-export * from '@npe/pads/src/privacy';
+} from '@toolkit/data/pads/model';
+export * from '@toolkit/data/pads/privacy';
 export {
   default as registry,
   getRepoImpl,
   initRegistry,
-} from '@npe/pads/src/registry';
-export * from '@npe/pads/src/schema';
+} from '@toolkit/data/pads/registry';
+export * from '@toolkit/data/pads/schema';
 
 export type DataStoreProvider = <T extends BaseModel>(
   dataType: ModelClass<T>,

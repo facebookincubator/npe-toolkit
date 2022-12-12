@@ -22,9 +22,6 @@
         "../shell/latest/node_modules/@types/*",
         "../shell/latest/server/node_modules/*",
         "../shell/latest/server/node_modules/@types/*"
-      ],
-      "@npe/pads/*": [
-        "../../libraries/pads/prototype/*"
       ]
     },
     "inlineSourceMap": true,

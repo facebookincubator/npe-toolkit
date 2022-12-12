@@ -6,15 +6,6 @@
  */
 
 //@ts-ignore
-import * as graph from '@npe/pads/src/deletion.graph';
-import * as workflow from '@npe/pads/src/deletion.workflow';
-import {
-  DeletionWorker,
-  JobData,
-  JobOptions,
-  LocalQueue,
-  RegistryWrapper,
-} from '@npe/pads/src/deletion.workflow';
 import Role from '@toolkit/core/api/Roles';
 import {FirestoreDeletionRepo} from '@toolkit/core/server/Deletion';
 import {
@@ -33,6 +24,15 @@ import {
   API_DELETION_GET_GRAPH,
   API_DELETION_RUN_JOB,
 } from '@toolkit/data/DeletionApi';
+import * as graph from '@toolkit/data/pads/deletion.graph';
+import * as workflow from '@toolkit/data/pads/deletion.workflow';
+import {
+  DeletionWorker,
+  JobData,
+  JobOptions,
+  LocalQueue,
+  RegistryWrapper,
+} from '@toolkit/data/pads/deletion.workflow';
 import {
   toDatastoreRepresentation,
   toRepoRepresentation,

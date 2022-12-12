@@ -14,13 +14,10 @@
       ],
       "*": [
         "*",
-        "../../../shell/abacus/node_modules/*",
-        "../../../shell/abacus/node_modules/@types/*"
-      ],
-      "@npe/pads/*": [
-        "../../../libraries/pads/prototype/*"
+        "../../../shell/latest/node_modules/*",
+        "../../../shell/latest/node_modules/@types/*"
       ]
     }
   },
-  "extends": "../../../shell/abacus/tsconfig"
+  "extends": "../../../shell/latest/tsconfig"
 }

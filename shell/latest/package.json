@@ -6,7 +6,7 @@
     "web": "expo start --web",
     "npe:install": "yarn install && yarn npe:postinstall",
     "npe:wipe": "rm -rf node_modules && yarn npe:install",
-    "npe:tsc": "yarn tsc -p ../../../apps/h2/client"
+    "npe:tsc": "yarn tsc -p ../../templates/faves/client"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.5",
@@ -80,7 +80,6 @@
   },
   "localDependencies": {
     "@toolkit": "../../lib",
-    "@npe/pads": "../../../libraries/pads/prototype",
     "app": "../../templates/faves/client",
     "hax-app-common": "../../templates/faves/common"
   },

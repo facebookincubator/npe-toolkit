@@ -5,10 +5,10 @@
  * @oncall npe_central_engineering
  */
 
-import type {DeletionGraph} from '@npe/pads/src/deletion.graph';
-import type {JobData} from '@npe/pads/src/deletion.workflow';
 import {createApiKey} from '@toolkit/core/api/DataApi';
 import {BaseModel} from '@toolkit/data/DataStore';
+import type {DeletionGraph} from '@toolkit/data/pads/deletion.graph';
+import type {JobData} from '@toolkit/data/pads/deletion.workflow';
 
 export const API_DELETION_GET_GRAPH = createApiKey<void, DeletionGraph>(
   'deletion-getGraph',
