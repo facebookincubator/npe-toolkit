@@ -1,0 +1,24 @@
+{
+  "name": "faves-template",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "expo start -p 8081",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@toolkit/shell/latest": "file:../../../shell/latest"
+  },
+  "devDependencies": {
+    "@toolkit/shell/latest/dev": "file:../../../shell/latest/dev"
+  },
+  "resolutions": {
+    "**/@babel/core": "^7.17.5",
+    "**/chokidar": "^3.1.4"
+  },
+  "localDependencies": {
+    "@toolkit": "../../../lib",
+    "app": "../client",
+    "hax-app-common": "../common"
+  },
+  "private": true
+}
