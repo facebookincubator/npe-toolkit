@@ -1,4 +1,7 @@
 {
     "name": "npe-toolkit-faves",
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "scripts": {
+        "postinstall": "cd project && yarn install"
+    }
 }

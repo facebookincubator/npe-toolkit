@@ -20,7 +20,8 @@ removeDir $APP_NAME $APP_NAME
 removeDir $TEMPLATE_DIR/project/node_modules node_modules
 removeDir $TEMPLATE_DIR/project/.expo .expo
 
-# DEBUG= turns on debugging for `create-expo-app`
+# TODO: Configure toolkit path with environment variable, e.g. TK=path/to/tk
+# DEBUG env variable turns on debugging for `create-expo-app`
 DEBUG=expo:init:template yarn create expo-app $APP_NAME -t $TEMPLATE_DIR
 
 # There appears to be a bug in
