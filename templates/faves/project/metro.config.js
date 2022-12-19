@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const MetroUtils = require('@npe/config/MetroUtils');
+const MetroUtils = require('@npe-toolkit-tools/config/MetroUtils');
 const { getDefaultConfig } = require('expo/metro-config');
 
 module.exports = MetroUtils.metroWithLocalDeps(__dirname, getDefaultConfig(__dirname));

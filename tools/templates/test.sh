@@ -5,24 +5,30 @@ UUID=$(uuidgen)
 TRASH_DIR=~/.Trash/$UUID
 TEMPLATE_DIR=../../templates/faves
 APP_NAME=test-app
+NPE_TOOLKIT_SYMLINK=/usr/local/lib/npe-toolkit
 
 mkdir $TRASH_DIR
 
 function removeDir() {
     if [[ -d $1 ]]; then
         echo Moving generated files to trash: $1
-        mv $1 $TRASH_DIR/$2
+        rm -rf $1
     fi
 }
 
-echo ---\\nRemoving previous installation \(if any\)\\n---
+echo --- Removing previous installation \(if any\) ---
 removeDir $APP_NAME $APP_NAME
 removeDir $TEMPLATE_DIR/project/node_modules node_modules
 removeDir $TEMPLATE_DIR/project/.expo .expo
+echo --- End removing previous installation ---
 
-# TODO: Configure toolkit path with environment variable, e.g. TK=path/to/tk
-# DEBUG env variable turns on debugging for `create-expo-app`
-DEBUG=expo:init:template yarn create expo-app $APP_NAME -t $TEMPLATE_DIR
+if [[ ! -d $NPE_TOOLKIT_SYMLINK ]]; then
+    echo Symlinking toolkit to the root of this NPE Toolkit dev tree
+    sudo ln -s $(readlink -f ../../) $NPE_TOOLKIT_SYMLINK
+fi
+
+# Note: Prefix with `DEBUG=expo:init:template` to turn on debugging for `create-expo-app`
+yarn create expo-app $APP_NAME -t $TEMPLATE_DIR
 
 # There appears to be a bug in
 # https://github.com/expo/expo-cli/blob/main/packages/create-expo-app/src/utils/git.ts

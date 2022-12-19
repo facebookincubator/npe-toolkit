@@ -11,7 +11,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
-const WebpackUtils = require('@npe/config/WebpackUtils');
+const WebpackUtils = require('@npe-toolkit-tools/config/WebpackUtils');
 
 WebpackUtils.testConsoleLog();
 
