@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "NPE Studio",
+    "slug": "studio",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "../client/assets/icon.png",
+    "splash": {
+      "image": "../client/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.facebook.npe.hax-app",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.316194284018-4iucu1np3ngg7n3ngprre8iro04oe173"
+        },
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "../client/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.facebook.npe.hax_app"
+    },
+    "web": {
+      "favicon": "../client/assets/favicon.png"
+    },
+    "facebookScheme": "fb",
+    "facebookAppId": "",
+    "facebookDisplayName": "Hax App"
+  }
+}
