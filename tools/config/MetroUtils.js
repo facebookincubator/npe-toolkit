@@ -9,6 +9,7 @@
  */
 
 const path = require('path');
+const fs = require('fs');
 const {getDefaultConfig} = require('expo/metro-config');
 const {getLocalDependencies} = require('./PackageUtils');
 
@@ -40,6 +41,11 @@ try {
  */
 async function metroWithLocalDeps(appDir, config, libsOverride) {
   const libs = libsOverride || getLocalDependencies(appDir);
+
+  for (const alias in libs) {
+    libs[alias] = fs.realpathSync(libs[alias]);
+  }
+
   const libDirs = Object.values(libs);
 
   config.watchFolders = [...libDirs, appDir];
