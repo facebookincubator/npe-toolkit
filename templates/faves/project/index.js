@@ -6,4 +6,4 @@
  */
 
 // TODO: Make this configurable
-require('../../faves/client/index');
+require('../client/index');

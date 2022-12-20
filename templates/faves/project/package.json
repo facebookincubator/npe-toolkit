@@ -6,17 +6,17 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@toolkit/shell/latest": "file:../../../shell/latest"
+    "@npe-toolkit-shell": "file:/usr/local/lib/npe-toolkit/shell/latest"
   },
   "devDependencies": {
-    "@toolkit/shell/latest/dev": "file:../../../shell/latest/dev"
+    "@npe-toolkit-tools": "file:/usr/local/lib/npe-toolkit/tools"
   },
   "resolutions": {
     "**/@babel/core": "^7.17.5",
     "**/chokidar": "^3.1.4"
   },
   "localDependencies": {
-    "@toolkit": "../../../lib",
+    "@toolkit": "/usr/local/lib/.npe-toolkit/lib",
     "app": "../client",
     "hax-app-common": "../common"
   },
