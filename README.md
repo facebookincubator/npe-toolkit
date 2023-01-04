@@ -31,11 +31,17 @@ only support building from source.
 To create your first build:
 
 ```
-> git clone https://github.com/facebookincubator/npe-toolkit.git
-> yarn create expo-app your-app-name ./npe-toolkit/templates/faves
+> git clone https://USERNAME:github.com/facebookincubator/npe-toolkit.git
+> ln -s ln -s npe-toolkit /usr/local/lib/npe-toolkit
+> yarn create expo-app your-app-name -t ./npe-toolkit/templates/faves
 ```
 
-Once we are fully launched, you'll be able to use the prebuilt templates by
+The `USERNAME:` param is your Github username, and is needed to clone while the repo is still private. Once the repo is public
+you can omit this parameter.
+
+The symlink is needed to set the active NPE Toolkit directory to enable developer builds from Toolkit source.
+
+Once we're in GA, the toolkit will be packaged into an NPM package, you'll be able to use the prebuilt templates by
 calling one of the following
 
 ```
