@@ -31,13 +31,13 @@ only support building from source.
 To create your first build:
 
 ```
-> git clone https://USERNAME:github.com/facebookincubator/npe-toolkit.git
-> ln -s ln -s npe-toolkit /usr/local/lib/npe-toolkit
+> git clone https://$(git config --get user.name)@github.com/facebookincubator/npe-toolkit.git
+> sudo ln -s $PWD/npe-toolkit /usr/local/lib/npe-toolkit
 > yarn create expo-app your-app-name -t ./npe-toolkit/templates/faves
 ```
 
-The `USERNAME:` param is your Github username, and is needed to clone while the repo is still private. Once the repo is public
-you can omit this parameter.
+The `$(git config --get user.name)` param returns your Github username, and is needed to clone
+while the repo is still private. Once the repo is public we can omit this parameter.
 
 The symlink is needed to set the active NPE Toolkit directory to enable developer builds from Toolkit source.
 
