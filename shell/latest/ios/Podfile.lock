@@ -22,8 +22,6 @@ PODS:
     - ExpoModulesCore
   - EXDevice (4.3.0):
     - ExpoModulesCore
-  - EXErrorRecovery (3.2.0):
-    - ExpoModulesCore
   - EXFacebook (12.2.0):
     - ExpoModulesCore
     - FacebookSDK/CoreKit (= 9.2.0)
@@ -629,7 +627,6 @@ DEPENDENCIES:
   - EXCamera (from `../node_modules/expo-camera/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXDevice (from `../node_modules/expo-device/ios`)
-  - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFacebook (from `../node_modules/expo-facebook/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFirebaseAnalytics (from `../node_modules/expo-firebase-analytics/ios`)
@@ -733,8 +730,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-constants/ios"
   EXDevice:
     :path: "../node_modules/expo-device/ios"
-  EXErrorRecovery:
-    :path: "../node_modules/expo-error-recovery/ios"
   EXFacebook:
     :path: "../node_modules/expo-facebook/ios"
   EXFileSystem:
@@ -871,7 +866,6 @@ SPEC CHECKSUMS:
   EXCamera: 9f8303a52b2027e007174c2068c2ac76ff41d974
   EXConstants: 7c44785d41d8e959d527d23d29444277a4d1ee73
   EXDevice: 7647ca9b1fd8b269dfd896a7643d659343358054
-  EXErrorRecovery: 74d71ee59f6814315457b09d68e86aa95cc7d05d
   EXFacebook: 7ba828e0aac5f3aa6c10d8fce7652a3eaf63466a
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
   EXFirebaseAnalytics: 2e478758e153b908b67477dff7adf99ffbf37a1b
@@ -954,4 +948,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ae1ff731be01d8be78092146afa2574aae756fe3
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

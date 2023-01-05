@@ -25,24 +25,38 @@ See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
 
 ## Getting started
 
-While the toolkit is under development, we aren't releasing NPM packages and
-only support building from source.
-
-To create your first build:
+While the toolkit is under development, you need to download the source to run
+the toolkit. To run your first build:
 
 ```
-> git clone https://$(git config --get user.name)@github.com/facebookincubator/npe-toolkit.git
-> sudo ln -sf $PWD/npe-toolkit /usr/local/lib/npe-toolkit
-> yarn create expo-app your-app-name -t ./npe-toolkit/templates/faves
+git clone https://github.com/facebookincubator/npe-toolkit.git
+sudo ln -snf $PWD/npe-toolkit /usr/local/lib/npe-toolkit
+yarn create expo-app my-toolkit-app -t ./npe-toolkit/templates/faves
 ```
 
-The `$(git config --get user.name)` param returns your Github username, and is needed to clone
-while the repo is still private. Once the repo is public we can omit this parameter.
+Notes:
 
-The symlink is needed to set the active NPE Toolkit directory to enable developer builds from Toolkit source.
+- Replace `my-toolkit-app` with the name of your app.
+- Smlink is needed to set the current NPE Toolkit directory, which enables
+  developer builds from Toolkit source.
 
-Once we're in GA, the toolkit will be packaged into an NPM package, you'll be able to use the prebuilt templates by
-calling one of the following
+### Running on iOS
+
+We are switching over to use Expo Go soon, however the toolkit currently has a
+dependency that isn't included in Expo Go, so you need build an iOS shell
+locally, using the following command:
+
+```
+
+cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn ios
+```
+
+You'll also need to have XCode installed.
+
+### Running in GA
+
+When we're in general availability, the toolkit will be packaged into an NPM
+package and you can get started without cloning, by calling one of:
 
 ```
 > npx create-expo-app your-app-name -t @npe-toolkit/template-name
