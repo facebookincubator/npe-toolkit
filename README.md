@@ -32,7 +32,7 @@ To create your first build:
 
 ```
 > git clone https://$(git config --get user.name)@github.com/facebookincubator/npe-toolkit.git
-> sudo ln -s $PWD/npe-toolkit /usr/local/lib/npe-toolkit
+> sudo ln -sf $PWD/npe-toolkit /usr/local/lib/npe-toolkit
 > yarn create expo-app your-app-name -t ./npe-toolkit/templates/faves
 ```
 
