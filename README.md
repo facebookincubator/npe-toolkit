@@ -42,12 +42,11 @@ Notes:
 
 ### Running on iOS
 
-We are switching over to use Expo Go soon, however the toolkit currently has a
-dependency that isn't included in Expo Go, so you need build an iOS shell
-locally, using the following command:
+We will be switching to Expo Go, however the toolkit currently has a dependency
+that isn't included. To run iOS locally, run the folloowing command to build an
+iOS shell:
 
 ```
-
 cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn ios
 ```
 
