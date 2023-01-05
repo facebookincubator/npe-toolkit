@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -16,11 +17,9 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.facebook.npe.hax-app",
+      "bundleIdentifier": "com.facebook.npe.studio",
+      "googleServicesFile": "ios/GoogleService-Info.plist",
       "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.316194284018-4iucu1np3ngg7n3ngprre8iro04oe173"
-        },
         "usesNonExemptEncryption": false
       }
     },
@@ -29,13 +28,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.facebook.npe.hax_app"
+      "package": "com.facebook.npe.studio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "facebookScheme": "fb",
-    "facebookAppId": "",
-    "facebookDisplayName": "Hax App"
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "13.0",
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ]
   }
 }
