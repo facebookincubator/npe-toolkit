@@ -20,7 +20,10 @@ import PhoneVerification from '@toolkit/screens/login/PhoneVerification';
 import {NotificationSettingsScreen} from '@toolkit/screens/settings/NotificationSettings';
 import {BLACK_AND_WHITE} from '@toolkit/ui/QuickThemes';
 import {Routes} from '@toolkit/ui/screen/Nav';
-import {NavContext, useReactNavScreens} from '@toolkit/providers/navigation/ReactNavigation';
+import {
+  NavContext,
+  useReactNavScreens,
+} from '@toolkit/providers/navigation/ReactNavigation';
 import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import {SimpleUserMessaging} from '@toolkit/core/client/UserMessaging';
 import WebViewScreen from '@toolkit/ui/screen/WebScreen';
@@ -45,7 +48,8 @@ import MyFavesScreen from './app/screens/MyFavesScreen';
 import SettingsScreen from './app/screens/SettingsScreen';
 import StartupScreen from './app/screens/StartupScreen';
 import {APP_CONFIG, APP_INFO, NOTIF_CHANNELS_CONTEXT} from './lib/Config';
-import {initializeFirebase} from './lib/Firebase';
+import {initializeFirebase} from '@toolkit/providers/firebase/Config';
+import {FIREBASE_CONFIG} from 'hax-app-common/Firebase';
 
 //
 /**
@@ -148,7 +152,7 @@ const APP_CONTEXT = [
 
 export default function App() {
   registerAppConfig(APP_CONFIG);
-  initializeFirebase();
+  initializeFirebase(FIREBASE_CONFIG);
   IdentityService.addProvider(fbAuthProvider());
   IdentityService.addProvider(googleAuthProvider());
   registerIconPack('ion', Ionicons);
