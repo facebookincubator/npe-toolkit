@@ -13,7 +13,7 @@ import {Screen} from '@toolkit/ui/screen/Screen';
 import {useNavigation} from '@react-navigation/native';
 import Constants from 'expo-constants';
 import * as React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, Linking} from 'react-native';
 import AppIcon from '../../assets/splash.png';
 import AllThingsScreen from './AllThingsScreen';
 import {FIREBASE_CONFIG} from 'hax-app-common/Firebase';
@@ -26,15 +26,17 @@ import {FIREBASE_CONFIG} from 'hax-app-common/Firebase';
  * You can delete this after the checks have been satisfied.
  */
 function newAppChecks() {
-  let checks = '';
-  // TODO: Better formatting
+  const checks = [];
+
   if (FIREBASE_CONFIG.projectId === 'fill-me-in') {
-    checks +=
-      '➠  Create a Firebase project, and add config to `app/common/Firebase.tsx`\n';
+    checks.push({
+      link: 'https://github.com/facebookincubator/npe-toolkit/blob/main/docs/getting-started/Firebase.md',
+      text: 'Configure Firebase',
+    });
   }
 
   return {
-    passed: checks === '',
+    passed: checks.length === 0,
     checks,
   };
 }
@@ -72,12 +74,19 @@ const StartupScreen: Screen<{}> = () => {
       <View style={S.appChecks}>
         {!appChecks.passed && (
           <View>
-            <Text style={{fontWeight: 'bold', lineHeight: 26, fontSize: 20}}>
-              Additional setup steps needed
+            <Text style={{fontWeight: 'bold', lineHeight: 24, fontSize: 18}}>
+              Additional app setup needed
             </Text>
-            <Text style={{lineHeight: 24, fontSize: 18}}>
-              {appChecks.checks}
-            </Text>
+            {appChecks.checks.map(check => (
+              <Text style={{lineHeight: 28, fontSize: 16}}>
+                ⦿{'  '}
+                <Text
+                  style={{textDecorationLine: 'underline'}}
+                  onPress={() => Linking.openURL(check.link)}>
+                  {check.text}
+                </Text>
+              </Text>
+            ))}
           </View>
         )}
       </View>
