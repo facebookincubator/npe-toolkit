@@ -16,7 +16,7 @@ target 'studio' do
   # This is **only** becasue this is a developer showcase app - normally you would strip this out
   # as these features are generally not found in iOS released apps
   use_expo_modules!({:flags => {:configuration => []}})
-  project 'studio', 'DebugRelease' => :debug, 'DebugMobileHome' => :debug
+  project 'studio', 'DebugRelease' => :debug
   config = use_native_modules!
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
