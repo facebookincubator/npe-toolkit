@@ -31,8 +31,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.googleusercontent.apps.316194284018-4iucu1np3ngg7n3ngprre8iro04oe173</string>
-        </array>
+          <string>REVERSED_CLIENT_ID_HERE</string>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
