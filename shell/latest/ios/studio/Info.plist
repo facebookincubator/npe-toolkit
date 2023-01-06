@@ -32,6 +32,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>REVERSED_CLIENT_ID_HERE</string>
+        </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
