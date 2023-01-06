@@ -49,7 +49,7 @@ import SettingsScreen from './app/screens/SettingsScreen';
 import StartupScreen from './app/screens/StartupScreen';
 import {APP_CONFIG, APP_INFO, NOTIF_CHANNELS_CONTEXT} from './lib/Config';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';
-import {FIREBASE_CONFIG} from 'hax-app-common/Firebase';
+import {FIREBASE_CONFIG} from '@app/common/Firebase';
 
 //
 /**
@@ -170,7 +170,7 @@ export default function App() {
 
   // For deep links
   const linking = {
-    prefixes: ['hax-app.npe.app'],
+    prefixes: ['npe.fb.com'],
     config: linkingScreens,
   };
 

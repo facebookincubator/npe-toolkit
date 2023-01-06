@@ -13,8 +13,6 @@ const fs = require('fs');
 const {getDefaultConfig} = require('expo/metro-config');
 const {getLocalDependencies} = require('./PackageUtils');
 
-// `hax-app` derative apps use "react-native:0.63.4, metro-config:0.59.0" but
-// `peridot` is on newer "react-native:0.64.1, metro-config:0.64.0"
 let exclude;
 try {
   exclude = require('metro-config/src/defaults/blacklist');

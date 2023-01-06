@@ -14,10 +14,10 @@ import {Account} from '@toolkit/core/api/Auth';
 import {FirebaseAuthService} from '@toolkit/providers/firebase/client/AuthService';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 
-import {GET_USER} from 'hax-app-common/Api';
+import {GET_USER} from '@app/common/Api';
 import {DataStore, useDataStore} from '@toolkit/data/DataStore';
 import {Profile, User} from '@toolkit/core/api/User';
-import {PROFILE_FIELDS} from 'hax-app-common/DataTypes';
+import {PROFILE_FIELDS} from '@app/common/DataTypes';
 
 /**
  * For early development, it is convenient to create users on the client using Firestore APIs.

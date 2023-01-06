@@ -7,19 +7,19 @@
  * @format
  */
 
-import { Ionicons } from '@expo/vector-icons';
-import { useData } from '@toolkit/core/api/DataApi';
-import { User } from '@toolkit/core/api/User';
-import { useLoggedInUser } from '@toolkit/core/api/User';
-import { useNav } from '@toolkit/ui/screen/Nav';
-import { Screen } from '@toolkit/ui/screen/Screen';
+import {Ionicons} from '@expo/vector-icons';
+import {useData} from '@toolkit/core/api/DataApi';
+import {User} from '@toolkit/core/api/User';
+import {useLoggedInUser} from '@toolkit/core/api/User';
+import {useNav} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 import Button from '@toolkit/ui/components/legacy/Button';
-import { useMessageOnFail } from '@toolkit/core/client/UserMessaging';
-import { Opt } from '@toolkit/core/util/Types';
-import { AddThing } from 'hax-app-common/AppLogic';
+import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
+import {Opt} from '@toolkit/core/util/Types';
+import {AddThing} from '@app/common/AppLogic';
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import {Image, StyleSheet, View} from 'react-native';
+import {TextInput} from 'react-native-paper';
 
 const CreateNewThingScreen: Screen<{}> = () => {
   const [name, setName] = React.useState<string>();

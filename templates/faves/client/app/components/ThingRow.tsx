@@ -9,8 +9,8 @@
 
 import React from 'react';
 import {ViewStyle} from 'react-native';
-import {Fave, Thing} from 'hax-app-common/DataTypes';
-import {AddFave, RemoveThing} from 'hax-app-common/AppLogic';
+import {Fave, Thing} from '@app/common/DataTypes';
+import {AddFave, RemoveThing} from '@app/common/AppLogic';
 import {View, Text, Image, Pressable} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
@@ -21,7 +21,7 @@ import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
 import PressableSpring from '@toolkit/ui/components/legacy/PressableSpring';
-import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from 'hax-app-common/Api';
+import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from '@app/common/Api';
 
 type Props = {
   thing: Thing;

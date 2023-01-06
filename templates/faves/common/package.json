@@ -1,5 +1,5 @@
 {
-  "name": "hax-app-common",
+  "name": "@app/common",
   "version": "0.0.1",
   "private": true,
   "dependencies": {

@@ -18,7 +18,7 @@
   "localDependencies": {
     "@toolkit": "/usr/local/lib/.npe-toolkit/lib",
     "app": "../client",
-    "hax-app-common": "../common"
+    "@app/common": "../common"
   },
   "private": true
 }

@@ -23,7 +23,7 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "hax-app-common/*": [
+      "@app/common/*": [
         "../common/*"
       ],
       "@toolkit/*": [

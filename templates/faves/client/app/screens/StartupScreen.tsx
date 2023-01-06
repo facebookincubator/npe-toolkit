@@ -16,7 +16,7 @@ import * as React from 'react';
 import {Image, StyleSheet, Text, View, Linking} from 'react-native';
 import AppIcon from '../../assets/splash.png';
 import AllThingsScreen from './AllThingsScreen';
-import {FIREBASE_CONFIG} from 'hax-app-common/Firebase';
+import {FIREBASE_CONFIG} from '@app/common/Firebase';
 
 /**
  * Checks that new apps have been initiatlized sufficiently so that they can run.

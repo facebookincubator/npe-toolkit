@@ -14,11 +14,11 @@ import * as Device from 'expo-device';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {Fave, Thing} from 'hax-app-common/DataTypes';
+import {Fave, Thing} from '@app/common/DataTypes';
 import CreateThingButton from '../components/CreateThingButton';
 import ThingRow from '../components/ThingRow';
 import CreateNewThingScreen from './CreateThingScreen';
-import {GetFaves, GetThings} from 'hax-app-common/AppLogic';
+import {GetFaves, GetThings} from '@app/common/AppLogic';
 import {useData} from '@toolkit/core/api/DataApi';
 import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
 

@@ -75,7 +75,7 @@
   "localDependencies": {
     "@toolkit": "../../lib",
     "app": "../../templates/faves/client",
-    "hax-app-common": "../../templates/faves/common"
+    "@app/common": "../../templates/faves/common"
   },
   "resolutions": {
     "**/@babel/core": "^7.18.5",

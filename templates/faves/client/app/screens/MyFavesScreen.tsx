@@ -11,10 +11,10 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Easing, Animated} from 'react-native';
 
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {Fave} from 'hax-app-common/DataTypes';
+import {Fave} from '@app/common/DataTypes';
 import ThingRow from '../components/ThingRow';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {GetFaves} from 'hax-app-common/AppLogic';
+import {GetFaves} from '@app/common/AppLogic';
 import {useData} from '@toolkit/core/api/DataApi';
 import {Ionicons} from '@expo/vector-icons';
 

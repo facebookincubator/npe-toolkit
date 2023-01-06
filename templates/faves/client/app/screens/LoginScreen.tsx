@@ -14,7 +14,7 @@ import {
 import {Screen} from '@toolkit/ui/screen/Screen';
 
 const LOGIN_SCREEN_CONFIG: SimpleLoginScreenConfig = {
-  title: 'Welcome to Hax App',
+  title: 'Welcome to HelloWorld',
   subtitle:
     'This is a Simple Login Screen. \nEdit app/screens/LoginScreen.tsx to edit this!',
   authTypes: ['google'],
