@@ -15,7 +15,7 @@ const createExpoWebpackConfigAsync = require('@expo/webpack-config');
 /**
  * Produce a single file for JS output.
  *
- * Useful for current www deployments where we only host a single JS file.
+ * Useful for deployments that only host a single JS file.
  */
 function dontSplit(config) {
   if (config.optimization) {

@@ -49,7 +49,6 @@ export function fbAuthProvider(): IdentityProvider {
     },
 
     disconnect: async (appId?: string) => {
-      // TODO: T81938996 Really disconnect from FB auth
       throw Error('not implemented on Expo yet');
     },
 

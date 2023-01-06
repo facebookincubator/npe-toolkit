@@ -40,15 +40,6 @@ function ignore(msg: string) {
   return false;
 }
 
-// This is a bit of a misuse of app config, but simplified the process significantly
-// for enabling dev URL overrides for www auth so seemed like a good tradeoff
-const WWW_AUTH_CONFIG: AppConfig = {
-  product: 'www_login',
-  apiUrl: 'https://graph.fbnpeprojects.com',
-  apiUrlFormatter: 'https://graph.${NUM}.od.fbnpeprojects.com',
-};
-
-// TODO: T68905555 Address these warnings
 const IGNORE_WARNINGS = [
   'LogBox',
   'Require cycle',
@@ -61,6 +52,7 @@ const IGNORE_WARNINGS = [
 
 let initialized = false;
 
+
 export function initWeb(
   component: React.ComponentType<{}>,
   appInit?: () => void,
@@ -70,7 +62,8 @@ export function initWeb(
     YellowBox.ignoreWarnings(IGNORE_WARNINGS);
     ignoreWebWarnings();
     appInit && appInit();
-    registerAppConfig(WWW_AUTH_CONFIG);
+    // TODO: Evaluate if this function is still used, and if so re-enable registerAppConfg()
+    //registerAppConfig(WWW_AUTH_CONFIG);
     AppRegistry.registerComponent('Root', () => component);
     AppRegistry.runApplication('Root', {
       rootTag: document.getElementById('root'),

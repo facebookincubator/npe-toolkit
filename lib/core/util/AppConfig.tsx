@@ -58,11 +58,6 @@ export type AppConfig = {
    * Base URl for logging requests.
    */
   logUrl?: string;
-
-  /**
-   * www backed apps have different request format
-   */
-  isWWW?: boolean;
 };
 
 // Context key for providing app config using NPEAppContext

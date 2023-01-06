@@ -56,7 +56,7 @@ export const CONSOLE_LOGGER = context(LOG_CONTEXT_KEY, ConsoleLogger);
 
 /**
  * Log to multiple sources. All of the loggers must support the same log payload,
- * or allow for `any` payloads (`WWWLogger` and `ConsoleLogger` both allow `any`)
+ * or allow for `any` payloads.
  */
 export function multiLogger<T>(useLogApis: UseLogApi<T>[]): UseLogApi<T> {
   return () => {

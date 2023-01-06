@@ -21,7 +21,6 @@ export type StoredObjectData = {
 
 const FIREBASE_SCHEME = 'firebasestorage://';
 
-// TODO(rachitnanda): Move to @npe/lib
 /**
  * - Wrap in a component with loading indicator?
  * - Store metadata in firestore

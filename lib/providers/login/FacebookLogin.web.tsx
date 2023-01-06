@@ -72,14 +72,10 @@ export function fbAuthProvider(): IdentityProvider {
     },
 
     getAuthInfo: async (product: string): Promise<LoginCredential | null> => {
-      // Because of https://www.internalfb.com/intern/wiki/Api_sessions_and_creating_tokens/#first-party-web-app-need,
-      // We aren't currently supporting getting auth info invisibly if the user has already connected
-      // FB to the app. This might bear revisiting
       return null;
     },
 
     disconnect: async (product: string) => {
-      // TODO: T81938996 Really disconnect from FB auth
     },
 
     getType: () => 'facebook',

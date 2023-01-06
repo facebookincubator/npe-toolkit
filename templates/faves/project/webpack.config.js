@@ -40,7 +40,6 @@ module.exports = async function (env, argv) {
 
 function overrideWebDir(config, dir) {
   config.devServer.contentBase = dir;
-  ('/Users/uidude/fbsource/xplat/npe/apps/h2/client/web');
 
   for (plugin of config.plugins) {
     if (

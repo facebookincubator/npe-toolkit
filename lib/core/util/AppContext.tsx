@@ -38,7 +38,7 @@ const DEFAULT_IMPLS: ContextObj = {};
 
 /**
  * Default implementations generally shouldn't depend on a specific server backend
- * (e.g. www, Firebase, Python, AWS).
+ * (e.g. Firebase, Python, AWS).
  *
  * However if an API is tied closely to a specific platform and is pluggable
  * solely for testing / mocking, it may be appropriate to have a

@@ -17,8 +17,7 @@ import {getRequestScope} from '@toolkit/providers/firebase/server/Handler';
 let firebaseConfig: FirebaseServerConfig & admin.AppOptions;
 
 export type FirebaseServerConfig = FirebaseConfig & {
-  // Follow the wiki below to enable Firestore security rule enforcement in Functions:
-  // https://www.internalfb.com/intern/wiki/NPE/Central_Engineering/NPE_Kit/Guides/Enforcing_Security_Rules_in_Firebase_Functions_or_Server_Code/
+  // TODO: Add Github Wiki for enforcing Firebase security in functions
   forceAdminDatastore?: boolean; // `true` to bypass Firestore security rule enforcement in Functions
   deletionConfig?: {
     retryMaxAttempts?: number;

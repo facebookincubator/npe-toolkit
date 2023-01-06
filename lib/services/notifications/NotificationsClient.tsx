@@ -81,7 +81,7 @@ export const useNotifications = (): NotificationsAPI => {
  *
  * Apps should implement these functions using their user and data models
  * (or just use the FCM implementation built into NPE Toolkit).
- * // TODO(rachitnanda): Add links to FCM implementation here and below.
+ * // TODO: Add links to FCM implementation here and below.
  */
 export type NotificationsAPI = {
   /**
