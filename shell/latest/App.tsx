@@ -5,18 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Slider } from '@miblanchard/react-native-slider';
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import 'expo-dev-client';
 import * as foo from 'expo-dev-client';
-import { DevMenu, isDevelopmentBuild } from 'expo-dev-client';
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { VESDK } from 'react-native-videoeditorsdk';
+import {DevMenu, isDevelopmentBuild} from 'expo-dev-client';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import * as WebViewShared from 'react-native-webview/lib/WebViewShared';
-
-
-
 
 let reactNativeWebViewCrashPatched = false;
 
@@ -38,12 +31,7 @@ function patchReactNativeWebViewCrash() {
 }
 patchReactNativeWebViewCrash();
 export default function App() {
-  //VESDK.openEditor('abc');
 
-  console.log(foo.isDevelopmentBuild());
-  DevMenu.registerDevMenuItems([{name: 'Fred', callback: () => {
-    console.log('fred');
-  }}]);
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
