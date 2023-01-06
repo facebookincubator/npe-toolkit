@@ -5,7 +5,8 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "arch -x86_64 expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "shell": "arch -x86_64 expo run:ios --no-bundler"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.5",

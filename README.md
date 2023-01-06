@@ -47,7 +47,7 @@ that isn't included. To run iOS locally, run the folloowing command to build an
 iOS shell:
 
 ```
-cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn ios
+cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn shell
 ```
 
 You'll also need to have XCode installed.
