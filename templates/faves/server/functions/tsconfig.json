@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "jsx": "react",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "hax-app-common/*": [
+        "../../common/*"
+      ],
+      "@npe/lib/*": [
+        "../../../../libraries/npe/*"
+      ],
+      "@npe/pads/*": [
+        "../../../../libraries/pads/prototype/*"
+      ],
+      "*": [
+        "*",
+        "node_modules/*"
+      ]
+    },
+    "skipLibCheck": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
+}

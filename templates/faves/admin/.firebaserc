@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "npe-prototype-000"
+  },
+  "targets": {
+    "npe-prototype-000": {
+      "hosting": {
+        "admin": [
+          "npe-hax-admin"
+        ]
+      }
+    }
+  }
+}
