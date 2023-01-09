@@ -19,8 +19,8 @@ import {Ionicons, MaterialCommunityIcons, Octicons} from '@expo/vector-icons';
 import {APP_CONFIG, APP_INFO} from './lib/Config';
 import {initializeFirebase} from './lib/Firebase';
 
-import AuthConfig from './app/AuthConfig';
-import DrawerNavigator from './app/DrawerNavigator';
+import AuthConfig from '@app/app/AuthConfig';
+import DrawerNavigator from '@app/app/DrawerNavigator';
 
 function initIcons() {
   registerIconPack('ion', Ionicons);

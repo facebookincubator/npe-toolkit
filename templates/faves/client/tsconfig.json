@@ -1,7 +1,7 @@
 {
   "include": [
     ".",
-    "../../../toolkit/shell/abacus/types"
+    "/usr/local/lib/npe-toolkit/shell/latest/types"
   ],
   "compilerOptions": {
     "baseUrl": ".",
@@ -9,15 +9,24 @@
       "@app/common/*": [
         "../common/*"
       ],
+      "@app/*": [
+        "./*"
+      ],
       "@toolkit/*": [
-        "../../../lib/*"
+        "/usr/local/lib/npe-toolkit/lib/*"
+      ],
+      "@npe-toolkit-shell/*": [
+        "/usr/local/lib/npe-toolkit/shell/latest"
       ],
       "*": [
         "*",
-        "../../../shell/latest/node_modules/*",
-        "../../../shell/latest/node_modules/@types/*"
+        "../project/node_modules/*",
+        "../project/node_modules/@types/*",
+        // Temporary until we separate out server datastore deps in core datatore API
+        // TODO: Remove once API is cleaned up
+        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/*"
       ]
     }
   },
-  "extends": "../../../shell/latest/tsconfig"
+  "extends": "/usr/local/lib/npe-toolkit/shell/latest/tsconfig"
 }

@@ -5,7 +5,8 @@
     "axios": "^1.2.0",
     "cls-hooked": "^4.2.2",
     "firebase-admin": "^11.3.0",
-    "firebase-functions": "^4.1.0"
+    "firebase-functions": "^4.1.0",
+    "mongodb": "^4.13.0"
   },
   "devDependencies": {
     "@types/cls-hooked": "^4.3.3"
