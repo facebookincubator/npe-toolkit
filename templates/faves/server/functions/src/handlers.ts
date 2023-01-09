@@ -8,21 +8,21 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import {AuthData} from 'firebase-functions/lib/common/providers/https';
 
-import Role from '@npe/lib/core/Role';
-import {Profile, User, UserRoles} from '@npe/lib/core/User';
-import {apnsToFCMToken} from '@npe/lib/firebase/FCMUtils';
-import {firebaseStore} from '@npe/lib/firebase/FirestoreDataStore';
+import Role from '@toolkit/core/api/Roles';
+import {Profile, User, UserRoles} from '@toolkit/core/api/User';
+import {apnsToFCMToken} from '@toolkit/providers/firebase/server/PushNotifications';
+import {firebaseStore} from '@toolkit/providers/firebase/DataStore';
 import {
   requireAccountInfo,
   requireLoggedInUser,
   setAccountToUserCallback,
-} from '@npe/lib/firebase/server/FirebaseServerAuth';
-import {getFirebaseConfig} from '@npe/lib/firebase/server/FirebaseServerConfig';
+} from '@toolkit/providers/firebase/server/Auth';
+import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {
   getDataStore,
   getAdminDataStore,
-} from '@npe/lib/firebase/server/FirebaseServerFirestore';
-import {registerHandler} from '@npe/lib/firebase/server/FirebaseServerHandler';
+} from '@toolkit/providers/firebase/server/Firestore';
+import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
 
 import {
   ADD_FAVE,
@@ -33,13 +33,13 @@ import {
   SEND_FAVE_NOTIF,
   SEND_THING_DELETE_NOTIF,
   UPDATE_USER,
-} from 'hax-app-common/Api';
-import {Fave, PROFILE_FIELDS, Thing} from 'hax-app-common/DataTypes';
-import {NOTIF_CHANNELS} from 'hax-app-common/NotifChannels';
-import {getSender} from '@npe/lib/firebase/FCMSender';
-import {Updater} from '@npe/lib/data/DataStoreApi';
-import {getAllowlistMatchedRoles} from '@npe/lib/firebase/server/FirebaseServerAllowlist';
-import CodedError from '@npe/lib/util/CodedError';
+} from '@app/common/Api';
+import {Fave, PROFILE_FIELDS, Thing} from '@app/common/DataTypes';
+import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
+import {getSender} from '@toolkit/providers/firebase/server/PushNotifications';
+import {Updater} from '@toolkit/data/DataStore';
+import {getAllowlistMatchedRoles} from '@toolkit/providers/firebase/server/Roles';
+import CodedError from '@toolkit/core/util/CodedError';
 
 const firebaseConfig = getFirebaseConfig();
 

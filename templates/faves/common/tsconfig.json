@@ -24,10 +24,10 @@
     "baseUrl": ".",
     "paths": {
       "@app/common/*": [
-        "../common/*"
+        "*"
       ],
       "@toolkit/*": [
-        "../../../lib/*"
+        "/usr/local/lib/npe-toolkit/lib/*"
       ],
       "*": [
         "*",

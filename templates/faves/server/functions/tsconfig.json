@@ -3,7 +3,6 @@
     "module": "commonjs",
     "jsx": "react",
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
@@ -13,18 +12,20 @@
     "target": "es2017",
     "baseUrl": ".",
     "paths": {
-      "hax-app-common/*": [
+      "@app/common/*": [
         "../../common/*"
       ],
-      "@npe/lib/*": [
-        "../../../../libraries/npe/*"
+      "@toolkit/*": [
+        "/usr/local/lib/npe-toolkit/lib/*"
       ],
-      "@npe/pads/*": [
-        "../../../../libraries/pads/prototype/*"
+      "@npe-toolkit-shell/*": [
+        "/usr/local/lib/npe-toolkit/shell/latest"
       ],
       "*": [
         "*",
-        "node_modules/*"
+        "node_modules/*",
+        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/*",
+        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/@types/*"
       ]
     },
     "skipLibCheck": true

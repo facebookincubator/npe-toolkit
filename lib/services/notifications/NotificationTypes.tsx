@@ -18,7 +18,6 @@ import {
   Ref,
   TArray,
   TBool,
-  TModel,
   TString,
 } from '@toolkit/data/DataStore';
 

@@ -5,4 +5,4 @@
  * @oncall npe_central_engineering
  */
 
-export * from '@npe/lib/firebase/server/FirebaseServerDeletion';
+export * from '@toolkit/providers/firebase/server/Deletion';

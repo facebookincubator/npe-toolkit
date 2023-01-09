@@ -10,6 +10,6 @@ then
   cksum functions/.runtimeconfig.json > functions/.runtimeconfig_checksum
 fi
 
-# Download this from https://console.firebase.google.com/u/0/project/npe-prototype-000/settings/serviceaccounts/adminsdk
+# Download this from Firebase Console, `Settings icon > Service Accounts tab`
 export GOOGLE_APPLICATION_CREDENTIALS='../admin_sdk_key.json'
 firebase emulators:start
