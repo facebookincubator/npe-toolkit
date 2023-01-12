@@ -5,4 +5,6 @@
  * @oncall npe_central_engineering
  */
 
-export * from '@toolkit/providers/firebase/server/Deletion';
+// Not currently working, gettin errors importing from `firebase-admin/lib/functions';`
+// TODO(re-enable)
+// export * from '@toolkit/providers/firebase/server/Deletion';

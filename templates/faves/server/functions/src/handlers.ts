@@ -137,8 +137,8 @@ export const convertPushToken = functions.firestore
     const fcmTokenResp = Object.values(
       await apnsToFCMToken(
         change.get('sandbox')
-          ? 'com.facebook.npe.hax-app.localDevelopment'
-          : 'com.facebook.npe.hax-app',
+          ? 'com.facebook.npe.helloworld.localDevelopment'
+          : 'com.facebook.npe.helloworld',
         functions.config().fcm.server_key,
         [apnsToken],
         change.get('sandbox'),

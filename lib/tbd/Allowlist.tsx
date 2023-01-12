@@ -29,8 +29,8 @@ export class Allowlist extends BaseModel {
   @Field(TArray(TString)) phones?: string[]; // Phones (formatted, exact match)
 }
 
-// Allow "@fb.com" emails
-const ALLOW_EMAILRE_LIST = ['.*@fb.com$'];
+// TODO: Limit this to your initial test account emails
+const ALLOW_EMAILRE_LIST = ['.*'];
 
 export function matchUID(uid: string, lists: Allowlist[]): string[] {
   const roles: string[] = [];

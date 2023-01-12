@@ -6,6 +6,7 @@
 
 import {initFirebaseServer} from '@toolkit/providers/firebase/server/Config';
 import {initMiddlewares} from '@toolkit/providers/firebase/server/Handler';
+
 import {
   AuthenticateMiddleware,
   ResultLoggerMiddleware,
@@ -28,5 +29,5 @@ initMiddlewares([
   RolesCheckMiddleware,
 ]);
 
-exports.haxapp = require('./handlers');
-exports.haxapp.deletion = require('./deletion');
+exports.helloworld = require('./handlers');
+exports.helloworld.deletion = require('./deletion');

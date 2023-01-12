@@ -16,16 +16,15 @@
         "../../common/*"
       ],
       "@toolkit/*": [
-        "/usr/local/lib/npe-toolkit/lib/*"
+        "../../npe-toolkit/lib/*"
       ],
       "@npe-toolkit-shell/*": [
-        "/usr/local/lib/npe-toolkit/shell/latest"
+        "../../npe-toolkit/shell/latest/*"
       ],
       "*": [
         "*",
         "node_modules/*",
-        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/*",
-        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/@types/*"
+        "../../npe-toolkit/shell/latest/server/node_modules/@types/*"
       ]
     },
     "skipLibCheck": true

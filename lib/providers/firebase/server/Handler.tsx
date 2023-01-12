@@ -56,9 +56,9 @@ export const ResultLoggerMiddleware: Middleware = async (
 ) => {
   await next();
   // @ts-ignore This actually works
-  console.log('url', ctx.rawRequest.url);
-  console.log('input:', reqData);
-  console.log('output:', respData);
+  functions.logger.log('url', ctx.rawRequest.url);
+  functions.logger.log('input:', reqData);
+  functions.logger.log('output:', respData);
 };
 
 export const RolesCheckMiddleware: Middleware = async (
