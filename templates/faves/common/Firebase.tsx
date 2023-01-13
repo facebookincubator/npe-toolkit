@@ -19,7 +19,7 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
   namespace: 'helloworld',
   emulators: {
     functions: {
-      useEmulator: true,
+      useEmulator: false,
     },
   },
 };
