@@ -16,5 +16,10 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
   storageBucket: 'fill-me-in',
   messagingSenderId: 'fill-me-in',
   appId: 'fill-me-in',
-  namespace: 'hello-world',
+  namespace: 'helloworld',
+  emulators: {
+    functions: {
+      useEmulator: true,
+    },
+  },
 };
