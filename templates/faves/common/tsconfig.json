@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "declaration": true,
+    "inlineSources": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@app/common/*": [
+        "*"
+      ],
+      "@toolkit/*": [
+        "../../npe-toolkit/lib/*"
+      ],
+      "*": [
+        "*",
+        "../../../toolkit/shell/latest/node_modules/*",
+        "../../../toolkit/shell/latest/node_modules/@types/*"
+      ]
+    }
+  }
+}

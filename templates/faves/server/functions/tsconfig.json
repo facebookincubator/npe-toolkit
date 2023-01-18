@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "jsx": "react",
+    "noImplicitReturns": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "@app/common/*": [
+        "../../common/*"
+      ],
+      "@toolkit/*": [
+        "../../../npe-toolkit/lib/*"
+      ],
+      "@npe-toolkit-shell/*": [
+        "../../../npe-toolkit/shell/latest/*"
+      ],
+      "*": [
+        "*",
+        "node_modules/*",
+        "node_modules/@types/*",
+        "../../../npe-toolkit/shell/latest/server/node_modules/@types/*"
+      ]
+    },
+    "skipLibCheck": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
+}

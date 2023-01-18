@@ -1,0 +1,28 @@
+{
+  "name": "faves-template",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "./shell.sh && expo start -p 8081",
+    "web": "expo start --web",
+    "build:web": "expo export:web",
+    "admin": "CLIENT=admin expo start --web",
+    "build:admin": "CLIENT=admin expo export:web"
+  },
+  "dependencies": {
+    "@npe-toolkit-shell": "file:../../npe-toolkit/shell/latest"
+  },
+  "devDependencies": {
+    "@npe-toolkit-tools": "file:../../npe-toolkit/tools"
+  },
+  "resolutions": {
+    "**/@babel/core": "^7.17.5",
+    "**/chokidar": "^3.1.4"
+  },
+  "localDependencies": {
+    "@toolkit": "../../npe-toolkit/lib",
+    "@app/admin": "../admin",
+    "@app/common": "../common",
+    "@app": "../client"
+  },
+  "private": true
+}

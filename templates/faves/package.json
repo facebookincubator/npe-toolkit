@@ -1,0 +1,11 @@
+{
+  "name": "npe-toolkit-faves",
+  "version": "0.0.1",
+  "scripts": {
+    "ios": "cd project && yarn start",
+    "android": "echo Android build not enabled - yet...",
+    "web": "cd project && yarn web",
+    "admin": "cd project && yarn admin",
+    "postinstall": "cd project && ./setup.sh"
+  }
+}

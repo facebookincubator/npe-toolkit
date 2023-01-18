@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Rules for all namespaces
+    match /instance/{namespaces=**} {
+      match /user/{userId} {
+        allow read, write: if authed() && authUid() == userId;
+      }
+      match /profile/{profileId} {
+        allow read: if true;
+        allow write: if authed() && authUid() == resource.data.user;
+      }
+      match /push_tokens/{tokenId} {
+        allow create: if authed() && authUid() == request.resource.user;
+        allow read, update, delete: if authed() && authUid() == resource.data.user;
+      }
+      match /notification_pref/{prefId} {
+        allow create: if authed() && authUid() == request.resource.user;
+        allow read, update, delete: if authed() && authUid() == resource.data.user;
+      }
+      match /allowlist {
+        allow read, write: if authed() && isAdmin();
+      }
+    }
+
+    // Rules for a namespace/project
+    match /instance/haxapp {
+      match /things/{thingId} {
+        allow read, create: if authed();
+        allow write, delete: if authed() && ((resource.data.creator == authUid()) || isAdmin());
+      }
+      match /faves/{faveId} {
+        allow read, write, delete: if authed() && ((resource.data.user == authUid()) || isAdmin());
+        allow create: if authed();
+      }
+    }
+
+  }
+
+  // Util fns
+
+  function authed() {
+    return request.auth != null;
+  }
+
+  function authUid() {
+    return request.auth.uid;
+  }
+
+  function isFbEmail() {
+    return request.auth.token.email != null && request.auth.token.email.matches('.*@fb.com$');
+  }
+
+  function isAdmin() {
+    return isFbEmail() || hasRole('admin');
+  }
+
+  function isAdminNamespace(namespace) {
+    return hasRoleNamespace(namespace, 'admin');
+  }
+
+  function getUser(namespace) {
+    return (namespace == null || namespace == '') ?
+      get(/databases/$(database)/documents/user/$(request.auth.uid)) :
+      get(/databases/$(database)/documents/instance/$(namespace)/user/$(request.auth.uid));
+  }
+
+  function hasRole(role) {
+    return hasRoleNamespace('', role);
+  }
+
+  function hasRoleNamespace(namespace, role) {
+    // till we have a new Role feature
+    let user = getUser(namespace);
+    return (user != null && user.data.roles && role in user.data.roles);
+  }
+
+}
