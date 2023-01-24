@@ -18,10 +18,10 @@
         "*"
       ],
       "*": [
-        "/usr/local/lib/npe-toolkit/shell/latest/node_modules/*",
-        "/usr/local/lib/npe-toolkit/shell/latest/node_modules/@types/*",
-        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/*",
-        "/usr/local/lib/npe-toolkit/shell/latest/server/node_modules/@types/*"
+        "../shell/latest/node_modules/*",
+        "../shell/latest/node_modules/@types/*",
+        "../shell/latest/server/node_modules/*",
+        "../shell/latest/server/node_modules/@types/*"
       ]
     },
     "inlineSourceMap": true,
