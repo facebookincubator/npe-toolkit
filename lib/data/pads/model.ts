@@ -333,9 +333,11 @@ export class ModelRef<T extends BaseModel> {
 // Experimental deletion schema below this point
 
 /**
- * @DeletedBy decorator
- * - Register one or more Deletion rules to the decorated Model
- *
+ * @DeletedBy
+ * Annotation for **experimental** support for automated cascading
+ * deletion of entities. Actual deletion is **not enabled** by default,
+ * so you can ignore this annotations unless you are using [experimental
+ * deletion features](https://github.com/facebookincubator/npe-toolkit/tree/main/docs/in-progress/Deletion.md).
  */
 export function DeletedBy(...deletions: DeletionRule[]): any {
   return function (modelClass: any): typeof modelClass {
