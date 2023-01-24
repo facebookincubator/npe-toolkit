@@ -9,32 +9,34 @@
 
 //@ts-ignore
 import Role from '@toolkit/core/api/Roles';
-import {FirestoreDeletionRepo} from '@toolkit/core/server/Deletion';
+import {FirestoreDeletionRepo} from '@toolkit/experimental/deletion/server/Deletion';
 import {
   BaseModel,
-  DELETED,
-  DeletedByTTL,
   initRegistry,
   ModelUtil,
-  REASON_ROOT,
+  DeletedByTTL,
   registry,
-  TODELETE,
 } from '@toolkit/data/DataStore';
+import {
+  DELETED,
+  REASON_ROOT,
+  TODELETE,
+} from '@toolkit/experimental/deletion/datastore/deletion';
 import {
   API_DELETION_DRYRUN_DELETION,
   API_DELETION_DRYRUN_RESTORATION,
   API_DELETION_GET_GRAPH,
   API_DELETION_RUN_JOB,
-} from '@toolkit/data/DeletionApi';
-import * as graph from '@toolkit/data/pads/deletion.graph';
-import * as workflow from '@toolkit/data/pads/deletion.workflow';
+} from '@toolkit/experimental/deletion/DeletionApi';
+import * as graph from '@toolkit/experimental/deletion/datastore/deletion.graph';
+import * as workflow from '@toolkit/experimental/deletion/datastore/deletion.workflow';
 import {
   DeletionWorker,
   JobData,
   JobOptions,
   LocalQueue,
   RegistryWrapper,
-} from '@toolkit/data/pads/deletion.workflow';
+} from '@toolkit/experimental/deletion/datastore/deletion.workflow';
 import {
   toDatastoreRepresentation,
   toRepoRepresentation,

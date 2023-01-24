@@ -9,8 +9,9 @@
 
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {TODELETE, useDataStore} from '@toolkit/data/DataStore';
-import ToDeleteScreen from '@toolkit/screens/admin/Deletion';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {TODELETE} from '@toolkit/experimental/deletion/datastore/deletion';
+import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
 import alert from '@toolkit/ui/components/legacy/Alert';
 import {useNav} from '@toolkit/ui/screen/Nav';

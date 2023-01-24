@@ -58,7 +58,7 @@ export type RunWithTransactionCallback<T = void> = (
   transaction: Transaction,
 ) => Promise<T>;
 
-const runWithMongoTransaction = async (
+export const runWithMongoTransaction = async (
   fn: RunWithTransactionCallback<unknown>,
 ): Promise<ReturnType<typeof fn>> => {
   // TODO: Transaction options (e.g. retryCount)
@@ -409,82 +409,5 @@ export class RepoMongo<T extends BaseModel> implements Repo<T> {
     });
 
     await Promise.all(promises);
-  }
-}
-
-import {DeletedByTTL, DELETED, TODELETE, REASON_ROOT} from './deletion';
-
-export class RepoMongoWithDeletion<T extends BaseModel> extends RepoMongo<T> {
-  static async runWithTransaction(
-    fn: RunWithTransactionCallback<unknown>,
-  ): Promise<ReturnType<typeof fn>> {
-    return runWithMongoTransaction(fn);
-  }
-
-  async create(this: RepoMongoWithDeletion<T>, m: OptionalId<T>): Promise<T> {
-    const TODELETE_REPO = new RepoMongo(TODELETE);
-
-    const modelName = ModelUtil.getName(this.modelClass);
-    const deleteRules = ModelUtil.getDeletionRules(this.modelClass);
-    const ttlRule = deleteRules?.find(
-      rule => rule.trigger === 'TTL',
-    ) as DeletedByTTL;
-
-    if (!ttlRule) {
-      return await super.create(m);
-    } else {
-      // @ts-ignore
-      return await this.constructor.runWithTransaction(
-        async (txn: Transaction) => {
-          const mCreated = await super.useTransaction(txn).create(m);
-          await TODELETE_REPO.useTransaction(txn).create({
-            id: TODELETE.genId(modelName, mCreated.id),
-            modelId: mCreated.id,
-            modelName: modelName,
-            deleteAt: mCreated.createdAt! + ttlRule.ttlInSecs * 1000,
-            status: 'INIT',
-          });
-          return mCreated;
-        },
-      );
-    }
-  }
-
-  async delete(this: RepoMongoWithDeletion<T>, id: string): Promise<Success> {
-    const modelName = ModelUtil.getName(this.modelClass);
-    if (
-      // DELETED and TODELETE are leaf nodes.
-      // There should be no edge-based deletion triggers and we don't care about backup/restore.
-      modelName === ModelUtil.getName(DELETED) ||
-      modelName === ModelUtil.getName(TODELETE)
-    ) {
-      return await super.delete(id);
-    }
-
-    const DELETED_REPO = new RepoMongoWithDeletion(DELETED);
-    // @ts-ignore
-    return await this.constructor.runWithTransaction(
-      async (txn: Transaction) => {
-        const mFound = await this.useTransaction(txn).get(id);
-        if (!mFound) {
-          return true;
-        }
-        const modelName = ModelUtil.getName(this.modelClass);
-        const r = await super.useTransaction(txn).delete(id);
-        if (!r) {
-          throw new Error(`Failed to delete ${modelName}:${id}`);
-        }
-        await DELETED_REPO.useTransaction(txn).create({
-          id: DELETED.genId(modelName, id),
-          modelId: id,
-          modelName: modelName,
-          // @ts-ignore
-          modelData: modelClass._toRawData(mFound),
-          reasons: [REASON_ROOT],
-          status: 'INIT',
-        });
-        return r;
-      },
-    );
   }
 }

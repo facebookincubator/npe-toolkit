@@ -9,4 +9,4 @@
 
 // Not currently working, gettin errors importing from `firebase-admin/lib/functions';`
 // TODO(re-enable)
-// export * from '@toolkit/providers/firebase/server/Deletion';
+// export * from '@toolkit/experimental/deletion/providers/firebase/Deletion';

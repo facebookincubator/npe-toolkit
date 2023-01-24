@@ -8,7 +8,6 @@
  */
 
 import 'reflect-metadata';
-import type {DeletionRule} from './deletion';
 import type {PrivacyRules} from './privacy';
 import registry from './registry';
 import * as s from './schema';
@@ -329,4 +328,109 @@ export class ModelRef<T extends BaseModel> {
     readonly name: string,
     readonly mClass: ModelClass<T>,
   ) {}
+}
+
+// Experimental deletion schema below this point
+
+/**
+ * @DeletedBy decorator
+ * - Register one or more Deletion rules to the decorated Model
+ *
+ */
+export function DeletedBy(...deletions: DeletionRule[]): any {
+  return function (modelClass: any): typeof modelClass {
+    const meta = ModelUtil.getModelClassMeta(modelClass);
+    if (!meta.deletions) meta.deletions = [];
+    meta.deletions.push(...deletions);
+    return modelClass;
+  };
+}
+
+export type DeletionRule =
+  | DeletedByInNode<any>
+  | DeletedByOutNode<any>
+  | DeletedByTTL;
+
+export type DeleteTrigger = 'OUTNODE' | 'INNODE' | 'TTL';
+
+export type DeleteCondition =
+  | 'DELETED' // For out-edge non-array fields (default)
+  | 'ANY_DELETED' // For out-edge array fields or in-edge fields
+  | 'ALL_DELETED'; // For out-edge array fields or in-edge fields
+
+type FieldOf<T> = Extract<keyof T, string>;
+
+export function Ref<M extends BaseModel>(
+  fieldOrModel: string | ModelClass<M> | (() => ModelClass<M>),
+  fieldOrCondition?: string | DeleteCondition,
+  condition?: DeleteCondition,
+): DeletionRule {
+  // TODO: add validation
+  if (typeof fieldOrModel === 'string') {
+    return OutNode(
+      fieldOrModel as FieldOf<M>,
+      fieldOrCondition as DeleteCondition,
+    );
+  } else {
+    return InNode(fieldOrModel, fieldOrCondition as FieldOf<M>, condition);
+  }
+}
+
+// LATER: A few future extension ideas
+// Support AND
+//  - ex. DELETE if both outnode u AND p are DELETED => DeletedBy(OutNode(['u','p']))
+//  - OR works already like this. DeletedBy(OutNode('u'), OutNode('p'))
+// Support CATCH_ALL *
+// - DeletedBy(OutNode('*'))
+
+// DeletedByOutNode: DELELE ME if out-node object(s) I referenced with {FIELD} is {DELETE_CONDITION}
+type DeletedByOutNode<ThisModel extends BaseModel> = {
+  trigger: 'OUTNODE';
+  field: FieldOf<ThisModel>;
+  condition: DeleteCondition;
+};
+
+export function OutNode<ThisModel extends BaseModel>(
+  field: FieldOf<ThisModel>,
+  condition?: DeleteCondition,
+): DeletedByOutNode<ThisModel> {
+  return {
+    trigger: 'OUTNODE',
+    field: field,
+    condition: condition ?? 'DELETED',
+  };
+}
+
+// DeletedByInNode: DELELE ME if {MODEL} object(s) who references me with {FIELD} is {DELETE_CONDITION}
+export type DeletedByInNode<OtherModel extends BaseModel> = {
+  trigger: 'INNODE';
+  model: ModelClass<OtherModel> | (() => ModelClass<OtherModel>);
+  field: FieldOf<OtherModel>;
+  condition: DeleteCondition;
+};
+
+export function InNode<OtherModel extends BaseModel>(
+  modelOrFn: ModelClass<OtherModel> | (() => ModelClass<OtherModel>),
+  field: FieldOf<OtherModel>,
+  condition?: DeleteCondition,
+): DeletedByInNode<OtherModel> {
+  return {
+    trigger: 'INNODE',
+    model: modelOrFn,
+    field,
+    condition: condition ?? 'ALL_DELETED',
+  };
+}
+
+// DeletedByTTL: DELETE ME after {TTL} seconds
+export type DeletedByTTL = {
+  trigger: 'TTL';
+  ttlInSecs: number;
+};
+// type DeletedByTTLArray = ['TTL', number];
+export function TTL(ttlInSecs: number): DeletedByTTL {
+  return {
+    trigger: 'TTL',
+    ttlInSecs,
+  };
 }

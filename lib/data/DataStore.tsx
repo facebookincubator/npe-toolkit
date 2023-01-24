@@ -13,9 +13,11 @@ import {Opt} from '@toolkit/core/util/Types';
 import {BaseModel, ModelClass} from '@toolkit/data/pads/model';
 
 // Export for convenience
-export * from '@toolkit/data/pads/deletion';
 export {
   BaseModel,
+  DeletedBy,
+  DeletedByTTL,
+  Ref,
   Field,
   InverseField,
   Model,

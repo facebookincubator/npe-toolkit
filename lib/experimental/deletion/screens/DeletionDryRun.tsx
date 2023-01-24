@@ -24,7 +24,7 @@ import {BaseModel, ModelUtil, registry} from '@toolkit/data/DataStore';
 import {
   API_DELETION_DRYRUN_DELETION,
   API_DELETION_DRYRUN_RESTORATION,
-} from '@toolkit/data/DeletionApi';
+} from '@toolkit/experimental/deletion/DeletionApi';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';

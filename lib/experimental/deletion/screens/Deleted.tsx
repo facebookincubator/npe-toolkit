@@ -8,9 +8,9 @@
  */
 
 import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {TODELETE, useDataStore} from '@toolkit/data/DataStore';
-import {SYSTEM_MODELS} from '@toolkit/screens/admin/Common';
-import EditToDeleteScreen from '@toolkit/screens/admin/EditToDelete';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {DELETED} from '@toolkit/experimental/deletion/datastore/deletion';
+import EditDeletedScreen from '@toolkit/experimental/deletion/screens/EditDeleted';
 import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
@@ -19,13 +19,13 @@ import {StyleSheet} from 'react-native';
 
 type Props = {
   async: {
-    items: TODELETE[];
+    items: DELETED[];
   };
 };
 
-const ToDeleteScreen: Screen<Props> = ({async: {items}}: Props) => {
+const DeletedScreen: Screen<Props> = ({async: {items}}: Props) => {
   const nav = useNav();
-  const {Row, TextCell, ButtonCell} = DataTable;
+  const {Row, ButtonCell, TextCell} = DataTable;
 
   return (
     <DataTable style={S.table}>
@@ -33,9 +33,9 @@ const ToDeleteScreen: Screen<Props> = ({async: {items}}: Props) => {
         <Row key={i}>
           <ButtonCell
             title=""
-            onPress={() => nav.navTo(EditToDeleteScreen, {id: item.id})}
+            onPress={() => nav.navTo(EditDeletedScreen, {id: item.id})}
             icon={'ion:ellipsis-vertical'}
-            style={{flex: 0.15, maxWidth: 100}}
+            style={{maxWidth: 100}}
           />
           <TextCell
             title="Model"
@@ -44,35 +44,37 @@ const ToDeleteScreen: Screen<Props> = ({async: {items}}: Props) => {
           />
           <TextCell title="ID" value={item.modelId} />
           <TextCell
-            title="DeleteAt"
+            title="CreatedAt"
             value={
-              item.deleteAt ? new Date(item.deleteAt).toLocaleString() : ''
+              item.createdAt ? new Date(item.createdAt).toLocaleString() : ''
+            }
+            style={{maxWidth: 250}}
+          />
+          <TextCell
+            title="UpdatedAt"
+            value={
+              item.updatedAt ? new Date(item.updatedAt).toLocaleString() : ''
             }
             style={{maxWidth: 250}}
           />
           <TextCell
             title="Status"
             value={item.status}
-            style={{maxWidth: 150}}
+            style={{maxWidth: 100}}
           />
+          <TextCell title="Reasons" value={item.reasons.join('\n')} />
         </Row>
       ))}
     </DataTable>
   );
 };
 
-ToDeleteScreen.title = 'Expiring Objects (TTL)';
+DeletedScreen.title = 'Deleted Objects';
 
-ToDeleteScreen.load = async () => {
+DeletedScreen.load = async () => {
   requireLoggedInUser();
-  const toDeleteStore = useDataStore(TODELETE);
-  return {
-    items: await toDeleteStore.getMany({
-      query: {
-        where: [{field: 'modelName', op: 'not-in', value: SYSTEM_MODELS}],
-      },
-    }),
-  };
+  const deletedStore = useDataStore(DELETED);
+  return {items: await deletedStore.getAll()};
 };
 
 const S = StyleSheet.create({
@@ -82,4 +84,4 @@ const S = StyleSheet.create({
   },
 });
 
-export default ToDeleteScreen;
+export default DeletedScreen;

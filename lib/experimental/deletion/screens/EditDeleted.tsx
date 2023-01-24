@@ -9,11 +9,15 @@
 
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {DELETED, REASON_ROOT, useDataStore} from '@toolkit/data/DataStore';
-import {API_DELETION_RUN_JOB} from '@toolkit/data/DeletionApi';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {
+  DELETED,
+  REASON_ROOT,
+} from '@toolkit/experimental/deletion/datastore/deletion';
+import {API_DELETION_RUN_JOB} from '@toolkit/experimental/deletion/DeletionApi';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
-import DeletedScreen from '@toolkit/screens/admin/Deleted';
-import DryrunScreen from '@toolkit/screens/admin/DeletionDryRun';
+import DeletedScreen from '@toolkit/experimental/deletion/screens/Deleted';
+import DryrunScreen from '@toolkit/experimental/deletion/screens/DeletionDryRun';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
 import alert from '@toolkit/ui/components/legacy/Alert';
 import {useNav} from '@toolkit/ui/screen/Nav';

@@ -7,7 +7,7 @@
  * @format
  */
 
-// //@ts-nocheck
+//@ts-nocheck
 
 import {
   jest,
@@ -28,13 +28,19 @@ import {
   LocalQueue,
   RegistryWrapper,
 } from './deletion.workflow';
-import {BaseModel, Field, Model, ModelClass, ModelUtil} from './model';
-import registry, {initRegistry} from './registry';
-import * as repo from './repo';
-import {TArray} from './schema';
-import * as mongo from './__tests__/testutils_mongo';
+import {
+  BaseModel,
+  Field,
+  Model,
+  ModelClass,
+  ModelUtil,
+} from '@toolkit/data/pads/model';
+import registry, {initRegistry} from '@toolkit/data/pads/registry';
+import * as repo from '@toolkit/data/pads/repo';
+import {TArray} from '@toolkit/data/pads/schema';
+import * as mongo from '@toolkit/data/pads/__tests__/testutils_mongo';
 
-let db;
+let db: any;
 let DELETED_REPO: repo.Repo<DELETED>;
 let TODELETE_REPO: repo.Repo<TODELETE>;
 

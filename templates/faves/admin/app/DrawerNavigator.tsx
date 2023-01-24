@@ -15,12 +15,12 @@ import AllUsersScreen from './screens/AllUsersScreen';
 import EditUserScreen from './screens/EditUserScreen';
 import LoginScreen from './screens/LoginScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
-import ToDeleteScreen from '@toolkit/screens/admin/Deletion';
-import DeletedScreen from '@toolkit/screens/admin/Deleted';
-import EditToDeleteScreen from '@toolkit/screens/admin/EditToDelete';
-import EditDeletedScreen from '@toolkit/screens/admin/EditDeleted';
+import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
+import DeletedScreen from '@toolkit/experimental/deletion/screens/Deleted';
+import EditToDeleteScreen from '@toolkit/experimental/deletion/screens/EditToDelete';
+import EditDeletedScreen from '@toolkit/experimental/deletion/screens/EditDeleted';
 import AllowlistScreen from '@toolkit/screens/admin/Allowlist';
-import DeletionDryrunScreen from '@toolkit/screens/admin/DeletionDryRun';
+import DeletionDryrunScreen from '@toolkit/experimental/deletion/screens/DeletionDryRun';
 import SendNotificationModal from './screens/SendNotificationModal';
 import {
   NavContext,

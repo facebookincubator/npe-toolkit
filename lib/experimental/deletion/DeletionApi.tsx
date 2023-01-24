@@ -9,8 +9,8 @@
 
 import {createApiKey} from '@toolkit/core/api/DataApi';
 import {BaseModel} from '@toolkit/data/DataStore';
-import type {DeletionGraph} from '@toolkit/data/pads/deletion.graph';
-import type {JobData} from '@toolkit/data/pads/deletion.workflow';
+import type {DeletionGraph} from '@toolkit/experimental/deletion/datastore/deletion.graph';
+import type {JobData} from '@toolkit/experimental/deletion/datastore/deletion.workflow';
 
 export const API_DELETION_GET_GRAPH = createApiKey<void, DeletionGraph>(
   'deletion-getGraph',

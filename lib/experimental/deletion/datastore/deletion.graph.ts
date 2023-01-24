@@ -7,10 +7,20 @@
  * @format
  */
 
-import {DeleteCondition, DeleteTrigger} from './deletion';
-import {BaseModel, ModelClass, ModelUtil, SchemaMeta} from './model';
-import registry from './registry';
-import {isArrayType, isJsModelType, isModelRefType} from './schema';
+import {
+  BaseModel,
+  ModelClass,
+  ModelUtil,
+  SchemaMeta,
+  DeleteCondition,
+  DeleteTrigger,
+} from '../../../data/pads/model';
+import registry from '../../../data/pads/registry';
+import {
+  isArrayType,
+  isJsModelType,
+  isModelRefType,
+} from '../../../data/pads/schema';
 
 export type DeletionGraph = {
   version?: string;
