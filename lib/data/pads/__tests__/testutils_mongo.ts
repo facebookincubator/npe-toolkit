@@ -7,6 +7,7 @@
  * @format
  */
 
+// @ts-ignore
 import {MongoMemoryReplSet} from 'mongodb-memory-server';
 
 //Use MongoMemoryReplSet (vs MongoMemoryServer) for testing transaction
@@ -27,6 +28,8 @@ export async function stop() {
   await mongod.stop();
 }
 
+// @ts-ignore
 test('', () => {
+  // @ts-ignore
   expect(MongoMemoryReplSet).toBeDefined();
 });

@@ -52,6 +52,7 @@ namespace SocialNetwork {
   @Privacy({
     READ: And(
       Authed(),
+      // @ts-ignore
       Exists(FriendConnection, ({ctx, obj}: EvalInput<Post>) => {
         return ctx.uid! < obj!.user.id
           ? `${ctx.uid}:${obj!.user.id}`
