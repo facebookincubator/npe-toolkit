@@ -144,37 +144,3 @@ export async function checkUserEmailAllowlist(
 
   return canLogin;
 }
-
-// DEPRECATED BELOW THIS COMMENT
-
-// TODO: Delete this function when deleting hook below
-async function canUserLogin(user: Auth.UserRecord): Promise<boolean> {
-  // Bypass `user.emailVerified` check if FB signin for now
-  const fbUserInfo = user.providerData.find(
-    p => p.providerId === 'facebook.com',
-  );
-  const isFacebookProvider = fbUserInfo?.email === user.email;
-
-  const allowedUsers = await getAllowedUserEmails();
-  const canLogin =
-    user.email != null &&
-    allowedUsers.includes(user.email) &&
-    (user.emailVerified || isFacebookProvider);
-
-  return canLogin;
-}
-
-// TODO: Delete this hook after client switched over to new API
-// (because this wasn't sync after login, it wasn't usable)
-export const userCreateHook = functions.auth
-  .user()
-  .onCreate(async (user: Auth.UserRecord) => {
-    // Log user info for now for debugging
-    Logger.log('Created user: ', user);
-
-    const canLogin = await canUserLogin(user);
-    await Auth().setCustomUserClaims(user.uid, {canLogin});
-
-    const newUser = await Auth().getUser(user.uid);
-    Logger.log('Auth API result for newly created user: ', newUser);
-  });
