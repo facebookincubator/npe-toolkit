@@ -10,9 +10,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import * as React from 'react';
-// TODO: Is batched needed?
-// @ts-ignore
-import {unstable_batchedUpdates as batchedUpdates} from 'react-dom';
 import {
   Account,
   AuthType,
@@ -25,7 +22,10 @@ import {LOGGED_IN_USER_API_KEY} from '@toolkit/core/api/User';
 import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
 import {networkDelay} from '@toolkit/core/util/DevUtil';
 import {useAppConfig} from '@toolkit/core/util/AppConfig';
-import {setInitialAppContext, useSetAppContext} from '@toolkit/core/util/AppContext';
+import {
+  setInitialAppContext,
+  useSetAppContext,
+} from '@toolkit/core/util/AppContext';
 import Promised from '@toolkit/core/util/Promised';
 import {useFirebaseApp} from '@toolkit/providers/firebase/Config';
 import {useFirebasePhoneAuth} from '@toolkit/providers/firebase/client/PhoneUtil';
