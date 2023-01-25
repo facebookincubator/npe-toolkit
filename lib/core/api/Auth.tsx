@@ -7,7 +7,7 @@
  * @format
  */
 
-import {User} from '@toolkit/core/api/User';
+import {Role, User} from '@toolkit/core/api/User';
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
@@ -178,7 +178,7 @@ export type Account = {
   /**
    *  Set of roles associated with the account (e.g. "admin", "developer")
    */
-  roles?: Opt<string[]>;
+  roles?: Opt<Role[]>;
 
   // TODO: Add fields mirrored from 3P login systems
 };

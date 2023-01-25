@@ -10,8 +10,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import {AuthData} from 'firebase-functions/lib/common/providers/https';
-
-import Role from '@toolkit/core/api/Roles';
 import {Profile, User, UserRoles} from '@toolkit/core/api/User';
 import {apnsToFCMToken} from '@toolkit/providers/firebase/server/PushNotifications';
 import {firebaseStore} from '@toolkit/providers/firebase/DataStore';
@@ -289,7 +287,7 @@ export const sendAdminNotif = registerHandler(
     const send = getSender();
     await send(user.id, channel, {title: title != null ? title : ''}, {body});
   },
-  {allowedRoles: [Role.ADMIN]},
+  {allowedRoles: ['ADMIN']},
 );
 
 export const broadcastAdminNotif = registerHandler(
@@ -304,5 +302,5 @@ export const broadcastAdminNotif = registerHandler(
       allUsers.map(user => send(user.id, channel, {title}, {body})),
     );
   },
-  {allowedRoles: [Role.ADMIN]},
+  {allowedRoles: ['ADMIN']},
 );

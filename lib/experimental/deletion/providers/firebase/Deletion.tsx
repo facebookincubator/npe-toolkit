@@ -7,8 +7,6 @@
  * @format
  */
 
-//@ts-ignore
-import Role from '@toolkit/core/api/Roles';
 import {FirestoreDeletionRepo} from '@toolkit/experimental/deletion/server/Deletion';
 import {
   BaseModel,
@@ -278,7 +276,7 @@ export const getGraph = registerHandler(
     return graph.getGraph();
   },
   {
-    allowedRoles: [Role.ADMIN, Role.DEV],
+    allowedRoles: ['ADMIN', 'DEV'],
   },
 );
 
@@ -299,7 +297,7 @@ export const runJob = registerHandler(
     }
   },
   {
-    allowedRoles: [Role.ADMIN, Role.DEV],
+    allowedRoles: ['ADMIN', 'DEV'],
   },
 );
 
@@ -333,7 +331,7 @@ export const dryrunDeletion = registerHandler(
     );
   },
   {
-    allowedRoles: [Role.ADMIN, Role.DEV],
+    allowedRoles: ['ADMIN', 'DEV'],
     timeoutSecs: 300, // 5mins
   },
 );
@@ -377,7 +375,7 @@ export const dryrunRestoration = registerHandler(
     return results;
   },
   {
-    allowedRoles: [Role.ADMIN, Role.DEV],
+    allowedRoles: ['ADMIN', 'DEV'],
     timeoutSecs: 300, // 5mins
   },
 );

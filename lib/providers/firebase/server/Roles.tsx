@@ -15,10 +15,11 @@ import {
   matchPhone,
   matchUID,
 } from '@toolkit/tbd/Allowlist';
+import {Role} from '@toolkit/core/api/User';
 
 export async function getAllowlistMatchedRoles(
   auth: AuthData,
-): Promise<string[]> {
+): Promise<Role[]> {
   const allowlistStore = getAdminDataStore(Allowlist);
   const allowlists = await allowlistStore.getAll();
   // Dedup

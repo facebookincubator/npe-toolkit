@@ -19,10 +19,15 @@ import {
   List,
 } from 'react-native-paper';
 
-import {User, UserRoles, requireLoggedInUser} from '@toolkit/core/api/User';
+import {
+  User,
+  UserRoles,
+  requireLoggedInUser,
+  Role,
+  SYSTEM_ROLES,
+} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import Role from '@toolkit/core/api/Roles';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {UserNotFoundError} from '@toolkit/tbd/CommonErrors';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
@@ -75,8 +80,8 @@ const EditUserScreen: Screen<Props> = ({async: {user}}: Props) => {
     setName(newName);
   };
 
-  const roleToggled = (role: string) => {
-    if (loggedInUser.id === user.id && role === Role.ADMIN) {
+  const roleToggled = (role: Role) => {
+    if (loggedInUser.id === user.id && role === 'ADMIN') {
       showError('You cannot remove your own admin permissions');
       return;
     }
@@ -88,7 +93,7 @@ const EditUserScreen: Screen<Props> = ({async: {user}}: Props) => {
     }
   };
 
-  const roleCheckboxes = Object.values(Role).map(role => {
+  const roleCheckboxes = SYSTEM_ROLES.map(role => {
     return (
       <List.Item
         title={role}

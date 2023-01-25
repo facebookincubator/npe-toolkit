@@ -7,6 +7,7 @@
  * @format
  */
 
+import {Role} from '@toolkit/core/api/User';
 import {
   BaseModel,
   Field,
@@ -26,40 +27,41 @@ export class Allowlist extends BaseModel {
 // TODO: Limit this to your initial test account emails
 const ALLOW_EMAILRE_LIST = ['.*'];
 
-export function matchUID(uid: string, lists: Allowlist[]): string[] {
-  const roles: string[] = [];
+export function matchUID(uid: string, lists: Allowlist[]): Role[] {
+  const roles: Role[] = [];
 
   lists.forEach(allowlist => {
     if (!Array.isArray(allowlist.uids)) return;
-    if (allowlist.uids.includes(uid)) roles.push(allowlist.id);
+    if (allowlist.uids.includes(uid)) roles.push(allowlist.id as Role);
   });
 
   return roles;
 }
 
-export function matchPhone(phoneNumber: string, lists: Allowlist[]): string[] {
-  const roles: string[] = [];
+export function matchPhone(phoneNumber: string, lists: Allowlist[]): Role[] {
+  const roles: Role[] = [];
 
   lists.forEach(allowlist => {
     if (!Array.isArray(allowlist.phones)) return;
-    if (allowlist.phones.includes(phoneNumber)) roles.push(allowlist.id);
+    if (allowlist.phones.includes(phoneNumber))
+      roles.push(allowlist.id as Role);
   });
 
   return roles;
 }
 
-export function matchEmail(email: string, lists: Allowlist[]): string[] {
-  const roles: string[] = [];
+export function matchEmail(email: string, lists: Allowlist[]): Role[] {
+  const roles: Role[] = [];
 
   lists.forEach(allowlist => {
     if (Array.isArray(allowlist.emails) && allowlist.emails.includes(email)) {
-      roles.push(allowlist.id);
+      roles.push(allowlist.id as Role);
       return;
     }
     if (Array.isArray(allowlist.emailREs)) {
       allowlist.emailREs.forEach(emailRE => {
         if (email.match(emailRE)) {
-          roles.push(allowlist.id);
+          roles.push(allowlist.id as Role);
           return;
         }
       });
@@ -68,7 +70,7 @@ export function matchEmail(email: string, lists: Allowlist[]): string[] {
 
   ALLOW_EMAILRE_LIST.forEach(emailRE => {
     if (email.match(emailRE)) {
-      roles.push('user');
+      roles.push('USER');
       return;
     }
   });

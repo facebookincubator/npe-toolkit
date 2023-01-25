@@ -17,7 +17,6 @@ import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {GET_USER} from '@app/common/Api';
 import {UnauthorizedError} from '@toolkit/tbd/CommonErrors';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import Role from '@toolkit/core/api/Roles';
 
 export default function AuthConfig(props: {children?: React.ReactNode}) {
   const getUser = useApi(GET_USER);
@@ -42,10 +41,7 @@ export default function AuthConfig(props: {children?: React.ReactNode}) {
     // If the user doesn't have roles set or if the user isn't an admin or dev, reject login
     if (
       user.roles == null ||
-      !(
-        user.roles.roles.includes(Role.ADMIN) ||
-        user.roles.roles.includes(Role.DEV)
-      )
+      !(user.roles.roles.includes('ADMIN') || user.roles.roles.includes('DEV'))
     ) {
       const err = UnauthorizedError(
         "User's roles do not match any allowed roles for this function",

@@ -8,7 +8,6 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Role from '@toolkit/core/api/Roles';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 
 export function sleep(ms: number): Promise<void> {
@@ -44,7 +43,7 @@ export async function getNetworkDelayMs() {
  * Hook to set the network delay. This only needs to be called once in development,
  * after that it will be sticky. To reset, call again with delay = 0.
  *
- * Only enabled for development mode (local builds or user has "dev" role)
+ * Only enabled for development mode (local builds or user has "DEV" role)
  *
  * Usage:
  * ```
@@ -73,7 +72,7 @@ export function useSetNetworkDelay() {
 export function useIsDev() {
   const user = useLoggedInUser();
 
-  if (user?.roles != null && user?.roles.roles.indexOf(Role.DEV) != -1) {
+  if (user?.roles != null && user?.roles.roles.indexOf('DEV') != -1) {
     return true;
   }
 

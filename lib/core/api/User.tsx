@@ -19,9 +19,17 @@ import {
 } from '@toolkit/data/DataStore';
 import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
 
+/**
+ * Role for users in an app.
+ * Strings below are well-known roles, and apps can define custom roles
+ * using `app.ROLE`
+ */
+export type Role = 'USER' | 'ADMIN' | 'DEV' | `app.${string}`;
+export const SYSTEM_ROLES: Role[] = ['USER', 'ADMIN', 'DEV'];
+
 @Model({name: 'user_roles'})
 export class UserRoles extends BaseModel {
-  @Field(TArray(TString)) roles: string[];
+  @Field(TArray(TString)) roles: Role[];
 }
 
 /**

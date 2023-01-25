@@ -8,6 +8,7 @@
  */
 
 import {ApiKey} from '@toolkit/core/api/DataApi';
+import {Role} from '@toolkit/core/api/User';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {DEFAULT_FUNCTIONS_REGION} from '@toolkit/providers/firebase/Config';
 import {
@@ -170,7 +171,7 @@ export type HandlerConfig = {
   minInstances?: number;
   maxInstances?: number;
   timeoutSecs?: number;
-  allowedRoles?: string[];
+  allowedRoles?: Role[];
   regions?: string[];
 };
 export function registerHandler<I, O>(

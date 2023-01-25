@@ -7,8 +7,7 @@
  * @format
  */
 
-import Role from '@toolkit/core/api/Roles';
-import {requireLoggedInUser} from '@toolkit/core/api/User';
+import {requireLoggedInUser, SYSTEM_ROLES} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {Updater, useDataStore} from '@toolkit/data/DataStore';
 import {Allowlist} from '@toolkit/tbd/Allowlist';
@@ -96,7 +95,7 @@ AllowlistScreen.load = async () => {
   let allowlists = await allowlistStore.getAll();
   if (allowlists.length === 0) {
     allowlists = await Promise.all(
-      Object.values(Role).map(role =>
+      SYSTEM_ROLES.map(role =>
         allowlistStore.create({
           id: role,
         }),

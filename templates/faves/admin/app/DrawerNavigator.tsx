@@ -25,7 +25,6 @@ import {drawerLayout, NavItem} from '@toolkit/ui/layout/DrawerLayout';
 import {useAuth} from '@toolkit/core/api/Auth';
 import BroadcastNotificationModal from './screens/BroadcastNotificationModal';
 import {useLoggedInUser} from '@toolkit/core/api/User';
-import Role from '@toolkit/core/api/Roles';
 
 // Experimental deletion support - not ready for production
 // Uncomment here and also references below to experiment with deletion
@@ -38,7 +37,7 @@ const Stack = createStackNavigator();
 const DrawerNavigator = () => {
   const auth = useAuth();
   const user = useLoggedInUser();
-  const isDev = user?.roles?.roles.includes(Role.DEV) || true;
+  const isDev = user?.roles?.roles.includes('DEV') || true;
 
   const logoutAction = {
     id: 'logout',
