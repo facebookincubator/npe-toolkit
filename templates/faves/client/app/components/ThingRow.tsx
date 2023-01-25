@@ -15,7 +15,7 @@ import {View, Text, Image, Pressable} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
-import {useReload} from '@toolkit/util/client/Reload';
+import {useReload} from '@toolkit/core/client/Reload';
 import {useData} from '@toolkit/core/api/DataApi';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 

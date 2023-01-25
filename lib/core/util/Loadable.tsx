@@ -8,7 +8,7 @@
  */
 
 import Promised from '@toolkit/core/util/Promised';
-import {useReload, useReloadState} from '@toolkit/util/client/Reload';
+import {useReload, useReloadState} from '@toolkit/core/client/Reload';
 import * as React from 'react';
 
 /**
