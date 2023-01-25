@@ -51,16 +51,18 @@ type TaskOptions = any;
 type TaskQueue = any;
 
 const firebaseConfig = getFirebaseConfig();
-const deletionConfig = {
-  ...{
-    // Default config
-    maxConcurrentDispatches: 10,
-    retryMaxAttempts: 3,
-    retryMinBackoffSeconds: 10,
-    ttlCronSchedule: 'every 1 hours',
-  },
-  ...(firebaseConfig.deletionConfig ?? {}),
+
+// TODO: Use context vs. a global variable
+let deletionConfig = {
+  maxConcurrentDispatches: 10,
+  retryMaxAttempts: 3,
+  retryMinBackoffSeconds: 10,
+  ttlCronSchedule: 'every 1 hours',
 };
+
+export function setDeletionConfig(cfg: Partial<typeof deletionConfig>) {
+  deletionConfig = {...deletionConfig, ...cfg};
+}
 
 // JobQueue implementation using Firebase TaskQueue
 export class FirebaseDeletionQueue implements workflow.JobQueue {

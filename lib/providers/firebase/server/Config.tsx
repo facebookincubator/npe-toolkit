@@ -14,25 +14,12 @@ import {getAccountInfo} from '@toolkit/providers/firebase/server/Auth';
 import {getRequestScope} from '@toolkit/providers/firebase/server/Handler';
 
 // Global variable for now
-let firebaseConfig: FirebaseServerConfig & admin.AppOptions;
-
-export type FirebaseServerConfig = FirebaseConfig & {
-  // TODO: Add Github Wiki for enforcing Firebase security in functions
-  forceAdminDatastore?: boolean; // `true` to bypass Firestore security rule enforcement in Functions
-  deletionConfig?: {
-    retryMaxAttempts?: number;
-    retryMinBackoffSeconds?: number;
-    maxConcurrentDispatches?: number;
-    ttlCronSchedule?: string;
-  };
-};
+let firebaseConfig: FirebaseConfig;
 
 /**
  * Init Firebase server config
  */
-export function initFirebaseServer(
-  config: FirebaseServerConfig,
-): admin.app.App {
+export function initFirebaseServer(config: FirebaseConfig): admin.app.App {
   const {projectId} = config;
   const defaultOptions = {
     credential: admin.credential.applicationDefault(),
