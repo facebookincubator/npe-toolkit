@@ -12,9 +12,7 @@ import {
   BaseModel,
   DeletedBy,
   Field,
-  MatchesUser,
   Model,
-  Privacy,
   Ref,
   TArray,
   TBool,
@@ -43,9 +41,6 @@ export type PushToken = {
  * Push token in storage
  */
 @Model({name: 'push_tokens'})
-@Privacy({
-  '*': MatchesUser('user'),
-})
 @DeletedBy(Ref('user'))
 export class StorageToken extends BaseModel implements PushToken {
   @Field(TString) type: TokenType;
@@ -59,9 +54,6 @@ export class StorageToken extends BaseModel implements PushToken {
  * Preference for how a user is notified for a given notification channel
  */
 @Model({name: 'notification_pref'})
-@Privacy({
-  '*': MatchesUser('user'),
-})
 export class NotificationPref extends BaseModel {
   @Field(TString) channelId: string;
   @Field(TArray(TString)) deliveryMethods: DeliveryMethod[];

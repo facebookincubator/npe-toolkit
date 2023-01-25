@@ -8,7 +8,6 @@
  */
 
 import 'reflect-metadata';
-import type {PrivacyRules} from './privacy';
 import registry from './registry';
 import * as s from './schema';
 import {ID} from './utils';
@@ -22,7 +21,6 @@ type ModelClassMeta = {
   name?: string;
   schema: SchemaMeta;
   deletions?: DeletionRule[];
-  privacy?: PrivacyRules;
 };
 export type SchemaMeta = Record<
   string,
@@ -90,11 +88,6 @@ export class ModelUtil {
   static getSchema<T extends BaseModel>(c: ModelClass<T>): SchemaMeta {
     // @ts-ignore
     return ModelUtil.getModelClassMeta(c)['schema'];
-  }
-
-  static getPrivacyRules<T extends BaseModel>(c: ModelClass<T>): PrivacyRules {
-    // @ts-ignore
-    return ModelUtil.getModelClassMeta(c)['privacy'];
   }
 
   static getDeletionRules<T extends BaseModel>(

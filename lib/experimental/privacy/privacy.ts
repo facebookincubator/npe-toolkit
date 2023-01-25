@@ -7,11 +7,11 @@
  * @format
  */
 
-import {Context} from './context';
-import {BaseModel, ModelClass, ModelUtil} from './model';
-import registry from './registry';
-import {isJsModelType, isModelRefType} from './schema';
-import {getElementType, ID} from './utils';
+import {Context} from '@toolkit/data/pads/context';
+import {BaseModel, ModelClass, ModelUtil} from '@toolkit/data/pads/model';
+import registry from '@toolkit/data/pads/registry';
+import {isJsModelType, isModelRefType} from '@toolkit/data/pads/schema';
+import {getElementType, ID} from '@toolkit/data/pads/utils';
 
 /**
  * @Privacy decorator to set privacy rules for a Model class
@@ -28,6 +28,7 @@ export function Privacy<M extends BaseModel>(
 ): any {
   return function (modelClass: ModelClass<M>): ModelClass<M> {
     const meta = ModelUtil.getModelClassMeta(modelClass);
+    // @ts-ignore Add privacy in as a real field once we enable privacy
     meta.privacy = Object.fromEntries(
       Object.entries(privacy).map(([k, v]) => {
         return Array.isArray(v) ? [k, v] : [k, [v]];
@@ -283,11 +284,18 @@ export const CanWrite = (
   return new _CanCondition('WRITE', mClassOrFnOrField, field);
 };
 
+export function getPrivacyRules<T extends BaseModel>(
+  c: ModelClass<T>,
+): PrivacyRules {
+  // @ts-ignore
+  return ModelUtil.getModelClassMeta(c)['privacy'];
+}
+
 export function getConditions(
   mClass: ModelClass<any>,
   permission: Permission,
 ): Condition[] | undefined {
-  const mPrivacy = ModelUtil.getPrivacyRules(mClass);
+  const mPrivacy = getPrivacyRules(mClass);
   if (!mPrivacy) return;
   if (permission === 'GET' || permission === 'LIST') {
     return mPrivacy[permission] ?? mPrivacy['READ'] ?? mPrivacy['*'];

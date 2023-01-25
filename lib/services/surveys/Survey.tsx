@@ -9,14 +9,10 @@
 
 import {User} from '@toolkit/core/api/User';
 import {
-  Authed,
   BaseModel,
   DeletedBy,
-  DenyAll,
   Field,
-  MatchesUser,
   Model,
-  Privacy,
   Ref,
   TBool,
   TMap,
@@ -32,10 +28,6 @@ export type SurveyImpressionState = 'SEEN' | 'OPENED' | 'COMPLETED';
 type SurveyID = string;
 
 @Model({name: 'survey'})
-@Privacy({
-  '*': Authed(),
-  CREATE: DenyAll(), // TODO: who creates a survey object?
-})
 export class Survey extends BaseModel {
   @Field(TString) url: string;
   @Field(TBool) active: boolean;
@@ -44,9 +36,6 @@ export class Survey extends BaseModel {
 // The ID of SurveyImpression objects should be the user ID
 @Model({name: 'survey_impressions'})
 @DeletedBy(Ref('user'))
-@Privacy({
-  '*': MatchesUser('user'),
-})
 export class SurveyImpressions extends BaseModel {
   @Field(TModel(User)) user: User;
   @Field(TMap) state: Record<SurveyID, SurveyImpressionState>;

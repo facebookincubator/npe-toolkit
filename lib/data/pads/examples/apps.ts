@@ -7,8 +7,7 @@
  * @format
  */
 
-import {DeletedBy, Ref} from '../deletion';
-import {BaseModel, Field, InverseField, Model} from '../model';
+import {BaseModel, Field, InverseField, Model, DeletedBy, Ref} from '../model';
 import {
   CanRead,
   Exists,
@@ -20,7 +19,7 @@ import {
   EvalInput,
   CanWrite,
   And,
-} from '../privacy';
+} from '@toolkit/experimental/privacy/privacy';
 
 @Model()
 @Privacy({

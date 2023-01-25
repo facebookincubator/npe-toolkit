@@ -9,13 +9,9 @@
 
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
 import {
-  AllowAll,
   BaseModel,
-  DenyAll,
   Field,
-  MatchesUser,
   Model,
-  Privacy,
   TArray,
   TBool,
   TModel,
@@ -24,10 +20,6 @@ import {
 import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
 
 @Model({name: 'user_roles'})
-@Privacy({
-  READ: MatchesUser('id'),
-  WRITE: DenyAll(),
-})
 export class UserRoles extends BaseModel {
   @Field(TArray(TString)) roles: string[];
 }
@@ -43,9 +35,6 @@ export class UserRoles extends BaseModel {
  *
  */
 @Model({name: 'user'})
-@Privacy({
-  '*': MatchesUser('id'),
-})
 export class User extends BaseModel {
   /**
    * A name that can be used in the UI to show to the user to identity which account
@@ -94,10 +83,6 @@ export class User extends BaseModel {
 
 // Base type for profile. Profile is public to other users.
 @Model({name: 'profile'})
-@Privacy({
-  READ: AllowAll(),
-  WRITE: [MatchesUser('id'), MatchesUser('user')],
-})
 export class Profile extends BaseModel {
   @Field(TString) pic?: string | null | undefined;
   @Field(TString) name: string;

@@ -7,18 +7,10 @@
  * @format
  */
 
-import {
-  jest,
-  beforeAll,
-  afterAll,
-  beforeEach,
-  afterEach,
-  expect,
-  test,
-  describe,
-} from '@jest/globals';
+// @ts-nocheck
 
-import {Field, Model, BaseModel, ModelUtil, ModelRef} from './model';
+import {jest, afterEach, expect, test, describe} from '@jest/globals';
+import {Field, Model, BaseModel, ModelUtil} from '@toolkit/data/pads/model';
 import {
   AllowAll,
   And,
@@ -31,11 +23,12 @@ import {
   evalDisjunctive,
   Exists,
   getConditions,
+  getPrivacyRules,
   MatchesUser,
   Privacy,
 } from './privacy';
-import {ID} from './utils';
-import registry from './registry';
+import {ID} from '@toolkit/data/pads/utils';
+import registry from '@toolkit/data/pads/registry';
 
 @Model()
 class Foo extends BaseModel {}
@@ -52,7 +45,7 @@ describe('set privacy rules', () => {
     })
     class Bar extends BaseModel {}
 
-    const barPrivacy = ModelUtil.getPrivacyRules(Bar);
+    const barPrivacy = getPrivacyRules(Bar);
     expect(barPrivacy).toBeDefined();
     expect(barPrivacy['*']).toEqual([AllowAll()]);
   });
@@ -64,7 +57,7 @@ describe('set privacy rules', () => {
     })
     class Bar extends BaseModel {}
 
-    const barPrivacy = ModelUtil.getPrivacyRules(Bar);
+    const barPrivacy = getPrivacyRules(Bar);
     expect(barPrivacy).toBeDefined();
     expect(barPrivacy['*']).toEqual([Authed(), DenyAll()]);
   });
@@ -211,9 +204,7 @@ describe('eval conditions', () => {
   test('Exists', async () => {
     jest.spyOn(registry, 'getRepo').mockImplementation(mNameOrClass => {
       const mName =
-        typeof mNameOrClass === 'string'
-          ? mNameOrClass
-          : ModelUtil.getName(mNameOrClass);
+        typeof mNameOrClass === 'string' ? mNameOrClass : getName(mNameOrClass);
       if (mName === 'Bar') {
         return {
           get: (id: ID) => {
@@ -243,9 +234,7 @@ describe('eval conditions', () => {
   test('CanRead/CanWrite - Current Model field', async () => {
     jest.spyOn(registry, 'getRepo').mockImplementation(mNameOrClass => {
       const mName =
-        typeof mNameOrClass === 'string'
-          ? mNameOrClass
-          : ModelUtil.getName(mNameOrClass);
+        typeof mNameOrClass === 'string' ? mNameOrClass : getName(mNameOrClass);
       if (mName === 'Faz') {
         return {
           get: (id: ID) => {
@@ -290,9 +279,7 @@ describe('eval conditions', () => {
   test('CanRead/CanWrite - Another Model field', async () => {
     jest.spyOn(registry, 'getRepo').mockImplementation(mNameOrClass => {
       const mName =
-        typeof mNameOrClass === 'string'
-          ? mNameOrClass
-          : ModelUtil.getName(mNameOrClass);
+        typeof mNameOrClass === 'string' ? mNameOrClass : getName(mNameOrClass);
       if (mName === 'Baz') {
         return {
           query: () => {

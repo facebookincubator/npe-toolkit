@@ -25,7 +25,6 @@ export {
   ModelUtil,
   R,
 } from '@toolkit/data/pads/model';
-export * from '@toolkit/data/pads/privacy';
 export {
   default as registry,
   getRepoImpl,

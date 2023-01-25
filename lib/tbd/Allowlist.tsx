@@ -9,18 +9,13 @@
 
 import {
   BaseModel,
-  DenyAll,
   Field,
   Model,
-  Privacy,
   TArray,
   TString,
 } from '@toolkit/data/DataStore';
 
 @Model({name: 'allowlist'})
-@Privacy({
-  '*': DenyAll(), // TODO: role check
-})
 export class Allowlist extends BaseModel {
   @Field(TArray(TString)) uids?: string[]; // User IDs
   @Field(TArray(TString)) emails?: string[]; // Emails (exact match)
