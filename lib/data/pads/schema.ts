@@ -249,6 +249,16 @@ class MapType extends Type<Map> {
   }
 }
 
+/*
+----------------------------------
+EXPERIMENTAL code below this point
+----------------------------------
+*/
+
+/**
+ * Class for fields on Models that are externally deletable storage stypes.
+ * Experimental.
+ */
 export abstract class ExternalDeletableType<TIn, TOut> extends Type<TIn, TOut> {
   // Called when model is moved to trashbin
   abstract onSoftDelete(fieldValue: any): void;
