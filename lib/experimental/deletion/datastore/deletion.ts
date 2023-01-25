@@ -16,8 +16,12 @@ function genDeletionId(modelName: string, modelId: string) {
 }
 export const REASON_ROOT = 'ROOT';
 
+export const DELETED_MODEL = '__DELETED';
+export const TO_DELETE_MODEL = '__TODELETE';
+export const DELETION_MODELS = [DELETED_MODEL, TO_DELETE_MODEL];
+
 const TTL_60DAYS = 60 * 60 * 24 * 60;
-@Model({name: '__DELETED', deletions: [TTL(TTL_60DAYS)]})
+@Model({name: DELETED_MODEL, deletions: [TTL(TTL_60DAYS)]})
 export class DELETED extends BaseModel {
   static genId(modelName: string, modelId: string) {
     return genDeletionId(modelName, modelId);
@@ -37,7 +41,7 @@ export class DELETED extends BaseModel {
   @Field(TString) details?: string;
 }
 
-@Model({name: '__TODELETE'})
+@Model({name: TO_DELETE_MODEL})
 export class TODELETE extends BaseModel {
   static genId(modelName: string, modelId: string) {
     return genDeletionId(modelName, modelId);

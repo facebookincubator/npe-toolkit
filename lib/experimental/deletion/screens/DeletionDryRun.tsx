@@ -31,7 +31,7 @@ import {Screen} from '@toolkit/ui/screen/Screen';
 import {useTextInput} from '@toolkit/ui/UiHooks';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import CodedError from '@toolkit/core/util/CodedError';
-import {SYSTEM_MODELS} from '@toolkit/screens/admin/Common';
+import {DELETION_MODELS} from '@toolkit/experimental/deletion/datastore/deletion';
 
 type DryRunType = 'delete' | 'restore';
 type Props = {
@@ -62,7 +62,7 @@ const DryrunScreen: Screen<Props> = (props: Props) => {
   const modelNames = registry
     .getAllModels()
     .map(m => ModelUtil.getName(m))
-    .filter(m => !SYSTEM_MODELS.includes(m))
+    .filter(m => !DELETION_MODELS.includes(m))
     .sort();
 
   React.useEffect(() => {

@@ -9,8 +9,10 @@
 
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
-import {TODELETE} from '@toolkit/experimental/deletion/datastore/deletion';
-import {SYSTEM_MODELS} from '@toolkit/screens/admin/Common';
+import {
+  DELETION_MODELS,
+  TODELETE,
+} from '@toolkit/experimental/deletion/datastore/deletion';
 import EditToDeleteScreen from '@toolkit/experimental/deletion/screens/EditToDelete';
 import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
@@ -70,7 +72,7 @@ ToDeleteScreen.load = async () => {
   return {
     items: await toDeleteStore.getMany({
       query: {
-        where: [{field: 'modelName', op: 'not-in', value: SYSTEM_MODELS}],
+        where: [{field: 'modelName', op: 'not-in', value: DELETION_MODELS}],
       },
     }),
   };
