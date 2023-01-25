@@ -26,38 +26,12 @@ export type AppConfig = {
   /** String product ID */
   product: string;
 
-  /** App ID in the FB developer console @ https://developers.facebook.com/apps/ */
+  /**
+   * App ID in the FB developer console @ https://developers.facebook.com/apps/
+   *
+   * Onlhy needed if you are logging in with Facebook auth.
+   */
   fbAppId?: string;
-
-  /** NPE App FBID, of type NPEEntApplication */
-  npeAppFbid?: string;
-
-  /** NPE App ID enum, of type NPEApplication */
-  npeAppId?: number;
-
-  /** Client secret for NPE app */
-  npeClientSecret?: string;
-
-  /**
-   * Default URL for requests to your API server.
-   * This will be overridable in the dev UI
-   * You can point this at a persistent dev server for early
-   * prototyping / demos before you have launched
-   * a production service.
-   */
-  apiUrl?: string;
-
-  /**
-   * API URLs can have a dev-mode formatter that sets the URL given
-   * numeric input. This is useful for setting OD / devserver URLs
-   * in a mobile UI, as it's many fewer charcters to type
-   */
-  apiUrlFormatter?: string;
-
-  /**
-   * Base URl for logging requests.
-   */
-  logUrl?: string;
 };
 
 // Context key for providing app config using NPEAppContext

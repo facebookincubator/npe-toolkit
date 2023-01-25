@@ -20,7 +20,7 @@
 
 import {AuthType, LoginCredential} from '@toolkit/core/api/Auth';
 
-const NPEIdentityService = {
+const IdentityService = {
   // Sets a provider. Will overwrite any existing providers for that type
   //
   // Note that providers are often platform / environment specific, so
@@ -158,4 +158,4 @@ export type IdentityProvider = {
   getType: () => string;
 };
 
-export default NPEIdentityService;
+export default IdentityService;

@@ -36,7 +36,7 @@ export type DataStoreProvider = <T extends BaseModel>(
   dataType: ModelClass<T>,
 ) => DataStore<T>;
 
-// Context key for providing app config using NPEAppContext
+// Context key for providing app config using AppContext
 export const DATA_STORE_PROVIDER_KEY =
   contextKey<DataStoreProvider>('npe.datastore.pads');
 

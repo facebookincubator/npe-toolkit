@@ -11,7 +11,7 @@ import {useAuth} from '@toolkit/core/api/Auth';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {navToAction} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import NPESettings, {Setting} from '@toolkit/screens/Settings';
+import Settings, {Setting} from '@toolkit/screens/Settings';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {openUrlAction} from '@toolkit/ui/screen/WebScreen';
 import React from 'react';
@@ -92,7 +92,7 @@ const SettingsScreen: Screen<{}> = () => {
 
   return (
     <View style={{padding: 20}}>
-      <NPESettings settings={SETTINGS} />
+      <Settings settings={SETTINGS} />
     </View>
   );
 };

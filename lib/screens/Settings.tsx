@@ -20,7 +20,7 @@ type Props = {
   settings: Setting[];
 };
 
-const NPESettings: Screen<Props> = ({settings}) => {
+const Settings: Screen<Props> = ({settings}) => {
   return (
     <View>
       {settings.map((setting, idx) => {
@@ -35,7 +35,7 @@ const NPESettings: Screen<Props> = ({settings}) => {
 };
 
 // TODO: Is this the best approach?
-NPESettings.title = 'Settings';
+Settings.title = 'Settings';
 
 type SettingsItemProps = {action: Action};
 
@@ -93,4 +93,4 @@ const S = StyleSheet.create({
   },
 });
 
-export default NPESettings;
+export default Settings;
