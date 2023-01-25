@@ -15,12 +15,7 @@ import AllUsersScreen from './screens/AllUsersScreen';
 import EditUserScreen from './screens/EditUserScreen';
 import LoginScreen from './screens/LoginScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
-import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
-import DeletedScreen from '@toolkit/experimental/deletion/screens/Deleted';
-import EditToDeleteScreen from '@toolkit/experimental/deletion/screens/EditToDelete';
-import EditDeletedScreen from '@toolkit/experimental/deletion/screens/EditDeleted';
 import AllowlistScreen from '@toolkit/screens/admin/Allowlist';
-import DeletionDryrunScreen from '@toolkit/experimental/deletion/screens/DeletionDryRun';
 import SendNotificationModal from './screens/SendNotificationModal';
 import {
   NavContext,
@@ -32,11 +27,18 @@ import BroadcastNotificationModal from './screens/BroadcastNotificationModal';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import Role from '@toolkit/core/api/Roles';
 
+// Experimental deletion support - not ready for production
+// Uncomment here and also references below to experiment with deletion
+// import {
+//  DELETION_ROUTES,
+//  TOP_LEVEL_DELETION_SCREENS,
+// } from '@toolkit/experimental/deletion/screens/DeletionScreens';
+
 const Stack = createStackNavigator();
 const DrawerNavigator = () => {
   const auth = useAuth();
   const user = useLoggedInUser();
-  const isDev = user?.roles?.roles.includes(Role.DEV);
+  const isDev = user?.roles?.roles.includes(Role.DEV) || true;
 
   const logoutAction = {
     id: 'logout',
@@ -52,13 +54,8 @@ const DrawerNavigator = () => {
   ];
 
   if (isDev) {
-    navItems.push(
-      {divider: true},
-      {header: 'Deletion'},
-      {screen: DeletedScreen},
-      {screen: ToDeleteScreen},
-      {screen: DeletionDryrunScreen},
-    );
+    navItems.push({divider: true}, {header: 'Deletion'});
+    //TOP_LEVEL_DELETION_SCREENS.forEach(screen => navItems.push({screen}));
   }
 
   const routes = {
@@ -68,13 +65,10 @@ const DrawerNavigator = () => {
     edit_user: EditUserScreen,
     login: LoginScreen,
     broadcast: BroadcastNotificationModal,
-    deleted: DeletedScreen,
-    edit_deleted: EditDeletedScreen,
-    todelete: ToDeleteScreen,
-    edit_todelete: EditToDeleteScreen,
-    deletion_dryrun: DeletionDryrunScreen,
     allowlist: AllowlistScreen,
+    //...DELETION_ROUTES,
   };
+
   const {navScreens, linkingScreens} = useReactNavScreens(
     routes,
     drawerLayout({
