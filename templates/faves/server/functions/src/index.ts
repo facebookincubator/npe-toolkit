@@ -33,4 +33,8 @@ initMiddlewares([
 ]);
 
 exports.helloworld = require('./handlers');
-exports.helloworld.deletion = require('./deletion');
+
+// Experimental deletion support - not ready for production
+// Uncomment here and also where installing screens in admin panel to experiment with deletion
+// import * as deletionHandlers from '@toolkit/experimental/deletion/providers/firebase/Deletion';
+// exports.helloworld.deletion = deletionHandlers;

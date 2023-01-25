@@ -43,12 +43,12 @@ import {
 } from '@toolkit/providers/firebase/DataStore';
 import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
-import {
-  getFunctions,
-  TaskOptions,
-  TaskQueue,
-} from 'firebase-admin/lib/functions';
+const {getFunctions} = require('firebase-admin/functions');
 import * as functions from 'firebase-functions';
+
+// TODO: Add back type safety to these
+type TaskOptions = any;
+type TaskQueue = any;
 
 const firebaseConfig = getFirebaseConfig();
 const deletionConfig = {
