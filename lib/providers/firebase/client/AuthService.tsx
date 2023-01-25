@@ -84,7 +84,7 @@ export function FirebaseAuthService(props: Props) {
   const app = useFirebaseApp();
   const auth = firebase.auth(app);
   const product = useAppConfig().product;
-  const userApiSetter = useSetAppContext(LOGGED_IN_USER_API_KEY);
+  const setUseLoggedInUser = useSetAppContext(LOGGED_IN_USER_API_KEY);
   const [FirebaseRecaptcha, sendPhoneVerification] = useFirebasePhoneAuth();
   const user = React.useRef<User | null>(null);
   const account = React.useRef<Account | null>(null);
@@ -118,7 +118,7 @@ export function FirebaseAuthService(props: Props) {
       if (!initialized.current || newLoggedInUser?.id !== user.current?.id) {
         user.current = newLoggedInUser;
         initialized.current = true;
-        userApiSetter(useLoggedInUser);
+        setUseLoggedInUser(useLoggedInUser);
         authReload();
       }
     }
