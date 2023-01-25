@@ -17,7 +17,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {useTheme} from '@toolkit/core/client/Theme';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 
 /**
  * A frame for showing content that has a loading state, triggered when content isn't yet ready,

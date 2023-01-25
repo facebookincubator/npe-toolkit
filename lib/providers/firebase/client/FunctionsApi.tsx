@@ -9,7 +9,7 @@
 
 import {Api, ApiKey, createApiKey} from '@toolkit/core/api/DataApi';
 import {BOOL, useStored} from '@toolkit/core/client/Storage';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   DEFAULT_FUNCTIONS_REGION,

@@ -7,7 +7,7 @@
  * @format
  */
 
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 
 export const UserNotFoundError = (uid: string) =>
   new CodedError(

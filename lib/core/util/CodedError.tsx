@@ -14,7 +14,7 @@
  * to real end users - other error messages and stack trace will
  * only be shown in developer builds.
  */
-class CodedError extends Error {
+export class CodedError extends Error {
   // Unique type of the error
   // Not using an official way to reserve names,
   // so use a unique-ish namespace (e.g. AUTH.EXPIRED)
@@ -65,5 +65,3 @@ export function toUserMessage(error: any, defaultText?: string) {
     ? error.userVisibleMessage
     : defaultText ?? DEFAULT_ERROR_TEXT;
 }
-
-export default CodedError;

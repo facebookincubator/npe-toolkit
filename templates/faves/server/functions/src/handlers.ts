@@ -42,7 +42,7 @@ import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
 import {getSender} from '@toolkit/providers/firebase/server/PushNotifications';
 import {Updater} from '@toolkit/data/DataStore';
 import {getAllowlistMatchedRoles} from '@toolkit/providers/firebase/server/Roles';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 
 const firebaseConfig = getFirebaseConfig();
 

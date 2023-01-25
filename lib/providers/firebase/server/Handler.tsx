@@ -8,7 +8,7 @@
  */
 
 import {ApiKey} from '@toolkit/core/api/DataApi';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {DEFAULT_FUNCTIONS_REGION} from '@toolkit/providers/firebase/Config';
 import {
   authenticate,

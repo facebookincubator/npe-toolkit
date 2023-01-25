@@ -8,7 +8,7 @@
  */
 
 import {Platform} from 'react-native';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 
 const KNOWN_SUPRIOUS_ERRORS = [
   'React does not recognize the `%s` prop on a DOM element',

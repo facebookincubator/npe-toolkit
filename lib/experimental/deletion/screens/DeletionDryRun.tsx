@@ -30,7 +30,7 @@ import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import {useTextInput} from '@toolkit/ui/UiHooks';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {DELETION_MODELS} from '@toolkit/experimental/deletion/datastore/deletion';
 
 type DryRunType = 'delete' | 'restore';

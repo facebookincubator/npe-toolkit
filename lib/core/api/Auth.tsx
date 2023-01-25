@@ -9,7 +9,7 @@
 
 import {User} from '@toolkit/core/api/User';
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
-import CodedError from '@toolkit/core/util/CodedError';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   ExpiredSessionAuthError,
