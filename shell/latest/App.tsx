@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-// Trigger retest
+
 import 'expo-dev-client';
 import * as foo from 'expo-dev-client';
 import {DevMenu, isDevelopmentBuild} from 'expo-dev-client';
@@ -30,7 +30,6 @@ function patchReactNativeWebViewCrash() {
   }
 }
 patchReactNativeWebViewCrash();
-const foo: string = 5;
 export default function App() {
 
   return (
