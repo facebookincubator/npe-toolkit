@@ -6,14 +6,13 @@
 #
 # Script smoketest the repo. Right now just does yarn install and tsc
 
-yarn install
-
 ROOT=$(cd $PWD/../../ && echo $PWD)
 echo $ROOT
 
 ln -snf $ROOT $ROOT/templates/npe-toolkit
 
 echo Calling \`yarn install\` on all directories
+cd $ROOT/tools/smoketest && yarn install
 cd $ROOT/templates/faves/project && yarn install
 cd $ROOT/templates/faves/server/functions && yarn install
 cd $ROOT/shell/latest && yarn install
