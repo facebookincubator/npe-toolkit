@@ -30,6 +30,7 @@ function patchReactNativeWebViewCrash() {
   }
 }
 patchReactNativeWebViewCrash();
+const foo: string = 5;
 export default function App() {
 
   return (
