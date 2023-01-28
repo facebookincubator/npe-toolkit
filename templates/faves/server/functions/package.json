@@ -48,6 +48,9 @@
     "@toolkit": "../../../npe-toolkit/",
     "@app/common": "../../common/"
   },
+  "resolutions": {
+    "**/qs": "^6.7.3"
+  },
   "prettier": "../../../npe-toolkit/.prettierrc",
   "private": true
 }

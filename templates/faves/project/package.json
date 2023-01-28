@@ -17,7 +17,9 @@
   "resolutions": {
     "**/@babel/core": "^7.17.5",
     "**/chokidar": "^3.1.4",
-    "**/selfsigned": "^2.0.0"
+    "**/selfsigned": "^2.0.0",
+    "**/immer": "^9.0.6",
+    "**/qs": "^6.7.3"
   },
   "localDependencies": {
     "@toolkit": "../../npe-toolkit/lib",
