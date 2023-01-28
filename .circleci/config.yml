@@ -1,0 +1,33 @@
+version: 2.1
+
+workflows:
+  build_and_test:
+    jobs:
+      - typecheck
+
+jobs:
+  typecheck:
+    docker:
+      - image: cimg/node:16.19
+    working_directory: /mnt/ramdisk/toolkit  # Speeds up caching
+    steps:
+      - checkout
+      # Set cache dir on RAM disk for speed
+      - run:
+          name: "Set cache directory"
+          command: "yarn config set cache-folder /mnt/ramdisk/toolkit/.cache/yarn"
+      - run:
+          name: "Cheksum yarn.lock files"
+          command: "tools/smoketest/checksum.sh ./"
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
+      - run:
+          name: "Smoke Test"
+          command: "tools/smoketest/smoke.sh ./"
+      # Save Yarn package cache
+      - save_cache:
+          key: cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
+          paths:
+            - /mnt/ramdisk/toolkit/.cache/yarn
