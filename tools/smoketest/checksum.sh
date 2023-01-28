@@ -7,12 +7,12 @@
 # Checksum yarn.lock files for smoke test cache key
 
 BASEDIR=$(cd $1 && echo $PWD)
-echo Creating checksums at /tmp/tkcheksum.txt for $BASEDIR
+echo Creating checksums at /tmp/tkchecksum.txt for $BASEDIR
 
 shasum $BASEDIR/tools/smoketest/yarn.lock \
   $BASEDIR/templates/faves/project/yarn.lock \
   $BASEDIR/templates/faves/server/functions/yarn.lock \
   $BASEDIR/shell/latest/yarn.lock \
-  $BASEDIR/shell/latest/server/yarn.lock > /tmp/tkcheksum.txt
+  $BASEDIR/shell/latest/server/yarn.lock > /tmp/tkchecksum.txt
 
 
