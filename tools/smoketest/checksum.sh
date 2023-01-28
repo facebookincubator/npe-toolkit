@@ -9,7 +9,7 @@
 BASEDIR=$(cd $1 && echo $PWD)
 echo Creating checksums at /tmp/tkcheksum.txt for $BASEDIR
 
-shasum -q $BASEDIR/tools/smoketest/yarn.lock \
+shasum $BASEDIR/tools/smoketest/yarn.lock \
   $BASEDIR/templates/faves/project/yarn.lock \
   $BASEDIR/templates/faves/server/functions/yarn.lock \
   $BASEDIR/shell/latest/yarn.lock \
