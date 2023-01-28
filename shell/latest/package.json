@@ -59,7 +59,6 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@npe-toolkit-tools": "file:../../tools",
     "@babel/core": "^7.18.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
@@ -68,6 +67,7 @@
     "@babel/plugin-transform-shorthand-properties": "^7.18.6",
     "@babel/plugin-transform-template-literals": "^7.18.9",
     "@expo/cli": "^0.3.2",
+    "@npe-toolkit-tools": "file:../../tools",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.69.1",
     "typescript": "^4.5.5"
