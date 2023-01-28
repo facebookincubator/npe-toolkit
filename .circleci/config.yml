@@ -23,7 +23,7 @@ jobs:
             - cache-v0.1-{{ checksum "shell/latest/yarn.lock" }}
       - run:
           name: "Smoke Test"
-          command: "tools/smoketest/smoke.sh"
+          command: "cd ./ && sh tools/smoketest/smoke.sh"
       # Save Yarn package cache
       - save_cache:
           key: cache-v0.1-{{ checksum "shell/latest/yarn.lock" }}
