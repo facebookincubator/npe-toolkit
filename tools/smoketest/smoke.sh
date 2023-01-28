@@ -8,13 +8,6 @@
 
 BASEDIR=$(cd $1 && echo $PWD)
 echo $BASEDIR
-ls -ald
-ls $BASEDIR
-ls $BASEDIR/tools
-ls $BASEDIR/tools/smoketest
-ls tools
-
-
 ln -snf $BASEDIR $BASEDIR/templates/npe-toolkit
 
 echo Calling \`yarn install\` on all directories

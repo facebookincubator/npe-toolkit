@@ -9,7 +9,7 @@ jobs:
   typecheck:
     docker:
       - image: cimg/node:16.19
-    #working_directory: /mnt/ramdisk/toolkit  # Speeds up caching
+    working_directory: /mnt/ramdisk/toolkit  # Speeds up caching
     steps:
       - checkout
       # Set cache dir on RAM disk for speed
@@ -20,12 +20,12 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - cache-v0.1-{{ checksum "shell/latest/yarn.lock" }}
+            - cache-v0.2-{{ checksum "shell/latest/yarn.lock" }}
       - run:
           name: "Smoke Test"
           command: "tools/smoketest/smoke.sh ./"
       # Save Yarn package cache
       - save_cache:
-          key: cache-v0.1-{{ checksum "shell/latest/yarn.lock" }}
+          key: cache-v0.2-{{ checksum "shell/latest/yarn.lock" }}
           paths:
             - /mnt/ramdisk/toolkit/.cache/yarn
