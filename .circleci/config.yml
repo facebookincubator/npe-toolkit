@@ -14,18 +14,20 @@ jobs:
       - checkout
       # Set cache dir on RAM disk for speed
       - run:
-          name: "setcachedir"
+          name: "Set cache directory"
           command: "yarn config set cache-folder /mnt/ramdisk/toolkit/.cache/yarn"
-      # TODO: Create and run script to checksum all relevant files
+      - run:
+          name: "Cheksum yarn.lock files"
+          command: "tools/smoketest/cheksum.sh ./"
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - cache-v0.2-{{ checksum "shell/latest/yarn.lock" }}
+            - cache-v0.3-{{ checksum "/tmp/tkchecksum.txt" }}
       - run:
           name: "Smoke Test"
           command: "tools/smoketest/smoke.sh ./"
       # Save Yarn package cache
       - save_cache:
-          key: cache-v0.2-{{ checksum "shell/latest/yarn.lock" }}
+          key: cache-v0.3-{{ checksum "shell/latest/yarn.lock" }}
           paths:
-            - /mnt/ramdisk/toolkit/.cache/yarn
+            - cache-v0.3-{{ checksum "/tmp/tkchecksum.txt" }}
