@@ -9,6 +9,9 @@
 ROOT=$(cd $PWD/../../ && echo $PWD)
 echo $ROOT
 ls
+ls $ROOT
+ls $ROOT/tools
+ls $ROOT/tools/smoketest
 
 ln -snf $ROOT $ROOT/templates/npe-toolkit
 
