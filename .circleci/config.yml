@@ -22,12 +22,12 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - cache-v0.3-{{ checksum "/tmp/tkchecksum.txt" }}
+            - cache-v0.4-{{ checksum "/tmp/tkchecksum.txt" }}
       - run:
           name: "Smoke Test"
           command: "tools/smoketest/smoke.sh ./"
       # Save Yarn package cache
       - save_cache:
-          key: cache-v0.3-{{ checksum "shell/latest/yarn.lock" }}
+          key: cache-v0.4-{{ checksum "shell/latest/yarn.lock" }}
           paths:
-            - cache-v0.3-{{ checksum "/tmp/tkchecksum.txt" }}
+            - /mnt/ramdisk/toolkit/.cache/yarn
