@@ -8,6 +8,7 @@
 
 ROOT=$(cd $PWD/../../ && echo $PWD)
 echo $ROOT
+ls
 
 ln -snf $ROOT $ROOT/templates/npe-toolkit
 
