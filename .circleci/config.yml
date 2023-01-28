@@ -9,7 +9,7 @@ jobs:
   typecheck:
     docker:
       - image: cimg/node:16.19
-    working_directory: /mnt/ramdisk/toolkit  # Speeds up caching
+    #working_directory: /mnt/ramdisk/toolkit  # Speeds up caching
     steps:
       - checkout
       # Set cache dir on RAM disk for speed
