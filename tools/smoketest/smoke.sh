@@ -6,7 +6,7 @@
 #
 # Script smoketest the repo. Right now just does yarn install and tsc
 
-BASEDIR=$(cd $PWD/../../ && echo $PWD)
+BASEDIR=$(cd $1 && echo $PWD)
 echo $BASEDIR
 ls -ald
 ls $BASEDIR
