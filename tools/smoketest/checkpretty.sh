@@ -8,6 +8,8 @@
 
 SCRIPTDIR=$(dirname $0)
 BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
+echo $SCRIPTDIR
+echo $BASEDIR
 
 echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
