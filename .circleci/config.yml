@@ -3,8 +3,8 @@ version: 2.1
 workflows:
   build_and_test:
     jobs:
-      - typecheck
       - prettify
+      - typecheck
 
 jobs:
   typecheck:
@@ -39,4 +39,4 @@ jobs:
       - checkout
       - run:
           name: "Prettier Check"
-          command: "prettier -l **/*.ts*"
+          command: "npx prettier -l **/*.ts*"
