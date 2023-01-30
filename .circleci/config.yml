@@ -39,4 +39,4 @@ jobs:
       - checkout
       - run:
           name: "Prettier Check"
-          command: "npx prettier -l **/*.ts*"
+          command: "tools/smoketest/prettify.sh ./"
