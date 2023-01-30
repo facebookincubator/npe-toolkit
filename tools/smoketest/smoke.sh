@@ -6,8 +6,8 @@
 #
 # Script smoketest the repo. Right now just does yarn install and tsc
 
-BASEDIR=$(cd $1 && echo $PWD)
-echo $BASEDIR
+SCRIPTDIR=$(dirname $0)
+BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 ln -snf $BASEDIR $BASEDIR/templates/npe-toolkit
 
 echo Calling \`yarn install\` on all directories
