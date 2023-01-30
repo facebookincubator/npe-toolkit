@@ -9,11 +9,10 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-
 import Button from '@toolkit/ui/components/legacy/Button';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
-import {Screen} from '@toolkit/ui/screen/Screen';
 import {useNav} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 
 const AboutScreen: Screen<{}> = () => {
   const {back} = useNav();

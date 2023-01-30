@@ -7,17 +7,17 @@
  * @format
  */
 
-import {useAuth} from '@toolkit/core/api/Auth';
-import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {navToAction} from '@toolkit/ui/screen/Nav';
-import {Screen} from '@toolkit/ui/screen/Screen';
-import Settings, {Setting} from '@toolkit/screens/Settings';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {openUrlAction} from '@toolkit/ui/screen/WebScreen';
 import React from 'react';
 import {View} from 'react-native';
-import AboutScreen from './AboutScreen';
+import {useAuth} from '@toolkit/core/api/Auth';
+import {requireLoggedInUser} from '@toolkit/core/api/User';
+import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import Settings, {Setting} from '@toolkit/screens/Settings';
 import {NotificationSettingsScreen} from '@toolkit/screens/settings/NotificationSettings';
+import {navToAction} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
+import {openUrlAction} from '@toolkit/ui/screen/WebScreen';
+import AboutScreen from './AboutScreen';
 
 const META_TOS = {
   id: 'META_TOS',

@@ -7,6 +7,8 @@
  * @format
  */
 
+import * as React from 'react';
+import {StyleSheet} from 'react-native';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {
@@ -17,8 +19,6 @@ import EditToDeleteScreen from '@toolkit/experimental/deletion/screens/EditToDel
 import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import * as React from 'react';
-import {StyleSheet} from 'react-native';
 
 type Props = {
   async: {

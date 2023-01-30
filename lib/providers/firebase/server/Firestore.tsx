@@ -7,17 +7,17 @@
  * @format
  */
 
+import * as admin from 'firebase-admin';
 import {BaseModel, DataStore, ModelClass} from '@toolkit/data/DataStore';
 import {
-  firebaseStore,
   FirestoreConfig,
+  firebaseStore,
 } from '@toolkit/providers/firebase/DataStore';
 import {
   getAdminApp,
   getApp,
   getFirebaseConfig,
 } from '@toolkit/providers/firebase/server/Config';
-import * as admin from 'firebase-admin';
 import 'firebase/auth';
 import 'firebase/firestore';
 

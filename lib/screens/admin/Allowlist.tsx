@@ -7,14 +7,14 @@
  * @format
  */
 
-import {requireLoggedInUser, SYSTEM_ROLES} from '@toolkit/core/api/User';
+import * as React from 'react';
+import {StyleSheet} from 'react-native';
+import {SYSTEM_ROLES, requireLoggedInUser} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {Updater, useDataStore} from '@toolkit/data/DataStore';
 import {Allowlist} from '@toolkit/tbd/Allowlist';
 import DataTable from '@toolkit/ui/components/DataTable';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import * as React from 'react';
-import {StyleSheet} from 'react-native';
 
 type Props = {
   async: {

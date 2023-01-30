@@ -7,25 +7,25 @@
  * @format
  */
 
-import {FirestoreDeletionRepo} from '@toolkit/experimental/deletion/server/Deletion';
+import * as functions from 'firebase-functions';
 import {
   BaseModel,
-  initRegistry,
-  ModelUtil,
   DeletedByTTL,
+  ModelUtil,
+  initRegistry,
   registry,
 } from '@toolkit/data/DataStore';
-import {
-  DELETED,
-  REASON_ROOT,
-  TODELETE,
-} from '@toolkit/experimental/deletion/datastore/deletion';
 import {
   API_DELETION_DRYRUN_DELETION,
   API_DELETION_DRYRUN_RESTORATION,
   API_DELETION_GET_GRAPH,
   API_DELETION_RUN_JOB,
 } from '@toolkit/experimental/deletion/DeletionApi';
+import {
+  DELETED,
+  REASON_ROOT,
+  TODELETE,
+} from '@toolkit/experimental/deletion/datastore/deletion';
 import * as graph from '@toolkit/experimental/deletion/datastore/deletion.graph';
 import * as workflow from '@toolkit/experimental/deletion/datastore/deletion.workflow';
 import {
@@ -35,14 +35,15 @@ import {
   LocalQueue,
   RegistryWrapper,
 } from '@toolkit/experimental/deletion/datastore/deletion.workflow';
+import {FirestoreDeletionRepo} from '@toolkit/experimental/deletion/server/Deletion';
 import {
   toDatastoreRepresentation,
   toRepoRepresentation,
 } from '@toolkit/providers/firebase/DataStore';
 import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
+
 const {getFunctions} = require('firebase-admin/functions');
-import * as functions from 'firebase-functions';
 
 // TODO: Add back type safety to these
 type TaskOptions = any;

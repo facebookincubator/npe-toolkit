@@ -11,8 +11,8 @@ import * as GoogleSignIn from 'expo-google-sign-in';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import {Platform} from 'react-native';
-import {CodedErrorFor} from '@toolkit/core/util/CodedError';
 import {IdentityProvider} from '@toolkit/core/api/Login';
+import {CodedErrorFor} from '@toolkit/core/util/CodedError';
 
 const {GoogleAuthProvider} = firebase.auth;
 type OAuthCredential = firebase.auth.UserCredential & {

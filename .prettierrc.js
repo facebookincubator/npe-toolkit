@@ -50,5 +50,9 @@ module.exports = {
         "parser": "typescript"
       }
     }
-  ]
+  ],
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true,
+  "importOrder": ["^(react|react-native)$", "<THIRD_PARTY_MODULES>", "@toolkit/(.*)$", "@app/(.*)$", "^[./]"]
 }

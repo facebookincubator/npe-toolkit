@@ -9,17 +9,16 @@
 
 // @ts-nocheck
 
-import {jest, beforeAll, afterAll, expect, test, describe} from '@jest/globals';
-
+import {afterAll, beforeAll, describe, expect, jest, test} from '@jest/globals';
 import {
-  Field,
-  Model,
   BaseModel,
-  ModelUtil,
+  Field,
   InverseField,
+  Model,
   ModelRef,
+  ModelUtil,
 } from './model';
-import {TArray, TMap, TModel, TString, ForTesting} from './schema';
+import {ForTesting, TArray, TMap, TModel, TString} from './schema';
 
 describe('base', () => {
   test('create model with no field', () => {

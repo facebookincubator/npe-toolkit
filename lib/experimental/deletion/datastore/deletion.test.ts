@@ -10,24 +10,15 @@
 //@ts-nocheck
 
 import {
-  jest,
-  beforeAll,
   afterAll,
+  beforeAll,
   beforeEach,
-  expect,
-  test,
   describe,
+  expect,
+  jest,
+  test,
 } from '@jest/globals';
-
-import {DeletedBy, TTL, TODELETE, DELETED, Ref, REASON_ROOT} from './deletion';
-import {buildGraph} from './deletion.graph';
-import {
-  DeletionWorker,
-  ForTesting,
-  JobOptions,
-  LocalQueue,
-  RegistryWrapper,
-} from './deletion.workflow';
+import * as mongo from '@toolkit/data/pads/__tests__/testutils_mongo';
 import {
   BaseModel,
   Field,
@@ -38,7 +29,15 @@ import {
 import registry, {initRegistry} from '@toolkit/data/pads/registry';
 import * as repo from '@toolkit/data/pads/repo';
 import {TArray} from '@toolkit/data/pads/schema';
-import * as mongo from '@toolkit/data/pads/__tests__/testutils_mongo';
+import {DELETED, DeletedBy, REASON_ROOT, Ref, TODELETE, TTL} from './deletion';
+import {buildGraph} from './deletion.graph';
+import {
+  DeletionWorker,
+  ForTesting,
+  JobOptions,
+  LocalQueue,
+  RegistryWrapper,
+} from './deletion.workflow';
 
 let db: any;
 let DELETED_REPO: repo.Repo<DELETED>;

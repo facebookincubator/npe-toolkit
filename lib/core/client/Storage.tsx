@@ -7,9 +7,9 @@
  * @format
  */
 
+import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Promised from '@toolkit/core/util/Promised';
-import * as React from 'react';
 
 type StorageType<T> = (value: string) => T;
 // $FlowIgnore

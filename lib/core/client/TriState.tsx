@@ -10,11 +10,11 @@
 import * as React from 'react';
 import {ReactNode} from 'react';
 import {
+  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView,
 } from 'react-native';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {CodedError} from '@toolkit/core/util/CodedError';

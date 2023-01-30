@@ -9,7 +9,6 @@
 
 import {initFirebaseServer} from '@toolkit/providers/firebase/server/Config';
 import {initMiddlewares} from '@toolkit/providers/firebase/server/Handler';
-
 import {
   AuthenticateMiddleware,
   ResultLoggerMiddleware,

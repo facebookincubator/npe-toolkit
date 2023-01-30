@@ -7,10 +7,14 @@
  * @format
  */
 
+import React, {useEffect, useState} from 'react';
+import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
+import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
 import alert from '@toolkit/ui/components/legacy/Alert';
 import Button from '@toolkit/ui/components/legacy/Button';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
@@ -18,10 +22,6 @@ import TextField, {
   KeyboardDismissPressable,
   TextFieldType,
 } from '@toolkit/ui/components/legacy/TextField';
-import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
-import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 /**
  * Information about the field being edited that is usable across multiple surfaces.

@@ -8,8 +8,6 @@
  */
 
 import {Context} from '@toolkit/data/pads/context';
-import {DELETED, REASON_ROOT, TODELETE} from './deletion';
-import {DeletionGraphEdge, getGraph} from './deletion.graph';
 import {
   BaseModel,
   ModelClass,
@@ -33,6 +31,8 @@ import {
   OptionalId,
   RequireOnlyId,
 } from '@toolkit/data/pads/utils';
+import {DELETED, REASON_ROOT, TODELETE} from './deletion';
+import {DeletionGraphEdge, getGraph} from './deletion.graph';
 
 // Make it possible for deletion flow to work with different local/distributed workflow platforms
 export interface JobQueue {

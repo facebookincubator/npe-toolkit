@@ -7,9 +7,10 @@
  * @format
  */
 
-import nullthrows from 'nullthrows';
 // @ts-ignore
+
 import * as React from 'react';
+import nullthrows from 'nullthrows';
 import {Opt} from '@toolkit/core/util/Types';
 
 export type ContextObj = {[key: string]: any};

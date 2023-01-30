@@ -10,19 +10,17 @@
 import * as React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import * as Device from 'expo-device';
-
+import {useData} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
+import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
+import {GetFaves, GetThings} from '@app/common/AppLogic';
 import {Fave, Thing} from '@app/common/DataTypes';
+import {registerForPushNotificationsAsync} from '../../lib/Notifications';
 import CreateThingButton from '../components/CreateThingButton';
 import ThingRow from '../components/ThingRow';
 import CreateNewThingScreen from './CreateThingScreen';
-import {GetFaves, GetThings} from '@app/common/AppLogic';
-import {useData} from '@toolkit/core/api/DataApi';
-import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
-
-import {registerForPushNotificationsAsync} from '../../lib/Notifications';
 
 type Props = {
   async: {

@@ -9,13 +9,11 @@
 
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-
 import {User, UserRoles, requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
-import {Screen} from '@toolkit/ui/screen/Screen';
-
 import DataTable, {SortOrder} from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 import EditUserScreen from './EditUserScreen';
 
 type Props = {

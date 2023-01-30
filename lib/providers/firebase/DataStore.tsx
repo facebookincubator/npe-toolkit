@@ -23,32 +23,33 @@
  *       wasn't triggered ("smart" compilation step), but using an alias for "require"
  *       prevented automatic importing
  */
+
+import firebase from 'firebase/app';
 import {context} from '@toolkit/core/util/AppContext';
 import {Opt} from '@toolkit/core/util/Types';
 import {uuidv4} from '@toolkit/core/util/Util';
 import {
   BaseModel,
+  DATA_STORE_PROVIDER_KEY,
   DataStore,
   DataStoreProvider,
-  DATA_STORE_PROVIDER_KEY,
   EdgeSelector,
   EntQuery,
-  isArrayType,
-  isInverseModelRefType,
-  isModelRefType,
   ModelClass,
   ModelUtil,
   SubscribeCallbackFn,
   UnsubscribeFn,
   Updater,
   UpdaterValue,
+  isArrayType,
+  isInverseModelRefType,
+  isModelRefType,
 } from '@toolkit/data/DataStore';
 import {
   getFirebaseConfig,
   getFirebaseLib,
   getFirestore,
 } from '@toolkit/providers/firebase/Config';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 let DevUtil: any;

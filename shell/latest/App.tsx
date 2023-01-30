@@ -6,7 +6,6 @@
  */
 
 import 'expo-dev-client';
-import * as foo from 'expo-dev-client';
 import {DevMenu, isDevelopmentBuild} from 'expo-dev-client';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import * as WebViewShared from 'react-native-webview/lib/WebViewShared';

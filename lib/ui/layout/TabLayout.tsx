@@ -7,8 +7,6 @@
  * @format
  */
 
-import {useRoute} from '@react-navigation/core';
-import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
 import {
   ActivityIndicator,
@@ -20,16 +18,18 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {useRoute} from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
 import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
+import TriState from '@toolkit/core/client/TriState';
+import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {Opt} from '@toolkit/core/util/Types';
+import {Icon} from '@toolkit/ui/components/Icon';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {Icon} from '@toolkit/ui/components/Icon';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import TriState from '@toolkit/core/client/TriState';
-import {Opt} from '@toolkit/core/util/Types';
 
 function LoadingView() {
   return (

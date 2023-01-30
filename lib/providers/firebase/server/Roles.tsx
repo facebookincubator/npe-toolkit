@@ -7,15 +7,15 @@
  * @format
  */
 
-import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
 import {AuthData} from 'firebase-functions/lib/common/providers/https';
+import {Role} from '@toolkit/core/api/User';
+import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
 import {
   Allowlist,
   matchEmail,
   matchPhone,
   matchUID,
 } from '@toolkit/tbd/Allowlist';
-import {Role} from '@toolkit/core/api/User';
 
 export async function getAllowlistMatchedRoles(
   auth: AuthData,

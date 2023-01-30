@@ -9,14 +9,12 @@
 
 import React from 'react';
 import firebase from 'firebase';
-
 import {Account} from '@toolkit/core/api/Auth';
+import {Profile, User} from '@toolkit/core/api/User';
+import {DataStore, useDataStore} from '@toolkit/data/DataStore';
 import {FirebaseAuthService} from '@toolkit/providers/firebase/client/AuthService';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
-
 import {GET_USER} from '@app/common/Api';
-import {DataStore, useDataStore} from '@toolkit/data/DataStore';
-import {Profile, User} from '@toolkit/core/api/User';
 import {PROFILE_FIELDS} from '@app/common/DataTypes';
 
 /**

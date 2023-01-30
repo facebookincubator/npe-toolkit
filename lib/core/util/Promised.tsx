@@ -8,8 +8,6 @@
  * @flow
  */
 
-import {CodedError} from './CodedError';
-
 /**
  * Promise wrapper that provides isDone() and getValue() methods.
  *

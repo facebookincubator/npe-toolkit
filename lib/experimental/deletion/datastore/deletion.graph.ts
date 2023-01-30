@@ -9,11 +9,11 @@
 
 import {
   BaseModel,
+  DeleteCondition,
+  DeleteTrigger,
   ModelClass,
   ModelUtil,
   SchemaMeta,
-  DeleteCondition,
-  DeleteTrigger,
 } from '../../../data/pads/model';
 import registry from '../../../data/pads/registry';
 import {

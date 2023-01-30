@@ -7,10 +7,6 @@
  * @format
  */
 
-import {AsYouType} from 'libphonenumber-js';
-// TODO: moti and react-native-reanimated break chrome debugging
-// We need to disable/override these when using the debugger
-import {Text} from 'moti';
 import React, {ComponentProps, useState} from 'react';
 import {
   Keyboard,
@@ -22,6 +18,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {AsYouType} from 'libphonenumber-js';
+// TODO: moti and react-native-reanimated break chrome debugging
+// We need to disable/override these when using the debugger
+import {Text} from 'moti';
 import {TextInput} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
 import {useTheme} from '@toolkit/core/client/Theme';

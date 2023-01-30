@@ -18,6 +18,6 @@ yarn prettier -l $BASEDIR/**/*.ts*
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   echo "Apologies we're keeping the code always formatted." && \
-  echo  "You'll need to run \`cd tools/smoketest && sh prettify.sh\`"
+  echo  "You'll need to run \`tools/smoketest/prettify.sh\`"
   exit 1
 fi

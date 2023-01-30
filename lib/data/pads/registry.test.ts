@@ -8,7 +8,6 @@
  */
 
 import {afterAll, beforeAll, describe, expect, test} from '@jest/globals';
-
 import {BaseModel, Field, Model, ModelUtil} from './model';
 import registry, {initRegistry} from './registry';
 import {RepoMongo} from './repo';

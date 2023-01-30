@@ -8,8 +8,8 @@
  */
 
 import {Action} from '@toolkit/core/client/Action';
-import {PropsFor} from '@toolkit/core/util/Loadable';
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
+import {PropsFor} from '@toolkit/core/util/Loadable';
 import {Screen} from '@toolkit/ui/screen/Screen';
 
 /**

@@ -9,15 +9,13 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-
 import {User, requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
+import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-
-import DataTable from '@toolkit/ui/components/DataTable';
-import SendNotificationModal from './SendNotificationModal';
 import BroadcastNotificationModal from './BroadcastNotificationModal';
+import SendNotificationModal from './SendNotificationModal';
 
 type Props = {
   async: {

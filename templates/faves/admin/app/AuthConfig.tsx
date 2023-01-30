@@ -9,14 +9,12 @@
 
 import React from 'react';
 import firebase from 'firebase';
-
 import {Account} from '@toolkit/core/api/Auth';
+import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {FirebaseAuthService} from '@toolkit/providers/firebase/client/AuthService';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
-
-import {GET_USER} from '@app/common/Api';
 import {UnauthorizedError} from '@toolkit/tbd/CommonErrors';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {GET_USER} from '@app/common/Api';
 
 export default function AuthConfig(props: {children?: React.ReactNode}) {
   const getUser = useApi(GET_USER);

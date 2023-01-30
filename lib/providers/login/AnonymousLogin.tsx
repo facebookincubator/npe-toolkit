@@ -9,7 +9,7 @@
 
 import {AuthType} from '@toolkit/core/api/Auth';
 import {IdentityProvider} from '@toolkit/core/api/Login';
-import {getStored, setStored, STRING} from '@toolkit/core/client/Storage';
+import {STRING, getStored, setStored} from '@toolkit/core/client/Storage';
 import {uuidv4} from '@toolkit/core/util/Util';
 
 const CLIENT_UUID_KEY = 'client_uuid';
