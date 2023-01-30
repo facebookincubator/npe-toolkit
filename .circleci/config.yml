@@ -1,9 +1,13 @@
 version: 2.1
 
+orbs:
+  prettier: cfra/prettier@0.1.1
+
 workflows:
   build_and_test:
     jobs:
       - typecheck
+      - prettier/check
 
 jobs:
   typecheck:
