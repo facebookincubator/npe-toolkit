@@ -13,7 +13,10 @@ echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
 
 echo Checking how pretty you are 
-yarn prettier -l $BASEDIR/**/*.ts* || \
+yarn prettier -l $BASEDIR/**/*.ts*
+
+STATUS=$?
+if [ $STATUS -ne 0 ]; then
   echo "Apologies we're keeping the code always formatted." && \
-  echo  "You'll need to run \"cd tools/smoketest && sh prettify.sh\"" && \
-  exit 1
+  echo  "You'll need to run \`cd tools/smoketest && sh prettify.sh\`"
+fi
