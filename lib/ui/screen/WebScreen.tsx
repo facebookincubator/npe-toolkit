@@ -16,7 +16,6 @@ import {
 } from 'react-native-webview';
 import {Action} from '@toolkit/core/client/Action';
 import {CodedError} from '@toolkit/core/util/CodedError';
-import Button from '@toolkit/ui/components/legacy/Button';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 

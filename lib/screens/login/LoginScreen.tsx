@@ -8,8 +8,7 @@
  */
 
 import React, {useState} from 'react';
-import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {Image, StyleSheet, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
@@ -22,14 +21,7 @@ import {
   LoginTermsOfService,
   PhoneButton,
 } from '@toolkit/screens/login/LoginScreenParts';
-import Button from '@toolkit/ui/components/legacy/Button';
-import {
-  Body,
-  Error,
-  Info,
-  Link,
-  Title,
-} from '@toolkit/ui/components/legacy/Text';
+import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
 
 // Note: Separate config is only needed because SimpleLoginScreen can supports multiple apps.
 // If you branch this and create your own screen, you can just edit the content inline.

@@ -8,7 +8,7 @@
  */
 
 import * as React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useNav} from '@toolkit/ui/screen/Nav';
 
 const Modal = ({children}: {children?: React.ReactNode}) => {

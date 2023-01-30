@@ -13,7 +13,6 @@ import {
   Button,
   Checkbox,
   List,
-  Text,
   TextInput,
   Title,
   useTheme,

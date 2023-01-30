@@ -8,7 +8,7 @@
  */
 
 import * as React from 'react';
-import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useData} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';

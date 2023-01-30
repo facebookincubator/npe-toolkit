@@ -7,15 +7,13 @@
  * @format
  */
 
-import React, {ReactDOM} from 'react';
-import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {Linking, StyleSheet} from 'react-native';
 import {Ionicons, MaterialIcons} from '@expo/vector-icons';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AuthType, useAuth} from '@toolkit/core/api/Auth';
-import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
+import {useNavigation} from '@react-navigation/native';
+import {useTheme} from '@toolkit/core/client/Theme';
 import Button from '@toolkit/ui/components/legacy/Button';
-import {Body, Info, Link, Title} from '@toolkit/ui/components/legacy/Text';
+import {Link} from '@toolkit/ui/components/legacy/Text';
 
 export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
