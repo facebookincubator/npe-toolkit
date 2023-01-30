@@ -6,7 +6,8 @@
 #
 # Checksum yarn.lock files for smoke test cache key
 
-BASEDIR=$(cd $1 && echo $PWD)
+SCRIPTDIR=$(dirname $0)
+BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 echo Creating checksums at /tmp/tkchecksum.txt for $BASEDIR
 
 shasum $BASEDIR/tools/smoketest/yarn.lock \

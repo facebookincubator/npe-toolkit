@@ -75,8 +75,7 @@ export function fbAuthProvider(): IdentityProvider {
       return null;
     },
 
-    disconnect: async (product: string) => {
-    },
+    disconnect: async (product: string) => {},
 
     getType: () => 'facebook',
   };

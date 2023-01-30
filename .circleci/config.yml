@@ -3,6 +3,7 @@ version: 2.1
 workflows:
   build_and_test:
     jobs:
+      - prettify
       - typecheck
 
 jobs:
@@ -31,3 +32,11 @@ jobs:
           key: cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
           paths:
             - /mnt/ramdisk/toolkit/.cache/yarn
+  prettify:
+    docker:
+      - image: cimg/node:16.19
+    steps:
+      - checkout
+      - run:
+          name: "Prettier Check"
+          command: "tools/smoketest/checkpretty.sh"

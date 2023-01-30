@@ -10,7 +10,12 @@
 import React from 'react';
 import {Opt} from '@toolkit/core/util/Types';
 import {useDataStore} from '@toolkit/data/DataStore';
-import {EdgeSelector, ModelClass, EntQuery, HasId} from '@toolkit/data/DataStore';
+import {
+  EdgeSelector,
+  ModelClass,
+  EntQuery,
+  HasId,
+} from '@toolkit/data/DataStore';
 
 /**
  * Makes a query to the datastore, subscribes to updates, and triggers React state changes
