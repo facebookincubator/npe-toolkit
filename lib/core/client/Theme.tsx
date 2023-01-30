@@ -7,8 +7,8 @@
  * @format
  */
 
-import {StatusBarStyle} from 'expo-status-bar';
 import {ImageSourcePropType} from 'react-native';
+import {StatusBarStyle} from 'expo-status-bar';
 import {
   contextKey,
   setContextDefault,

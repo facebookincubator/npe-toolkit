@@ -15,6 +15,7 @@ import {
 } from 'firebase-functions/lib/common/providers/https';
 import {User} from '@toolkit/core/api/User';
 import {getRequestScope} from '@toolkit/providers/firebase/server/Handler';
+
 import Auth = admin.auth;
 import Firestore = admin.firestore;
 import Logger = functions.logger;

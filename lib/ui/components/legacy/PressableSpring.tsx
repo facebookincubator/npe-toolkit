@@ -9,9 +9,10 @@
 
 // TODO: moti breaks chrome debugging
 // We need to disable/override this when using the debugger
-import {MotiView} from 'moti';
+
 import React, {ComponentProps, ReactNode, useState} from 'react';
 import {Pressable, StyleProp, ViewStyle} from 'react-native';
+import {MotiView} from 'moti';
 
 type Props = {
   children?: ReactNode;

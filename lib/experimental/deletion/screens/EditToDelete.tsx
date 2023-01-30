@@ -7,19 +7,19 @@
  * @format
  */
 
+import * as React from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Button, RadioButton, Text, Title, useTheme} from 'react-native-paper';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {TODELETE} from '@toolkit/experimental/deletion/datastore/deletion';
 import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
+import {useTextInput} from '@toolkit/ui/UiHooks';
 import alert from '@toolkit/ui/components/legacy/Alert';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {useTextInput} from '@toolkit/ui/UiHooks';
-import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, RadioButton, Text, Title, useTheme} from 'react-native-paper';
 
 type Props = {id: string; async: {todelete: TODELETE}};
 type Action = 'remove' | 'edit' | '';

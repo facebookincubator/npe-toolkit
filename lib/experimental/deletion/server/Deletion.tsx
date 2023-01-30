@@ -7,18 +7,19 @@
  * @format
  */
 
+import * as admin from 'firebase-admin';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   BaseModel,
   DataStore,
   EdgeSelector,
-  isArrayType,
-  isModelRefType,
   ModelClass,
   ModelUtil,
-  Order as _Order,
   Updater,
   Where,
+  Order as _Order,
+  isArrayType,
+  isModelRefType,
 } from '@toolkit/data/DataStore';
 import {
   Edge,
@@ -39,7 +40,6 @@ import {OptionalId, Success} from '@toolkit/data/pads/utils';
 import {toRepoRepresentation} from '@toolkit/providers/firebase/DataStore';
 import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
-import * as admin from 'firebase-admin';
 
 type Transaction = admin.firestore.Transaction;
 type RepoOpOptions = {

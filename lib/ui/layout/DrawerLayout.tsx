@@ -7,16 +7,6 @@
  * @format
  */
 
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {canLoggingInFix} from '@toolkit/core/api/Auth';
-import {Action, useAction} from '@toolkit/core/client/Action';
-import TriState from '@toolkit/core/client/TriState';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
-import Modal from '@toolkit/ui/components/ModalDialog';
-import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
-import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
-import {Screen} from '@toolkit/ui/screen/Screen';
 import * as React from 'react';
 import {
   Animated,
@@ -29,6 +19,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   Appbar,
   Divider,
@@ -39,6 +30,15 @@ import {
   Text,
   useTheme,
 } from 'react-native-paper';
+import {canLoggingInFix} from '@toolkit/core/api/Auth';
+import {Action, useAction} from '@toolkit/core/client/Action';
+import TriState from '@toolkit/core/client/TriState';
+import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
+import Modal from '@toolkit/ui/components/ModalDialog';
+import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
+import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 
 type NavItemProps = Readonly<{
   title: string;

@@ -8,23 +8,20 @@
  */
 
 import React, {Suspense} from 'react';
+import {Ionicons, MaterialCommunityIcons, Octicons} from '@expo/vector-icons';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
-
-import {googleAuthProvider} from '@toolkit/providers/login/GoogleLogin';
 import IdentityService from '@toolkit/core/api/Login';
-import {FIRESTORE_DATASTORE} from '@toolkit/providers/firebase/DataStore';
 import {SimpleUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {AppContextProvider} from '@toolkit/core/util/AppContext';
-import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';
-import {Ionicons, MaterialCommunityIcons, Octicons} from '@expo/vector-icons';
-
-import {APP_CONFIG, APP_INFO} from './lib/Config';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';
-import {FIREBASE_CONFIG} from '@app/common/Firebase';
-
+import {FIRESTORE_DATASTORE} from '@toolkit/providers/firebase/DataStore';
+import {googleAuthProvider} from '@toolkit/providers/login/GoogleLogin';
+import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import AuthConfig from '@app/admin/app/AuthConfig';
 import DrawerNavigator from '@app/admin/app/DrawerNavigator';
+import {FIREBASE_CONFIG} from '@app/common/Firebase';
+import {APP_CONFIG, APP_INFO} from './lib/Config';
 
 function initIcons() {
   registerIconPack('ion', Ionicons);

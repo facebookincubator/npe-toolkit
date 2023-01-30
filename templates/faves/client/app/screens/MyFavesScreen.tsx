@@ -8,15 +8,14 @@
  */
 
 import * as React from 'react';
-import {StyleSheet, View, Text, Easing, Animated} from 'react-native';
-
+import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
+import {useData} from '@toolkit/core/api/DataApi';
+import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {Screen} from '@toolkit/ui/screen/Screen';
+import {GetFaves} from '@app/common/AppLogic';
 import {Fave} from '@app/common/DataTypes';
 import ThingRow from '../components/ThingRow';
-import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {GetFaves} from '@app/common/AppLogic';
-import {useData} from '@toolkit/core/api/DataApi';
-import {Ionicons} from '@expo/vector-icons';
 
 type Props = {
   async: {

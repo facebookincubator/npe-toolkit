@@ -12,9 +12,9 @@ import {Opt} from '@toolkit/core/util/Types';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {
   EdgeSelector,
-  ModelClass,
   EntQuery,
   HasId,
+  ModelClass,
 } from '@toolkit/data/DataStore';
 
 /**

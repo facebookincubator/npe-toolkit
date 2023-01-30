@@ -18,8 +18,8 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import PressableSpring from '@toolkit/ui/components/legacy/PressableSpring';
 import {useTheme} from '@toolkit/core/client/Theme';
+import PressableSpring from '@toolkit/ui/components/legacy/PressableSpring';
 
 type Props = {
   text: string;

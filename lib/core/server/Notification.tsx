@@ -8,14 +8,14 @@
  */
 
 import {User} from '@toolkit/core/api/User';
+import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
 import NotificationChannel from '@toolkit/services/notifications/NotificationChannel';
 import {
-  StorageToken,
   NotificationPref,
+  StorageToken,
   UserNotifEndpoints,
 } from '@toolkit/services/notifications/NotificationTypes';
 import {NotificationsSendAPI} from '@toolkit/services/notifications/NotificationsClient';
-import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
 
 export const getFirebaseNotificationsSendAPI = (): NotificationsSendAPI => {
   const userStore = getAdminDataStore(User);

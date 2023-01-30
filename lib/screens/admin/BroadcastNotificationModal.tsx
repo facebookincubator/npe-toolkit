@@ -9,15 +9,15 @@
 
 import React from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  StyleProp,
-  TextStyle,
   ColorValue,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
 } from 'react-native';
-import {Icon} from '@toolkit/ui/components/Icon';
 import {IconProps} from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
+import {Icon} from '@toolkit/ui/components/Icon';
 
 type Props = {
   color: ColorValue;

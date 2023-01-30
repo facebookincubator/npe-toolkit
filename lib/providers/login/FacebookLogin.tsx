@@ -10,8 +10,8 @@
 // TODO Implement FB Login using Expo (the commented out sections)
 
 import * as Facebook from 'expo-facebook';
-import {getAppConfig} from '@toolkit/core/util/AppConfig';
 import {IdentityProvider} from '@toolkit/core/api/Login';
+import {getAppConfig} from '@toolkit/core/util/AppConfig';
 
 export function fbAuthProvider(): IdentityProvider {
   return {

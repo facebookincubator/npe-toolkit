@@ -7,24 +7,24 @@
  * @format
  */
 
+import * as React from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {Button, RadioButton, Text, Title, useTheme} from 'react-native-paper';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {useDataStore} from '@toolkit/data/DataStore';
+import {API_DELETION_RUN_JOB} from '@toolkit/experimental/deletion/DeletionApi';
 import {
   DELETED,
   REASON_ROOT,
 } from '@toolkit/experimental/deletion/datastore/deletion';
-import {API_DELETION_RUN_JOB} from '@toolkit/experimental/deletion/DeletionApi';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import DeletedScreen from '@toolkit/experimental/deletion/screens/Deleted';
 import DryrunScreen from '@toolkit/experimental/deletion/screens/DeletionDryRun';
+import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
 import alert from '@toolkit/ui/components/legacy/Alert';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import * as React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, RadioButton, Text, Title, useTheme} from 'react-native-paper';
 
 type Props = {id: string; async: {deleted: DELETED}};
 type Action = 'remove' | 'restore' | 'restore-dryrun' | '';

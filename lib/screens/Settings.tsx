@@ -7,11 +7,11 @@
  * @format
  */
 
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {Action, useAction} from '@toolkit/core/client/Action';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export type Setting = Action | string;
 

@@ -8,17 +8,15 @@
  */
 
 import {
-  Filter as MongoFilter,
   ModifyResult,
   MongoError,
+  Filter as MongoFilter,
   OptionalUnlessRequiredId,
   WithId,
 } from 'mongodb';
 import {Collection, Db, MongoClient, ObjectId} from 'mongodb';
 import {Context} from './context';
 import {BaseModel, ModelClass, ModelUtil} from './model';
-import type {Opt, OptionalId, RequireOnlyId, Success} from './utils';
-
 import type {
   Edge,
   Field,
@@ -30,6 +28,7 @@ import type {
   Query,
 } from './query';
 import {isArrayType, isInverseModelRefType, isModelRefType} from './schema';
+import type {Opt, OptionalId, RequireOnlyId, Success} from './utils';
 
 type ModelRawData<T extends BaseModel> = {[key in keyof T]?: any};
 type ModelRawDataWithoutId<T extends BaseModel> = Omit<ModelRawData<T>, 'id'>;

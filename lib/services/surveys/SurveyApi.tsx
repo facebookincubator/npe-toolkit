@@ -7,14 +7,14 @@
  * @format
  */
 
-import {Opt} from '@toolkit/core/util/Types';
 import {dataApi, useData} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
+import {Opt} from '@toolkit/core/util/Types';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {
   Survey,
-  SurveyImpressions,
   SurveyImpressionState,
+  SurveyImpressions,
 } from '@toolkit/services/surveys/Survey';
 
 export const LogSurveyImpression = dataApi<

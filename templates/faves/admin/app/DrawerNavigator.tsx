@@ -8,23 +8,22 @@
  */
 
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-
-import AllUsersScreen from './screens/AllUsersScreen';
-import EditUserScreen from './screens/EditUserScreen';
-import LoginScreen from './screens/LoginScreen';
-import NotificationsScreen from './screens/NotificationsScreen';
-import AllowlistScreen from '@toolkit/screens/admin/Allowlist';
-import SendNotificationModal from './screens/SendNotificationModal';
+import {createStackNavigator} from '@react-navigation/stack';
+import {useAuth} from '@toolkit/core/api/Auth';
+import {useLoggedInUser} from '@toolkit/core/api/User';
 import {
   NavContext,
   useReactNavScreens,
 } from '@toolkit/providers/navigation/ReactNavigation';
-import {drawerLayout, NavItem} from '@toolkit/ui/layout/DrawerLayout';
-import {useAuth} from '@toolkit/core/api/Auth';
+import AllowlistScreen from '@toolkit/screens/admin/Allowlist';
+import {NavItem, drawerLayout} from '@toolkit/ui/layout/DrawerLayout';
+import AllUsersScreen from './screens/AllUsersScreen';
 import BroadcastNotificationModal from './screens/BroadcastNotificationModal';
-import {useLoggedInUser} from '@toolkit/core/api/User';
+import EditUserScreen from './screens/EditUserScreen';
+import LoginScreen from './screens/LoginScreen';
+import NotificationsScreen from './screens/NotificationsScreen';
+import SendNotificationModal from './screens/SendNotificationModal';
 
 // Experimental deletion support - not ready for production
 // Uncomment here and also references below to experiment with deletion

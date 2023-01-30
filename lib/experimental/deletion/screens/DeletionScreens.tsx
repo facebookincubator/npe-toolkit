@@ -7,11 +7,11 @@
  * @format
  */
 
-import ToDeleteScreen from './Deletion';
 import DeletedScreen from './Deleted';
-import EditToDeleteScreen from './EditToDelete';
-import EditDeletedScreen from './EditDeleted';
+import ToDeleteScreen from './Deletion';
 import DeletionDryrunScreen from './DeletionDryRun';
+import EditDeletedScreen from './EditDeleted';
+import EditToDeleteScreen from './EditToDelete';
 
 // Standard routes for
 export const DELETION_ROUTES = {

@@ -7,13 +7,13 @@
  * @format
  */
 
+import axios from 'axios';
+import * as admin from 'firebase-admin';
 import {getFirebaseNotificationsSendAPI} from '@toolkit/core/server/Notification';
 import {
   NotificationsSender,
   SendPush,
 } from '@toolkit/services/notifications/NotificationSender';
-import axios from 'axios';
-import * as admin from 'firebase-admin';
 
 /**
  * Send push notifications using FCM via the Firebase Admin API

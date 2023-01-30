@@ -8,29 +8,28 @@
  */
 
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
-  Text,
   Button,
-  useTheme,
-  Title,
-  TextInput,
   Checkbox,
   List,
+  Text,
+  TextInput,
+  Title,
+  useTheme,
 } from 'react-native-paper';
-
 import {
+  Role,
+  SYSTEM_ROLES,
   User,
   UserRoles,
   requireLoggedInUser,
-  Role,
-  SYSTEM_ROLES,
 } from '@toolkit/core/api/User';
-import {useDataStore} from '@toolkit/data/DataStore';
-import {Screen} from '@toolkit/ui/screen/Screen';
-import {useNav} from '@toolkit/ui/screen/Nav';
-import {UserNotFoundError} from '@toolkit/tbd/CommonErrors';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {UserNotFoundError} from '@toolkit/tbd/CommonErrors';
+import {useNav} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 import AllUsersScreen from './AllUsersScreen';
 
 type Props = {userId: string; async: {user: User}};

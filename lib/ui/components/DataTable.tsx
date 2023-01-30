@@ -7,17 +7,17 @@
  * @format
  */
 
-import {Octicons} from '@expo/vector-icons';
-import {Opt} from '@toolkit/core/util/Types';
-import {useTextInput} from '@toolkit/ui/UiHooks';
 import React, {useState} from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
+import {Octicons} from '@expo/vector-icons';
 import {
   Button,
-  DataTable as PaperDataTable,
   IconButton,
+  DataTable as PaperDataTable,
   Text,
 } from 'react-native-paper';
+import {Opt} from '@toolkit/core/util/Types';
+import {useTextInput} from '@toolkit/ui/UiHooks';
 
 type ButtonCellProps = CellProps & {
   onPress: () => void;

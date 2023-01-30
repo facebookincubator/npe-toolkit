@@ -9,19 +9,18 @@
 
 import React from 'react';
 import {ViewStyle} from 'react-native';
-import {Fave, Thing} from '@app/common/DataTypes';
-import {AddFave, RemoveThing} from '@app/common/AppLogic';
-import {View, Text, Image, Pressable} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {useDataStore} from '@toolkit/data/DataStore';
-import {useReload} from '@toolkit/core/client/Reload';
 import {useData} from '@toolkit/core/api/DataApi';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
-
+import {requireLoggedInUser} from '@toolkit/core/api/User';
+import {useReload} from '@toolkit/core/client/Reload';
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import PressableSpring from '@toolkit/ui/components/legacy/PressableSpring';
 import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from '@app/common/Api';
+import {AddFave, RemoveThing} from '@app/common/AppLogic';
+import {Fave, Thing} from '@app/common/DataTypes';
 
 type Props = {
   thing: Thing;

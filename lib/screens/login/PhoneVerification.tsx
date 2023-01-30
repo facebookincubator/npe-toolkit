@@ -7,19 +7,19 @@
  * @format
  */
 
-import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
+import {useTheme} from '@toolkit/core/client/Theme';
+import {toError} from '@toolkit/core/util/Types';
+import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 import Button from '@toolkit/ui/components/legacy/Button';
 import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
 import TextField, {
   KeyboardDismissPressable,
 } from '@toolkit/ui/components/legacy/TextField';
-import {useTheme} from '@toolkit/core/client/Theme';
-import {toError} from '@toolkit/core/util/Types';
-import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 
 type Params = {
   phone: string;

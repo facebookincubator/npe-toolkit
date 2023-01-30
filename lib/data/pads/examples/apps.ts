@@ -7,19 +7,19 @@
  * @format
  */
 
-import {BaseModel, Field, InverseField, Model, DeletedBy, Ref} from '../model';
 import {
-  CanRead,
-  Exists,
-  Privacy,
   AllowAll,
-  DenyAll,
-  MatchesUser,
-  Authed,
-  EvalInput,
-  CanWrite,
   And,
+  Authed,
+  CanRead,
+  CanWrite,
+  DenyAll,
+  EvalInput,
+  Exists,
+  MatchesUser,
+  Privacy,
 } from '@toolkit/experimental/privacy/privacy';
+import {BaseModel, DeletedBy, Field, InverseField, Model, Ref} from '../model';
 
 @Model()
 @Privacy({

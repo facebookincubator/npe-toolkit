@@ -7,20 +7,20 @@
  * @format
  */
 
+import * as React from 'react';
+import {View} from 'react-native';
+import {List, Switch} from 'react-native-paper';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {Opt} from '@toolkit/core/util/Types';
 import NotificationChannel, {
   useNotificationChannels,
 } from '@toolkit/services/notifications/NotificationChannel';
-import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
 import {
   DeliveryMethod,
   NotificationPref,
 } from '@toolkit/services/notifications/NotificationTypes';
+import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import * as React from 'react';
-import {View} from 'react-native';
-import {List, Switch} from 'react-native-paper';
 
 type ChannelPreference = {
   channel: NotificationChannel;

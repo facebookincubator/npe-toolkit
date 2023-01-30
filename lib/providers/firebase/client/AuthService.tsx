@@ -11,24 +11,24 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import * as React from 'react';
 import {
+  AUTH_SERVICE_KEY,
   Account,
   AuthType,
-  AUTH_SERVICE_KEY,
   LoginCredential,
 } from '@toolkit/core/api/Auth';
 import IdentityService from '@toolkit/core/api/Login';
 import {User} from '@toolkit/core/api/User';
 import {LOGGED_IN_USER_API_KEY} from '@toolkit/core/api/User';
-import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
-import {networkDelay} from '@toolkit/core/util/DevUtil';
 import {useAppConfig} from '@toolkit/core/util/AppConfig';
 import {
   setInitialAppContext,
   useSetAppContext,
 } from '@toolkit/core/util/AppContext';
+import {networkDelay} from '@toolkit/core/util/DevUtil';
 import Promised from '@toolkit/core/util/Promised';
 import {useFirebaseApp} from '@toolkit/providers/firebase/Config';
 import {useFirebasePhoneAuth} from '@toolkit/providers/firebase/client/PhoneUtil';
+import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
 
 const {
   FacebookAuthProvider,

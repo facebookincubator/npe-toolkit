@@ -8,7 +8,7 @@
  */
 
 import {dataApi} from '@toolkit/core/api/DataApi';
-import {requireLoggedInUser, User} from '@toolkit/core/api/User';
+import {User, requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {Fave, Thing} from './DataTypes';
 

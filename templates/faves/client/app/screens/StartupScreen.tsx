@@ -7,16 +7,16 @@
  * @format
  */
 
+import * as React from 'react';
+import {Image, Linking, StyleSheet, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import Constants from 'expo-constants';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {useNavigation} from '@react-navigation/native';
-import Constants from 'expo-constants';
-import * as React from 'react';
-import {Image, StyleSheet, Text, View, Linking} from 'react-native';
+import {FIREBASE_CONFIG} from '@app/common/Firebase';
 import AppIcon from '../../assets/splash.png';
 import AllThingsScreen from './AllThingsScreen';
-import {FIREBASE_CONFIG} from '@app/common/Firebase';
 
 /**
  * Checks that new apps have been initiatlized sufficiently so that they can run.

@@ -7,9 +7,9 @@
  * @format
  */
 
-import Promised from '@toolkit/core/util/Promised';
-import {useReload, useReloadState} from '@toolkit/core/client/Reload';
 import * as React from 'react';
+import {useReload, useReloadState} from '@toolkit/core/client/Reload';
+import Promised from '@toolkit/core/util/Promised';
 
 /**
  * Pattern for React Components that load their own data

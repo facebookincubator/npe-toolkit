@@ -7,7 +7,11 @@
  * @format
  */
 
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
+import {Button} from 'react-native-paper';
+import {URL} from 'react-native-url-polyfill';
 import {useData} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useTheme} from '@toolkit/core/client/Theme';
@@ -17,10 +21,6 @@ import {
   LogSurveyImpression,
 } from '@toolkit/services/surveys/SurveyApi';
 import {useOpenUrl} from '@toolkit/ui/screen/WebScreen';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-paper';
-import {URL} from 'react-native-url-polyfill';
 
 const SURVEY_PROMPT_DELAY_MS = 1000;
 const SURVEY_PROMPT_CLOSE_MS = 1500000;

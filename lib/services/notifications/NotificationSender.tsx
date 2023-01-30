@@ -7,9 +7,9 @@
  * @format
  */
 
-import {UnsupportedNotifMethodError} from '@toolkit/tbd/CommonErrors';
 import NotificationChannel from '@toolkit/services/notifications/NotificationChannel';
 import {NotificationsSendAPI} from '@toolkit/services/notifications/NotificationsClient';
+import {UnsupportedNotifMethodError} from '@toolkit/tbd/CommonErrors';
 
 /**
  * Send a push notification to the given push tokens.

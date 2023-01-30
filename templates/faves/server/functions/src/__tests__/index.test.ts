@@ -8,7 +8,6 @@
  */
 
 import {test} from '@jest/globals';
-
 import '../index';
 
 test('loaded', () => {

@@ -9,8 +9,10 @@
 
 // @ts-nocheck
 
-import {jest, afterEach, expect, test, describe} from '@jest/globals';
-import {Field, Model, BaseModel, ModelUtil} from '@toolkit/data/pads/model';
+import {afterEach, describe, expect, jest, test} from '@jest/globals';
+import {BaseModel, Field, Model, ModelUtil} from '@toolkit/data/pads/model';
+import registry from '@toolkit/data/pads/registry';
+import {ID} from '@toolkit/data/pads/utils';
 import {
   AllowAll,
   And,
@@ -18,17 +20,15 @@ import {
   CanRead,
   CanWrite,
   DenyAll,
+  Exists,
+  MatchesUser,
+  Privacy,
   evalConditions,
   evalConjunctive,
   evalDisjunctive,
-  Exists,
   getConditions,
   getPrivacyRules,
-  MatchesUser,
-  Privacy,
 } from './privacy';
-import {ID} from '@toolkit/data/pads/utils';
-import registry from '@toolkit/data/pads/registry';
 
 @Model()
 class Foo extends BaseModel {}

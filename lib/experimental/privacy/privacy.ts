@@ -11,7 +11,7 @@ import {Context} from '@toolkit/data/pads/context';
 import {BaseModel, ModelClass, ModelUtil} from '@toolkit/data/pads/model';
 import registry from '@toolkit/data/pads/registry';
 import {isJsModelType, isModelRefType} from '@toolkit/data/pads/schema';
-import {getElementType, ID} from '@toolkit/data/pads/utils';
+import {ID, getElementType} from '@toolkit/data/pads/utils';
 
 /**
  * @Privacy decorator to set privacy rules for a Model class

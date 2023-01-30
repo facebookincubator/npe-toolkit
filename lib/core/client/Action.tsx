@@ -8,6 +8,7 @@
  */
 
 import {useLogEvent} from '@toolkit/core/api/Log';
+
 export type Handler = () => Promise<void> | void;
 
 /**
