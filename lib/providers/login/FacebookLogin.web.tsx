@@ -9,7 +9,7 @@
 
 import {LoginCredential} from '@toolkit/core/api/Auth';
 import {IdentityProvider} from '@toolkit/core/api/Login';
-import {getAppConfig} from '@toolkit/core/util/AppConfig';
+import {getAppConfig } from '@toolkit/core/util/AppConfig';
 
 // Defaults to native, can be overridden in web
 export function fbAuthProvider(): IdentityProvider {

@@ -12,7 +12,7 @@ BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
 
-echo Checking how pretty you are 
+echo Checking results of prettier
 yarn prettier -l $BASEDIR/**/*.ts*
 
 STATUS=$?
