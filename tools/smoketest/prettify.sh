@@ -13,4 +13,4 @@ echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
 
 echo Running prettier across the code base
-yarn prettier -w ../../**/*.ts*
+yarn prettier -w $BASEDIR/**/*.ts*

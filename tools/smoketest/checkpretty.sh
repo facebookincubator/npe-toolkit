@@ -13,6 +13,6 @@ echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
 
 echo Checking how pretty you are 
-yarn prettier -l ../../**/*.ts* || \
+yarn prettier -l $BASEDIR/**/*.ts* || \
   echo "Apologies we're keeping the code always formatted." && \
   echo  "You'll need to run \`cd tools/smoketest && sh prettify.sh`"
