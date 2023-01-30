@@ -52,7 +52,6 @@ const IGNORE_WARNINGS = [
 
 let initialized = false;
 
-
 export function initWeb(
   component: React.ComponentType<{}>,
   appInit?: () => void,

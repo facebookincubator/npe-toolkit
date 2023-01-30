@@ -27,8 +27,7 @@ export default function CreateThingButton({onPress}: Props) {
             justifyContent: 'center',
             alignContent: 'center',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <Ionicons
             name="add-outline"
             color="gray"

@@ -16,7 +16,9 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
 import Button from '@toolkit/ui/components/legacy/Button';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {KeyboardDismissPressable} from '@toolkit/ui/components/legacy/TextField';
+import TextField, {
+  KeyboardDismissPressable,
+} from '@toolkit/ui/components/legacy/TextField';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 

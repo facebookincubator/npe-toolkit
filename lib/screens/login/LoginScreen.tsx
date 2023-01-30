@@ -14,7 +14,13 @@ import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
 import Button from '@toolkit/ui/components/legacy/Button';
-import {Body, Error, Info, Link, Title} from '@toolkit/ui/components/legacy/Text';
+import {
+  Body,
+  Error,
+  Info,
+  Link,
+  Title,
+} from '@toolkit/ui/components/legacy/Text';
 import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
 import {
   FacebookButton,
