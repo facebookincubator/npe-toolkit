@@ -39,4 +39,4 @@ jobs:
       - checkout
       - run:
           name: "Prettier Check"
-          command: "tools/smoketest/prettify.sh ./"
+          command: "tools/smoketest/checkpretty.sh"
