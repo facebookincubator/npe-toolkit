@@ -1,13 +1,10 @@
 version: 2.1
 
-orbs:
-  prettier: cfra/prettier@0.1.1
-
 workflows:
   build_and_test:
     jobs:
       - typecheck
-      - prettier/check
+      - prettify
 
 jobs:
   typecheck:
@@ -35,3 +32,11 @@ jobs:
           key: cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
           paths:
             - /mnt/ramdisk/toolkit/.cache/yarn
+  prettify:
+    docker:
+      - image: cimg/node:16.19
+    steps:
+      - checkout
+      - run:
+          name: "Prettier Check"
+          command: "prettier -l **/*.ts*"
