@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "typescript": "^4.5.5",
+    "prettier": "^2.5.1",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.1"
+  }
+}
