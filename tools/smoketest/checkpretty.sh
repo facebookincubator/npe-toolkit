@@ -12,5 +12,7 @@ BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 echo Installing tools
 cd $BASEDIR/tools/smoketest && yarn install
 
-echo Running prettier across the code base
-yarn prettier -w ../../**/*.ts*
+echo Checking how pretty you are 
+yarn prettier -l ../../**/*.ts* || \
+  echo "Apologies we're keeping the code always formatted." && \
+  echo  "You'll need to run \`cd tools/smoketest && sh prettify.sh`"
