@@ -83,7 +83,8 @@
     "**/selfsigned": "^2.0.0",
     "**/immer": "^9.0.6",
     "**/loader-utils": "^2.0.4",
-    "**/browserslist": "^4.16.5"
+    "**/browserslist": "^4.16.5",
+    "**/minimatch": "^3.0.5"
   },
   "private": true
 }
