@@ -17,12 +17,15 @@
   "resolutions": {
     "**/@babel/core": "^7.17.5",
     "**/chokidar": "^3.1.4",
+    "**/@expo/dev-server": "0.1.120",
+    "//": "Resolutions below here are to address NPM package vulnerabiliies",
     "**/selfsigned": "^2.0.0",
     "**/immer": "^9.0.6",
     "**/qs": "^6.7.3",
     "**/loader-utils": "^2.0.4",
     "**/browserslist": "^4.16.5",
-    "**/minimatch": "^3.0.5"
+    "**/minimatch": "^3.0.5",
+    "**/shell-quote": "^1.7.3"
   },
   "localDependencies": {
     "@toolkit": "../../npe-toolkit/lib",
