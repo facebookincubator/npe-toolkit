@@ -22,7 +22,8 @@
     "**/qs": "^6.7.3",
     "**/loader-utils": "^2.0.4",
     "**/browserslist": "^4.16.5",
-    "**/minimatch": "^3.0.5"
+    "**/minimatch": "^3.0.5",
+    "**/@expo/dev-server": "0.1.120"
   },
   "localDependencies": {
     "@toolkit": "../../npe-toolkit/lib",
