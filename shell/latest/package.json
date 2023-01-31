@@ -86,7 +86,8 @@
     "**/loader-utils": "^2.0.4",
     "**/browserslist": "^4.16.5",
     "**/minimatch": "^3.0.5",
-    "**/shell-quote": "^1.7.3"
+    "**/shell-quote": "^1.7.3",
+    "**/qs": "^6.7.3"
   },
   "private": true
 }
