@@ -80,11 +80,13 @@
   "resolutions": {
     "**/@babel/core": "^7.18.5",
     "**/chokidar": "^3.1.4",
+    "//": "Resolutions below here are to address NPM package vulnerabiliies",
     "**/selfsigned": "^2.0.0",
     "**/immer": "^9.0.6",
     "**/loader-utils": "^2.0.4",
     "**/browserslist": "^4.16.5",
-    "**/minimatch": "^3.0.5"
+    "**/minimatch": "^3.0.5",
+    "**/shell-quote": "^1.7.3"
   },
   "private": true
 }
