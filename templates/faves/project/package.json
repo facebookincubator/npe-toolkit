@@ -21,7 +21,8 @@
     "**/immer": "^9.0.6",
     "**/qs": "^6.7.3",
     "**/loader-utils": "^2.0.4",
-    "**/browserslist": "^4.16.5"
+    "**/browserslist": "^4.16.5",
+    "**/minimatch": "^3.0.5"
   },
   "localDependencies": {
     "@toolkit": "../../npe-toolkit/lib",
