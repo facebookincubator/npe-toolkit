@@ -12,6 +12,7 @@
     "@npe-toolkit-shell": "file:../../npe-toolkit/shell/latest"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@npe-toolkit-tools": "file:../../npe-toolkit/tools"
   },
   "resolutions": {
