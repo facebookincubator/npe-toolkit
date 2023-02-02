@@ -10,10 +10,8 @@ SCRIPTDIR=$(dirname $0)
 BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 echo Creating checksums at /tmp/tkchecksum.txt for $BASEDIR
 
-shasum $BASEDIR/tools/smoketest/yarn.lock \
+shasum $BASEDIR/tools/project/yarn.lock \
   $BASEDIR/templates/faves/project/yarn.lock \
   $BASEDIR/templates/faves/server/functions/yarn.lock \
   $BASEDIR/shell/latest/yarn.lock \
   $BASEDIR/shell/latest/server/yarn.lock > /tmp/tkchecksum.txt
-
-

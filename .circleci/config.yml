@@ -19,14 +19,14 @@ jobs:
           command: "yarn config set cache-folder /mnt/ramdisk/toolkit/.cache/yarn"
       - run:
           name: "Cheksum yarn.lock files"
-          command: "tools/smoketest/checksum.sh ./"
+          command: "tools/project/checksum.sh ./"
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
       - run:
           name: "Smoke Test"
-          command: "tools/smoketest/smoke.sh ./"
+          command: "tools/project/smoke.sh ./"
       # Save Yarn package cache
       - save_cache:
           key: cache-v0.5-{{ checksum "/tmp/tkchecksum.txt" }}
@@ -39,4 +39,4 @@ jobs:
       - checkout
       - run:
           name: "Prettier Check"
-          command: "tools/smoketest/checkpretty.sh"
+          command: "tools/project/checkpretty.sh"

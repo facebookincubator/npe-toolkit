@@ -5,7 +5,8 @@ We want to make contributing to this project as easy and transparent as possible
 We actively welcome your pull requests.
 
 1. Fork the repo and create your branch from `main`.
-2. Run [TBD] integration tests and presubmit checks
+2. [Integration tests](https://app.circleci.com/pipelines/github/facebookincubator/npe-toolkit) should automatically run when you create your PR
+3. Additionally, we use consistent formatting across the repo using Prettier. You can format your project by running `tools/project/prettify.sh`
 3. If you haven't already, complete the Contributor License Agreement ("CLA").
 
 ## Contributor License Agreement ("CLA")

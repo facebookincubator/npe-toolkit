@@ -11,11 +11,9 @@ BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 
 echo Clearing all generated files
 rm -rf $BASEDIR/node_modules
-rm -rf $BASEDIR/tools/smoketest/node_modules 
-rm -rf $BASEDIR/templates/faves/project/node_modules 
-rm -rf $BASEDIR/templates/faves/server/functions/node_modules 
+rm -rf $BASEDIR/tools/project/node_modules
+rm -rf $BASEDIR/templates/faves/project/node_modules
+rm -rf $BASEDIR/templates/faves/server/functions/node_modules
 rm -rf $BASEDIR/shell/lates/node_modules
-rm -rf $BASEDIR/shell/latest/server/node_modules 
+rm -rf $BASEDIR/shell/latest/server/node_modules
 rm -rf $BASEDIR/shell/latest/ios/Pods
-
-
