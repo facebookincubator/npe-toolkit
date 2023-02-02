@@ -2,8 +2,9 @@
   "name": "faves-template",
   "version": "1.0.0",
   "scripts": {
-    "start": "./shell.sh && expo start -p 8081",
-    "web": "expo start --web",
+    "start": "expo start --dev-client",
+    "ios": "expo start -i",
+    "web": "expo start -w",
     "build:web": "expo export:web",
     "admin": "CLIENT=admin expo start --web",
     "build:admin": "CLIENT=admin expo export:web"

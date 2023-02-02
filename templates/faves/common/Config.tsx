@@ -10,6 +10,10 @@
 import {FirebaseConfig} from '@toolkit/providers/firebase/Config';
 import {GoogleLoginConfig} from '@toolkit/providers/login/GoogleLogin';
 
+/**
+ * Fill in the Firebase config from values at
+ * https://console.firebase.google.com/project/YOUR_PROJECT/settings/general/, under "Web apps"
+ */
 export const FIREBASE_CONFIG: FirebaseConfig = {
   apiKey: 'fill-me-in',
   authDomain: 'fill-me-in',
@@ -17,7 +21,7 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
   storageBucket: 'fill-me-in',
   messagingSenderId: 'fill-me-in',
   appId: 'fill-me-in',
-  measurementId: 'G-Z82QMREN4V',
+  measurementId: 'fill-me-in',
   namespace: 'helloworld',
   emulators: {
     functions: {
@@ -26,6 +30,13 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
   },
 };
 
+/**
+ * Fill in the client IDs from
+ * https://console.cloud.google.com/apis/credentials?project=YOUR_PROJECT
+ *
+ * You also will need to add redirect URIs in the console, see
+ * https://github.com/facebookincubator/npe-toolkit/blob/main/docs/getting-started/Firebase.md
+ */
 export const GOOGLE_LOGIN_CONFIG: GoogleLoginConfig = {
   iosClientId: 'fill-me-in',
   webClientId: 'fill-me-in',

@@ -2,7 +2,8 @@
   "name": "npe-toolkit-faves",
   "version": "0.0.1",
   "scripts": {
-    "ios": "cd project && yarn start",
+    "start": "cd project && yarn start",
+    "ios": "cd project && yarn ios",
     "android": "echo Android build not enabled - yet...",
     "web": "cd project && yarn web",
     "admin": "cd project && yarn admin",
