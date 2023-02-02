@@ -7,67 +7,50 @@
  * @format
  */
 
-import * as GoogleSignIn from 'expo-google-sign-in';
-import firebase from 'firebase/app';
+import * as React from 'react';
 import 'firebase/auth';
-import {Platform} from 'react-native';
+import {useIdTokenAuthRequest} from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 import {IdentityProvider} from '@toolkit/core/api/Login';
 import {CodedErrorFor} from '@toolkit/core/util/CodedError';
 
-const {GoogleAuthProvider} = firebase.auth;
-type OAuthCredential = firebase.auth.UserCredential & {
-  idToken: string;
-  accessToken: string;
-};
-
 const LoginError = CodedErrorFor('auth.login_fail', 'Error logging in');
 
-type GoogleAuthConfig = {
+WebBrowser.maybeCompleteAuthSession();
+
+export type GoogleLoginConfig = {
+  expoClientId?: string;
+  iosClientId?: string;
   webClientId?: string;
 };
 
-export function googleAuthProvider(cfg?: GoogleAuthConfig): IdentityProvider {
+export function googleAuthProvider(
+  cfg: GoogleLoginConfig = {},
+): IdentityProvider {
+  // Expo and web can use same client ID, so use web if Expo not set
+  cfg.expoClientId = cfg.expoClientId || cfg.webClientId;
+
   return {
     init: async () => {},
 
-    tryConnect: async (product: string, scopes: string[]) => {
-      if (Platform.OS === 'web') {
-        const provider = new GoogleAuthProvider();
-        for (const scope of scopes) {
-          provider.addScope(scope);
-        }
-        const result = await firebase.auth().signInWithPopup(provider);
-        const cred = result.credential as OAuthCredential | null;
-        const idToken = cred?.idToken;
+    useTryConnect: (product: string, scopes: string[]) => {
+      const [_, __, promptAsync] = useIdTokenAuthRequest(cfg);
 
-        if (!idToken) {
-          throw LoginError();
-        }
-
-        return {
-          type: 'google',
-          id: result.user?.uid,
-          token: idToken,
-        };
-      } else {
-        await GoogleSignIn.initAsync({
-          scopes,
-          webClientId: cfg?.webClientId,
-        });
-        const result = await GoogleSignIn.signInAsync();
-
-        if (result.type === 'success') {
-          const {idToken} = result.user?.auth!;
-          if (idToken == null) {
-            // TODO: More specific errors
-            throw LoginError();
+      return async () => {
+        const resp = await promptAsync();
+        const responseType = resp?.type;
+        if (responseType === 'success') {
+          const token = resp.authentication?.idToken || resp.params?.id_token;
+          if (token !== null) {
+            return {type: 'google', token};
           }
-          // TODO: Real ID
-          return {type: 'google', id: result.user?.uid, token: idToken};
-        } else {
-          throw LoginError();
         }
-      }
+        const error =
+          responseType === 'error'
+            ? resp.error!
+            : LoginError(`Google login failure: ${responseType}`);
+        throw error;
+      };
     },
 
     getAuthInfo: async (product: string) => {

@@ -14,6 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
 import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
 import {toUserMessage} from '@toolkit/core/util/CodedError';
+import {Opt} from '@toolkit/core/util/Types';
 import {
   FacebookButton,
   GoogleButton,
@@ -73,6 +74,9 @@ export function simpleLoginScreen(config: SimpleLoginScreenConfig) {
   return () => <SimpleLoginScreen config={config} />;
 }
 
+const FB_SCOPES = {scopes: ['public_profile', 'email']};
+const GOOGLE_SCOPES = {scopes: ['email']};
+
 export function AuthenticationButtons(props: {
   config: SimpleLoginScreenConfig;
 }) {
@@ -81,17 +85,15 @@ export function AuthenticationButtons(props: {
   const {navigate} = useNavigation<any>();
   const route: any = useRoute();
   const next = route?.params?.next || home || 'Home';
-  const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(
-    null,
-  );
+  const [loginErrorMessage, setLoginErrorMessage] = useState<Opt<string>>();
+  const tryFacebookLogin = auth.useTryConnect('facebook', FB_SCOPES);
+  const tryGoogleLogin = auth.useTryConnect('google', GOOGLE_SCOPES);
 
-  async function tryConnect(type: AuthType) {
+  async function tryLogin(type: AuthType) {
     try {
       setLoginErrorMessage(null);
-
-      const scopes =
-        type === 'facebook' ? ['public_profile', 'email'] : ['email'];
-      const creds = await auth.tryConnect(type, {scopes});
+      const tryConnect = type === 'google' ? tryGoogleLogin : tryFacebookLogin;
+      const creds = await tryConnect();
       await auth.login(creds);
       navigate(next);
     } catch (e) {
@@ -103,11 +105,9 @@ export function AuthenticationButtons(props: {
   // TODO: Add loading state
   const buttons = authTypes.map((type, idx) => {
     if (type === 'facebook') {
-      return (
-        <FacebookButton key={idx} onPress={() => tryConnect('facebook')} />
-      );
+      return <FacebookButton key={idx} onPress={() => tryLogin('facebook')} />;
     } else if (type === 'google') {
-      return <GoogleButton key={idx} onPress={() => tryConnect('google')} />;
+      return <GoogleButton key={idx} onPress={() => tryLogin('google')} />;
     } else if (type === 'phone') {
       return (
         <PhoneButton key={idx} onPress={() => navigate('PhoneInput', {next})} />

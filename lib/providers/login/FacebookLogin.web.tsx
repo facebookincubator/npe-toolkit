@@ -41,34 +41,33 @@ export function fbAuthProvider(): IdentityProvider {
       });
     },
 
-    tryConnect: async (
-      product: string,
-      scopes: string[],
-    ): Promise<LoginCredential> => {
-      return new Promise((resolve, reject) => {
-        // @ts-ignore
-        const fb = window.FB;
-        if (!fb) {
-          throw new Error('Must init FB SDK to use FB web auth.');
-        }
-        const fbAppId = getAppConfig(product).fbAppId;
-        fb.init({
-          appId: fbAppId,
-          version: 'v8.0',
-        });
-
-        // @ts-ignore
-        fb.login(async resp => {
-          if (resp.authResponse) {
-            resolve({
-              type: 'facebook',
-              token: resp.authResponse.accessToken,
-              id: resp.authResponse.userID,
-            });
+    useTryConnect: (product: string, scopes: string[]) => {
+      return async () => {
+        return new Promise((resolve, reject) => {
+          // @ts-ignore
+          const fb = window.FB;
+          if (!fb) {
+            throw new Error('Must init FB SDK to use FB web auth.');
           }
-          reject(new Error('Login attempt failed'));
+          const fbAppId = getAppConfig(product).fbAppId;
+          fb.init({
+            appId: fbAppId,
+            version: 'v8.0',
+          });
+
+          // @ts-ignore
+          fb.login(async resp => {
+            if (resp.authResponse) {
+              resolve({
+                type: 'facebook',
+                token: resp.authResponse.accessToken,
+                id: resp.authResponse.userID,
+              });
+            }
+            reject(new Error('Login attempt failed'));
+          });
         });
-      });
+      };
     },
 
     getAuthInfo: async (product: string): Promise<LoginCredential | null> => {

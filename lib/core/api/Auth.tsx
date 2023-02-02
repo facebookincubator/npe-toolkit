@@ -27,6 +27,9 @@ export type AuthType =
   | 'dev'
   | `oidc.${string}`;
 
+export type TryConnectFn = () => Promise<LoginCredential>;
+export type TryConnectOpts = {scopes?: string[]};
+
 /**
  * App-facing APIs for triggering login flows and updating login state.
  */
@@ -45,10 +48,7 @@ export type AuthService<UserType extends User> = {
    * for more customization or build their own flows to provide LoginCredentials.
    */
   //
-  tryConnect: (
-    type: AuthType,
-    opts?: {scopes?: string[]},
-  ) => Promise<LoginCredential>;
+  useTryConnect: (type: AuthType, opts?: TryConnectOpts) => TryConnectFn;
 
   /**
    * Send a code to the user for a given AuthType.

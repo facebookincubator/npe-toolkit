@@ -33,8 +33,10 @@ export function anonAuthProvider(): IdentityProvider {
   return {
     init: async () => {},
 
-    tryConnect: async (product: string, scopes: string[]) => {
-      return getAuthInfo(product);
+    useTryConnect: (product: string, scopes: string[]) => {
+      return async () => {
+        return getAuthInfo(product);
+      };
     },
 
     getAuthInfo: async (product: string) => {
