@@ -24,7 +24,7 @@ disclosure of security bugs. In those cases, please go through the process
 outlined on that page and do not file a public issue.
 
 ## Coding Style
-We have eslint rules set up that should be used to autoformat files before submission. This works best if you have your IDE set up to autoformat on save
+We have eslint rules set up that should be used to autoformat files before submission. This works best if you have your IDE set up to autoformat on save, but you can also run`tools/project/prettify.sh`.
 
 ## License
 By contributing to the NPE Toolkit, you agree that your contributions will be licensed
