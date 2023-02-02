@@ -48,7 +48,7 @@ import LoginScreen from '@app/app/screens/LoginScreen';
 import MyFavesScreen from '@app/app/screens/MyFavesScreen';
 import SettingsScreen from '@app/app/screens/SettingsScreen';
 import StartupScreen from '@app/app/screens/StartupScreen';
-import {FIREBASE_CONFIG} from '@app/common/Firebase';
+import {FIREBASE_CONFIG, GOOGLE_LOGIN_CONFIG} from '@app/common/Config';
 import {APP_CONFIG, APP_INFO, NOTIF_CHANNELS_CONTEXT} from './lib/Config';
 
 //
@@ -154,7 +154,7 @@ export default function App() {
   registerAppConfig(APP_CONFIG);
   initializeFirebase(FIREBASE_CONFIG);
   IdentityService.addProvider(fbAuthProvider());
-  IdentityService.addProvider(googleAuthProvider());
+  IdentityService.addProvider(googleAuthProvider(GOOGLE_LOGIN_CONFIG));
   registerIconPack('ion', Ionicons);
   registerIconPack('mci', MaterialCommunityIcons);
 

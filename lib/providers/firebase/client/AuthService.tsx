@@ -15,6 +15,7 @@ import {
   Account,
   AuthType,
   LoginCredential,
+  TryConnectFn,
 } from '@toolkit/core/api/Auth';
 import IdentityService from '@toolkit/core/api/Login';
 import {User} from '@toolkit/core/api/User';
@@ -135,12 +136,9 @@ export function FirebaseAuthService(props: Props) {
     firstInit();
   }, [auth]);
 
-  async function tryConnect(
-    type: AuthType,
-    opts?: {scopes?: string[]},
-  ): Promise<LoginCredential> {
+  function useTryConnect(type: AuthType, opts?: {scopes?: string[]}) {
     const scopes = opts?.scopes || [];
-    return await IdentityService.tryConnect(type, product, scopes);
+    return IdentityService.useTryConnect(type, product, scopes);
   }
 
   async function sendCode(type: AuthType, to: string): Promise<void> {
@@ -239,7 +237,7 @@ export function FirebaseAuthService(props: Props) {
   }
 
   const api = {
-    tryConnect,
+    useTryConnect,
     sendCode,
     login,
     checkLogin,

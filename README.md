@@ -75,18 +75,6 @@ peer, using the following command:
 ln -snf $PATH_TO_NPE_TOOLKIT $YOUR_APP_DIR/../npe-toolkit
 ```
 
-### Running on iOS
-
-We will be switching to use Expo Go for development builds, however the Toolkit
-currently has a native dependency that isn't included in Expo Go. To run iOS
-locally, run the following command to build an iOS shell:
-
-```
-cd -P npe-toolkit/shell/latest && yarn install && yarn shell
-```
-
-You'll also need to have XCode installed.
-
 ### (future plans) How apps will be created in General Availability
 
 When we're in GA, the toolkit will be packaged into an NPM package and you can

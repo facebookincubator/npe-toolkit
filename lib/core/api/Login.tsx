@@ -18,7 +18,7 @@
  * ID providers need to be added at app startup before init() is called.
  */
 
-import {AuthType, LoginCredential} from '@toolkit/core/api/Auth';
+import {AuthType, LoginCredential, TryConnectFn} from '@toolkit/core/api/Auth';
 
 const IdentityService = {
   // Sets a provider. Will overwrite any existing providers for that type
@@ -35,36 +35,47 @@ const IdentityService = {
     }
   },
 
-  tryConnect: async (
+  useTryConnect: (
     type: AuthType,
     product: string,
     scopes?: string[],
-  ): Promise<LoginCredential> => {
-    const devInfo = getDevIdentityInfo();
-
-    if (devInfo && type === 'dev') {
-      return devInfo;
-    }
-
+  ): TryConnectFn => {
     const provider = _providers[type];
-    const cacheKey = getCacheKey(type, product);
-    let creds;
-
-    if (provider) {
-      creds = await provider.tryConnect(product, scopes || []);
-      _cachedAuth[cacheKey] = creds;
+    if (provider == null) {
+      // Don't want to error immediately as current login screen code
+      // calls `useTryConnect()` on auth methods that aren't actually called,
+      // because of hook logic.
+      return () => {
+        throw Error(`No provider registered for "${type}"`);
+      };
     }
+    const tryConnect = provider.useTryConnect(product, scopes || []);
+    return async () => {
+      const devInfo = getDevIdentityInfo();
 
-    creds = creds || _cachedAuth[cacheKey];
+      if (devInfo && type === 'dev') {
+        return devInfo;
+      }
 
-    if (!creds) {
-      throw new Error(
-        `No auth provider configured for auth type "${type}".` +
-          'Can configure or call setAuthInfo() in dev mode.',
-      );
-    }
+      const cacheKey = getCacheKey(type, product);
+      let creds;
 
-    return creds;
+      if (provider) {
+        creds = await tryConnect();
+        _cachedAuth[cacheKey] = creds;
+      }
+
+      creds = creds || _cachedAuth[cacheKey];
+
+      if (!creds) {
+        throw new Error(
+          `No auth provider configured for auth type "${type}".` +
+            'Can configure or call setAuthInfo() in dev mode.',
+        );
+      }
+
+      return creds;
+    };
   },
 
   getAuthInfo: async (
@@ -145,8 +156,8 @@ export type IdentityProvider = {
   init: () => Promise<void>;
 
   // Connect the app with the identity provider, possibly launching interactive UI.
-  // Pomise may take a long time (5 minutes+) before returning.
-  tryConnect: (product: string, scopes: string[]) => Promise<LoginCredential>;
+  // Pomise may take a long time (>1 minute) before returning.
+  useTryConnect: (product: string, scopes: string[]) => TryConnectFn;
 
   // Get identity info without launching UI
   getAuthInfo: (product: string) => Promise<LoginCredential | null>;

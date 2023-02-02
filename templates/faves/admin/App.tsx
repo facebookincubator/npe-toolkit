@@ -20,7 +20,7 @@ import {googleAuthProvider} from '@toolkit/providers/login/GoogleLogin';
 import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import AuthConfig from '@app/admin/app/AuthConfig';
 import DrawerNavigator from '@app/admin/app/DrawerNavigator';
-import {FIREBASE_CONFIG} from '@app/common/Firebase';
+import {FIREBASE_CONFIG, GOOGLE_LOGIN_CONFIG} from '@app/common/Config';
 import {APP_CONFIG, APP_INFO} from './lib/Config';
 
 function initIcons() {
@@ -35,7 +35,7 @@ export default function AppShell() {
   const APP_CONTEXT = [FIRESTORE_DATASTORE, APP_CONFIG, APP_INFO];
   initializeFirebase(FIREBASE_CONFIG);
   initIcons();
-  IdentityService.addProvider(googleAuthProvider());
+  IdentityService.addProvider(googleAuthProvider(GOOGLE_LOGIN_CONFIG));
 
   const theme = {
     ...DefaultTheme,

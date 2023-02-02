@@ -14,7 +14,7 @@ import Constants from 'expo-constants';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {FIREBASE_CONFIG} from '@app/common/Firebase';
+import {FIREBASE_CONFIG} from '@app/common/Config';
 import AppIcon from '../../assets/splash.png';
 import AllThingsScreen from './AllThingsScreen';
 

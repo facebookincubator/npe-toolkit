@@ -83,18 +83,21 @@ Because the toolkit libraries are in React Native and TypeScript, even if you
 are building a native app you'll need to set up and copy over the "web"
 configuration.
 
-- Click on the Settings icon in the left-hand nav
+- Click on the Settings icon in the left-hand nav in the Firebase Console
 - In the "Your apps" section, click on the web icon: `</>`
 - Give the app a nickname
-- You can also set up Firebase Hosting at this time. If you're going to deploy
-  parts of your app on web, we recommend doing this
-- Copy the contents of `const firebaseConfig = {...}` in Step 2 and copy them
-  into the `FIREBASE_CONFIG` constant in your app directory, in the
-  `your-app/commmon/Firebase.tsx` file
-  - You can always get back to this config by going to the initial settings
-    page.
+- [optional] You can also configure Firebase Hosting during this time. 
+   - If you're going to deploy
+  parts of your app on web, we recommend doing this now vs. later
+- Copy the contents of `const firebaseConfig = {...}` in Step 2
+  into the `FIREBASE_CONFIG` constant in your project @
+  `your-app/commmon/Config.tsx`
+  - You can always get back to this config by going to the initial Firebase settings page.
 - You don't need to go through Step 3 and 4 at this point
 
+
+
+<!--
 #### (optional) Configure your iOS build for Firebase access
 
 This is needed if you're building a native iOS application.
@@ -116,7 +119,19 @@ Afer this, you can run the iOS shell using
 ```
 cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn shell
 ```
+-->
 
-\*\*#### (optional) Configure your Android build for Firebase access
+#### (optional) Configure your Android build for Firebase access
 
 _Coming soon!_
+### 4. Configure your project for Google auth
+If you're using Google auth, need configure the Firebase project in the Google Cloud console to enable local development.
+
+* Go to the [Credentials page](https://console.cloud.google.com/apis/credentials) in Google Cloud console and  select your project in the dropdown
+* Click on "Web client (auto created by Google Service)"
+* Add `http://localhost:19006` to the "Authorized redirect URIs" section
+* To login on iOS, you can either use Expo Go (a prebuilt iOS shell), or build your own iOS app
+  * If you are using Expo Go, need to add `https://auth.expo.io/@your-username/your-project-name-from-app.json` as well
+  * If you are building your own iOSapp, follow the instructions on the [Expo site](https://docs.expo.dev/)
+
+More information on configuring Google for expo auth can be found in the [Expo authentication guide](https://docs.expo.dev/guides/authentication/#google).
