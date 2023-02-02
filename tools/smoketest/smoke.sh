@@ -11,6 +11,7 @@ BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 ln -snf $BASEDIR $BASEDIR/templates/npe-toolkit
 
 echo Calling \`yarn install\` on all directories
+cd $BASEDIR && yarn install
 cd $BASEDIR/tools/smoketest && yarn install
 cd $BASEDIR/templates/faves/project && yarn install
 cd $BASEDIR/templates/faves/server/functions && yarn install
