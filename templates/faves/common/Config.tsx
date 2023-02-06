@@ -9,11 +9,19 @@
 
 import {FirebaseConfig} from '@toolkit/providers/firebase/Config';
 
+let localConf: Record<string, any> = {};
+try {
+  // @ts-ignore
+  localConf = require('./.localconf.json');
+} catch (e) {
+  console.log(e);
+}
+
 /**
  * Fill in the Firebase config from values at
  * https://console.firebase.google.com/project/YOUR_PROJECT/settings/general/, under "Web apps"
  */
-export const FIREBASE_CONFIG: FirebaseConfig = {
+export const FIREBASE_CONFIG: FirebaseConfig = localConf['firebase'] ?? {
   apiKey: 'fill-me-in',
   authDomain: 'fill-me-in',
   projectId: 'fill-me-in',
@@ -36,7 +44,7 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
  * You also will need to add redirect URIs in the console, see
  * https://github.com/facebookincubator/npe-toolkit/blob/main/docs/getting-started/Firebase.md
  */
-export const GOOGLE_LOGIN_CONFIG = {
+export const GOOGLE_LOGIN_CONFIG = localConf['google-login'] ?? {
   iosClientId: 'fill-me-in',
   webClientId: 'fill-me-in',
 };
