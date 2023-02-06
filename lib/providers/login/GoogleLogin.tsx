@@ -7,7 +7,6 @@
  * @format
  */
 
-import * as React from 'react';
 import 'firebase/auth';
 import {useIdTokenAuthRequest} from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';

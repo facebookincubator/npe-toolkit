@@ -8,7 +8,6 @@
  */
 
 import {FirebaseConfig} from '@toolkit/providers/firebase/Config';
-import {GoogleLoginConfig} from '@toolkit/providers/login/GoogleLogin';
 
 /**
  * Fill in the Firebase config from values at
@@ -37,7 +36,7 @@ export const FIREBASE_CONFIG: FirebaseConfig = {
  * You also will need to add redirect URIs in the console, see
  * https://github.com/facebookincubator/npe-toolkit/blob/main/docs/getting-started/Firebase.md
  */
-export const GOOGLE_LOGIN_CONFIG: GoogleLoginConfig = {
+export const GOOGLE_LOGIN_CONFIG = {
   iosClientId: 'fill-me-in',
   webClientId: 'fill-me-in',
 };
