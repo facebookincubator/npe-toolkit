@@ -19,8 +19,21 @@ cd $BASEDIR/shell/latest && yarn install
 cd $BASEDIR/shell/latest/server && yarn install
 
 echo Typechecking all directories
+STATUS=0
 cd $BASEDIR/tools/project
+
 yarn tsc -p $BASEDIR/templates/faves/client --noEmit
+STATUS=$(($STATUS + $?))
 yarn tsc -p $BASEDIR/templates/faves/admin --noEmit
+STATUS=$(($STATUS + $?))
 yarn tsc -p $BASEDIR/templates/faves/server/functions --noEmit
+STATUS=$(($STATUS + $?))
 yarn tsc -p $BASEDIR/shell/latest --noEmit
+STATUS=$(($STATUS + $?))
+
+echo Status: $STATUS
+if [ $STATUS -ne 0 ]; then
+  echo "Failure in typechecking. See logs above to find errors and fix.." && \
+  echo  "To run locally, call \`tools/project/smoke.sh\`"
+  exit 1
+fi
