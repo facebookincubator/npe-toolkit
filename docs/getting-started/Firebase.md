@@ -132,6 +132,7 @@ If you're using Google auth, need configure the Firebase project in the Google C
 * Add `http://localhost:19006` to the "Authorized redirect URIs" section
 * To login on iOS, you can either use Expo Go (a prebuilt iOS shell), or build your own iOS app
   * If you are using Expo Go, need to add `https://auth.expo.io/@your-username/your-project-name-from-app.json` as well
-  * If you are building your own iOSapp, follow the instructions on the [Expo site](https://docs.expo.dev/)
+  * If you are building your own iOS app, follow the instructions on the [Expo site](https://docs.expo.dev/)
+* Copy the `Client ID` next to your web app (and iOS app if you are building an iOS app), and paste them into `webClientId` and `iosClientId` in `common/Config.tsx`
 
 More information on configuring Google for expo auth can be found in the [Expo authentication guide](https://docs.expo.dev/guides/authentication/#google).
