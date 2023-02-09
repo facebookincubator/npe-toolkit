@@ -63,6 +63,14 @@ We're evaluating whether it makes sense to deploy a common project so that when
 you first spin up a Toolkit app you'll have a backend — this has a lot of pros
 and cons, so for now you need to create your own Firebase project.
 
+### Running the app
+
+Run the app locally using the following commands at the root of your project:
+- `yarn web` to run the web app
+- `yarn ios` to run the iOS app (will run in Expo Go)
+- `yarn admin` to run the admin console
+  - You will need to deploy [Firebase functions](docs/getting-started/Functions.md) in order to run the admin console
+
 ### If you have a different directory structure
 
 The default app setup expects your app's directory to be a sibling of the
