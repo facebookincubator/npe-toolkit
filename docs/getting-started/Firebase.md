@@ -12,29 +12,29 @@ This doc will take you through the steps.
 ### 1. Create a Firebase project
 
 - Go to the [Firebase Console](https://console.firebase.google.com/).
-- Click on the "Add Project" button
+- Click on `Add Project` button
 - Go through the new project setup flow
   - Google Analytics is recommended but not required
 
 ### 2. Enable Firebase services
 
-All of the following services are listed under "Build" on the left side
+All of the following services are listed under `Build` on the left side
 
 #### Enable Firebase Auth
 
 We recommend starting with Google Auth as a provider as it is easy to create
 allowlists based on emails
 
-- Click on Authentication > Get Started
-- Enable Google Auth
-  - You'll need to add a "project support email"
+- Click on `Authentication` > `Get Started`
+- Enable `Google` sign-in provider
+  - You'll need to set a `project support email`
 
 #### Enable Firestore
 
-Firestore is the a modern noSQL database with an API that can be called directly
+Firestore is the a modern NoSQL database with an API that can be called directly
 from client code and server-side privacy rule enforcement.
 
-- Click on Firestore > Create database
+- Click on `Firestore` > `Create database`
 - Start in "test mode"
   - This will need to be changed soon, as itenables anyone with the address of
     the database to read/write all data - just don't write anything important to
@@ -53,7 +53,7 @@ immediately if you're just prototyping. It's usually easier just to configure
 all in one step, but if you don't want to set up or add credit card information,
 you can defer this step.
 
-- Click on Functions > Upgrade Project
+- Click on `Functions` > `Upgrade Project`
 - Add a billing account if needed
 - Set your monthly budget to something very low (e.g. $10) - you can always
   raise it later
@@ -71,7 +71,7 @@ servers.
 This is optional, however apps need file storeage eventually, so we recommend
 setting up Firebase Storage at the start.
 
-- Click on Storage > Get Started
+- Click on `Storage` > `Get Started`
 - Start in "test mode". Similarly to Firestore, we can add rules after we get
   the basic project structure up and running
 
@@ -83,7 +83,7 @@ Because the toolkit libraries are in React Native and TypeScript, even if you
 are building a native app you'll need to set up and copy over the "web"
 configuration.
 
-- Click on the Settings icon in the left-hand nav in the Firebase Console
+- Click on the `Settings` icon in the left-hand nav in the Firebase Console
 - In the "Your apps" section, click on the web icon: `</>`
 - Give the app a nickname
 - [optional] You can also configure Firebase Hosting during this time. 
@@ -103,8 +103,8 @@ configuration.
 This is needed if you're building a native iOS application.
 
 - Native builds also need to set information in the iOS build config
-- Click on the Settings icon again
-- Click on Add app > `iOS+`
+- Click on the `Settings` icon again
+- Click on `Add app` > `iOS+`
 - Choose a bundle ID for your app. This can be changed later, so can use
   `com.USERNAME.appame` if you don't have a company
 - Click on "Download GoogeService-Info.plist\*
