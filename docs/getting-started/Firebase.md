@@ -135,6 +135,6 @@ If you're using Google auth, need configure the Firebase project in the Google C
   * If you are using Expo Go, need to add `https://auth.expo.io/@your-username/your-project-name-from-app.json` as well
   * If you are building your own iOS app, follow the instructions on the [Expo site](https://docs.expo.dev/)
 * Copy the `Client ID` in the "Web client" row and paste them into `webClientId` in `common/Config.tsx`
-  *  And if you are using an iOS app, do the same for the `iOS client` row, pasting into `iosClientId`
+  *  If you are biulding your own iOS app, do the same for the `iOS client` row, pasting into `iosClientId`
 
 More information on configuring Google for expo auth can be found in the [Expo authentication guide](https://docs.expo.dev/guides/authentication/#google).
