@@ -128,8 +128,8 @@ _Coming soon!_
 If you're using Google auth, need configure the Firebase project in the Google Cloud console to enable local development.
 
 * Go to the [Credentials page](https://console.cloud.google.com/apis/credentials) in Google Cloud console and  select your project in the dropdown
-* Click on "Web client (auto created by Google Service)"
-  * If there are two of these clients, just use the first one
+* Click on `Web client (auto created by Google Service)`
+  * If there are two of clients, use the first one
 * Add `http://localhost:19006` to the "Authorized redirect URIs" section
 * To login on iOS, you can either use Expo Go (a prebuilt iOS shell), or build your own iOS app
   * If you are using Expo Go, need to add `https://auth.expo.io/@your-username/your-project-name-from-app.json` as well
