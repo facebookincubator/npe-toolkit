@@ -15,8 +15,8 @@ import {toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
+import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
 import alert from '@toolkit/ui/components/legacy/Alert';
-import Button from '@toolkit/ui/components/legacy/Button';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
 import TextField, {
   KeyboardDismissPressable,
@@ -72,6 +72,7 @@ export default function TextInputStep({config, onNext, value: val}: Props) {
   const [error, setError] = useState<string | null>(null);
   const [value, setValue] = useState(val ?? '');
   const {textColor, backgroundColor} = useTheme();
+  const Button = useComponent(ButtonApi);
 
   useEffect(() => {
     if (field.required) {
@@ -121,20 +122,17 @@ export default function TextInputStep({config, onNext, value: val}: Props) {
 
           <View>
             {/** Need back button? */}
-            <Button
-              text={nextText}
-              size="lg"
-              onPress={nextStep}
-              disabled={!isValid}
-            />
+            <Button type="primary" onPress={nextStep} disabled={!isValid}>
+              {nextText}
+            </Button>
             {!required && (
               <Button
-                text="Skip"
+                type="primary"
                 style={{backgroundColor: '#00000000', marginTop: 8}}
-                textStyle={{color: textColor}}
-                size="lg"
-                onPress={flow.next}
-              />
+                labelStyle={{color: textColor}}
+                onPress={flow.next}>
+                Skip
+              </Button>
             )}
           </View>
         </View>

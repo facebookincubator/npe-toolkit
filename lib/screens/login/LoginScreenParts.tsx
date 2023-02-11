@@ -9,56 +9,48 @@
 
 import React from 'react';
 import {Linking, StyleSheet} from 'react-native';
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {View} from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@toolkit/core/client/Theme';
-import Button from '@toolkit/ui/components/legacy/Button';
+import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
 import {Link} from '@toolkit/ui/components/legacy/Text';
 
 export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
-  const theme = useTheme();
+  const Button = useComponent(ButtonApi);
   return (
     <Button
-      text="Sign in with Facebook"
-      size="lg"
+      type="primary"
       style={[S.button, {backgroundColor: '#1877F2'}]}
-      textStyle={{color: theme?.backgroundColor}}
-      leftAddon={
-        <MaterialIcons
-          name="facebook"
-          size={32}
-          color={theme?.buttonTextColor ?? 'white'}
-        />
-      }
-      onPress={onPress}
-    />
+      icon="mci:facebook"
+      onPress={onPress}>
+      Sign in with Facebook
+    </Button>
   );
 }
 
 export function GoogleButton(props: {onPress: () => Promise<void> | void}) {
   // TODO Use real branding
   const {onPress} = props;
+  const Button = useComponent(ButtonApi);
   return (
-    <Button
-      style={S.button}
-      text="Sign in with Google"
-      size="lg"
-      onPress={onPress}
-    />
+    <View>
+      <Button type="primary" style={S.button} onPress={onPress}>
+        Sign in with Google
+      </Button>
+    </View>
   );
 }
 
 export function PhoneButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
+  const Button = useComponent(ButtonApi);
 
   return (
-    <Button
-      style={S.button}
-      text="Sign in with Phone Number"
-      size="lg"
-      onPress={onPress}
-    />
+    <Button type="primary" style={S.button} onPress={onPress}>
+      Sign in with Phone Number
+    </Button>
   );
 }
 
@@ -131,6 +123,8 @@ const S = StyleSheet.create({
     height: 36,
   },
   button: {
+    width: '100%',
     maxWidth: 350,
+    alignSelf: 'center',
   },
 });

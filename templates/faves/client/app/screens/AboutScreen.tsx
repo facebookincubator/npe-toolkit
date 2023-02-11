@@ -9,13 +9,15 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import Button from '@toolkit/ui/components/legacy/Button';
+import {useComponent} from '@toolkit/ui/components/Components';
+import {ButtonApi} from '@toolkit/ui/components/Components';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 
 const AboutScreen: Screen<{}> = () => {
   const {back} = useNav();
+  const Button = useComponent(ButtonApi);
 
   return (
     <View style={S.container}>
@@ -41,12 +43,9 @@ const AboutScreen: Screen<{}> = () => {
           Please do not share externally.
         </Body>
 
-        <Button
-          text="Continue"
-          size="lg"
-          onPress={back}
-          style={{paddingHorizontal: 48}}
-        />
+        <Button type="primary" onPress={back} style={{paddingHorizontal: 48}}>
+          Continue
+        </Button>
       </View>
     </View>
   );

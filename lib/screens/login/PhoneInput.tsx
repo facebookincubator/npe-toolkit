@@ -16,7 +16,7 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import Button from '@toolkit/ui/components/legacy/Button';
+import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
 import TextField, {
   KeyboardDismissPressable,
@@ -36,6 +36,7 @@ export default function PhoneInput() {
   const params = useRoute().params as Params;
   const {navigate} = useNavigation<any>();
   const {backgroundColor} = useTheme();
+  const Button = useComponent(ButtonApi);
 
   useEffect(() => {
     setIsValid(isValidPhoneNumber(phoneNumber, 'US'));
@@ -84,12 +85,13 @@ export default function PhoneInput() {
           />
 
           <Button
+            type="primary"
+            style={{width: '100%', alignSelf: 'center'}}
             disabled={!isValid}
-            text="Continue"
-            size="lg"
-            isLoading={isLoading}
-            onPress={onSubmit}
-          />
+            loading={isLoading}
+            onPress={onSubmit}>
+            Continue
+          </Button>
         </View>
         <FirebaseRecaptchaBanner
           textStyle={{

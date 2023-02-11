@@ -15,7 +15,7 @@ import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {toError} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import Button from '@toolkit/ui/components/legacy/Button';
+import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
 import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
 import TextField, {
   KeyboardDismissPressable,
@@ -36,6 +36,7 @@ export default function PhoneVerification() {
   const auth = useAuth();
   const {backgroundColor} = useTheme();
   const next = params?.next || 'Home';
+  const Button = useComponent(ButtonApi);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -85,20 +86,21 @@ export default function PhoneVerification() {
               )}
 
               <Button
-                text="Resend Code"
-                onPress={() => {
-                  navigate('PhoneInput');
-                }}
-              />
+                type="secondary"
+                labelStyle={{fontSize: 14}}
+                onPress={() => navigate('PhoneInput')}>
+                Resend Code
+              </Button>
             </View>
           </View>
 
           <Button
-            text="Verify"
-            size="lg"
-            isLoading={isLoading}
-            onPress={onSubmit}
-          />
+            type="primary"
+            style={{width: '100%', alignSelf: 'center'}}
+            loading={isLoading}
+            onPress={onSubmit}>
+            Verify
+          </Button>
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>

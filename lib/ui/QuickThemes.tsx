@@ -67,10 +67,10 @@ export const CRAZY_CLOWN: Theme = {
 
 export const BLACK_AND_WHITE: Theme = {
   ...DefaultTheme,
-  roundness: 12,
+  roundness: 100,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#202020',
+    primary: 'black',
     accent: '#0000FF',
     text: '#404040',
     background: '#FFFFFF',
