@@ -15,11 +15,13 @@ import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {toError} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
+import {
+  ButtonApi,
+  TextInputApi,
+  useComponent,
+} from '@toolkit/ui/components/Components';
+import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
 import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {
-  KeyboardDismissPressable,
-} from '@toolkit/ui/components/legacy/TextField';
 
 type Params = {
   phone: string;
@@ -37,6 +39,7 @@ export default function PhoneVerification() {
   const {backgroundColor} = useTheme();
   const next = params?.next || 'Home';
   const Button = useComponent(ButtonApi);
+  const TextInput = useComponent(TextInputApi);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -70,21 +73,21 @@ export default function PhoneVerification() {
           </View>
 
           <View>
-            <TextField
+            <TextInput
               label="Code"
-              type="number"
+              type="primary"
+              keyboardType="number-pad"
               maxLength={6}
-              error={error != null}
               value={code}
               onChangeText={setCode}
             />
             <View style={styles.row}>
-              {error != null ? (
-                <Error>Error - {error}</Error>
-              ) : (
-                <Info>Didn't get a code?</Info>
+              {error != null && (
+                <View style={{paddingLeft: 10}}>
+                  <Error>Error - {error}</Error>
+                </View>
               )}
-
+              <View style={{width: 1}} />
               <Button
                 type="secondary"
                 labelStyle={{fontSize: 14}}

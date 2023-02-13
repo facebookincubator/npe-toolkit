@@ -18,7 +18,13 @@
  */
 
 import React from 'react';
-import {StyleProp, TextStyle, TouchableOpacity, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  TextInput,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 
 const componentRegistry: Record<string, React.ComponentType<any>> = {};
 type ComponentApi<Props> = {key: string; props?: Props};
@@ -35,7 +41,7 @@ export function registerComponent<Props>(
 }
 
 /**
- * TODO: `useComponents()`
+ * TODO: `useComponents()` with type safety
  */
 export function useComponent<Props>(
   api: ComponentApi<Props>,
@@ -66,3 +72,18 @@ export type ButtonProps = Partial<
 
 export const ButtonApi: ComponentApi<ButtonProps> =
   makeComponentApi<ButtonProps>('Button');
+
+export type TextInputProps = Partial<React.ComponentProps<typeof TextInput>> & {
+  // TO TEST: error, left/right
+  label?: string;
+  render?: (
+    props: Partial<React.ComponentProps<typeof TextInput>>,
+  ) => React.ReactNode;
+  type?: string;
+  style?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<ViewStyle>;
+  extraStyle?: StyleProp<ViewStyle>; // maybe
+};
+
+export const TextInputApi: ComponentApi<TextInputProps> =
+  makeComponentApi<TextInputProps>('TextInput');

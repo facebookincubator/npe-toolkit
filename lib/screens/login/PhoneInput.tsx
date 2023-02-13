@@ -16,11 +16,13 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
+import {
+  ButtonApi,
+  TextInputApi,
+  useComponent,
+} from '@toolkit/ui/components/Components';
+import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
 import {Body, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {
-  KeyboardDismissPressable,
-} from '@toolkit/ui/components/legacy/TextField';
 
 type Params = {
   next?: string;
@@ -37,6 +39,7 @@ export default function PhoneInput() {
   const {navigate} = useNavigation<any>();
   const {backgroundColor} = useTheme();
   const Button = useComponent(ButtonApi);
+  const TextInput = useComponent(TextInputApi);
 
   useEffect(() => {
     setIsValid(isValidPhoneNumber(phoneNumber, 'US'));
@@ -78,9 +81,11 @@ export default function PhoneInput() {
             </Body>
           </View>
 
-          <TextField
+          <TextInput
             label="Phone Number"
-            type="phone"
+            type="primary"
+            autoComplete="tel"
+            value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
 
