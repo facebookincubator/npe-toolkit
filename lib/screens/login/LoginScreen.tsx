@@ -22,7 +22,10 @@ import {
   LoginTermsOfService,
   PhoneButton,
 } from '@toolkit/screens/login/LoginScreenParts';
-import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
+import {
+  TextComponentApis,
+  useComponent,
+} from '@toolkit/ui/components/Components';
 
 // Note: Separate config is only needed because SimpleLoginScreen can supports multiple apps.
 // If you branch this and create your own screen, you can just edit the content inline.
@@ -48,15 +51,18 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
   let {title, subtitle, authTypes} = props.config;
   const {appIcon, appName} = useAppInfo();
   let {backgroundColor} = useTheme();
+  const H1 = useComponent(TextComponentApis.H1);
+  const Body = useComponent(TextComponentApis.Body);
+  const Info = useComponent(TextComponentApis.Info);
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
       <LoginFlowBackButton />
       <View style={S.header}>
         <Image style={S.appLogo} source={appIcon} />
-        <Title mb={8} center>
+        <H1 mb={8} center>
           {title}
-        </Title>
+        </H1>
         <Body center>{subtitle}</Body>
       </View>
       <AuthenticationButtons config={props.config} />

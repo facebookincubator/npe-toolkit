@@ -22,6 +22,7 @@ import {
   TextInputApi,
   TextInputProps,
   registerComponent,
+  registerTextStyles,
 } from '@toolkit/ui/components/Components';
 
 type ButtonModeType = 'text' | 'outlined' | 'contained';
@@ -123,7 +124,22 @@ const TextInput = (props: TextInputProps) => {
   );
 };
 
-export function registerPaperComponents() {
+export function usePaperComponents() {
+  const theme = useTheme();
   registerComponent(ButtonApi, Button);
   registerComponent(TextInputApi, TextInput);
+
+  registerTextStyles({
+    H1: {fontSize: 24, fontWeight: '600'},
+    H2: {fontSize: 17, fontWeight: '600'},
+    Body: {fontSize: 16},
+    Info: {fontSize: 14, opacity: 0.9},
+    Error: {fontSize: 14, color: '#DE2B2B'},
+    Link: {
+      fontSize: 14,
+      opacity: 0.9,
+      fontWeight: '600',
+    },
+    default: {color: theme.colors.text},
+  });
 }

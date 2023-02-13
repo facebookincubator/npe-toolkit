@@ -20,6 +20,7 @@
 import React from 'react';
 import {
   StyleProp,
+  Text,
   TextInput,
   TextStyle,
   TouchableOpacity,
@@ -87,3 +88,63 @@ export type TextInputProps = Partial<React.ComponentProps<typeof TextInput>> & {
 
 export const TextInputApi: ComponentApi<TextInputProps> =
   makeComponentApi<TextInputProps>('TextInput');
+
+export type TextProps = React.ComponentProps<typeof Text> & {
+  /** Whether to center the text **/
+  center?: boolean;
+  /** Shorthand for margin botton style */
+  mb?: number;
+};
+
+export const TextComponentApis: Record<string, ComponentApi<TextProps>> = {
+  H1: makeComponentApi<TextProps>('H1'),
+  H2: makeComponentApi<TextProps>('H2'),
+  H3: makeComponentApi<TextProps>('H3'),
+  H4: makeComponentApi<TextProps>('H4'),
+  Body: makeComponentApi<TextProps>('Body'),
+  Info: makeComponentApi<TextProps>('Info'),
+  Error: makeComponentApi<TextProps>('Error'),
+  Link: makeComponentApi<TextProps>('Link'),
+};
+
+/**
+ * Utility to register styles for a set of text components.
+ *
+ * This is a convenience, and you can use abitrary components for your text components.
+ */
+export function registerTextStyles(
+  styles: Record<string, StyleProp<TextStyle>>,
+) {
+  const defaultStyle = styles['default'] ?? {};
+
+  for (const key in styles) {
+    if (key !== 'default') {
+      const style = [defaultStyle, styles[key]];
+      registerComponent(TextComponentApis[key], textComponent(style));
+    }
+  }
+}
+
+/**
+ * Create a styled text component based on react-native `<Text>` and a set of props.
+ * This is a convenience, and you can use abitrary components for your text components.
+ */
+export function textComponent(
+  defaultStyle: StyleProp<TextStyle>,
+  defaults?: TextProps,
+): React.ComponentType<TextProps> {
+  return ({center, mb, style, ...props}) => {
+    return (
+      <Text
+        {...defaults}
+        style={[
+          defaultStyle,
+          center && {textAlign: 'center'},
+          mb != null && {marginBottom: mb},
+          style,
+        ]}
+        {...props}
+      />
+    );
+  };
+}

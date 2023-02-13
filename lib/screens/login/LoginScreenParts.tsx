@@ -14,7 +14,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
-import {Link} from '@toolkit/ui/components/legacy/Text';
+import {TextComponentApis} from '@toolkit/ui/components/Components';
 
 export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
@@ -61,6 +61,8 @@ type AProps = {
 
 const A = (props: AProps) => {
   const {href, children} = props;
+  const Link = useComponent(TextComponentApis.Link);
+
   return <Link onPress={() => Linking.openURL(href)}>{children}</Link>;
 };
 
