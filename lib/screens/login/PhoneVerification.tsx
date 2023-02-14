@@ -15,13 +15,8 @@ import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {toError} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import {
-  ButtonApi,
-  TextInputApi,
-  useComponent,
-} from '@toolkit/ui/components/Components';
+import {useComponents} from '@toolkit/ui/components/Components';
 import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
-import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
 
 type Params = {
   phone: string;
@@ -38,8 +33,7 @@ export default function PhoneVerification() {
   const auth = useAuth();
   const {backgroundColor} = useTheme();
   const next = params?.next || 'Home';
-  const Button = useComponent(ButtonApi);
-  const TextInput = useComponent(TextInputApi);
+  const {Button, TextInput, Title, Body, Error} = useComponents();
 
   const onSubmit = async () => {
     setIsLoading(true);

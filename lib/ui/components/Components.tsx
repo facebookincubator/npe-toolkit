@@ -24,6 +24,7 @@ import {
   TextInput,
   TextStyle,
   TouchableOpacity,
+  View,
   ViewStyle,
 } from 'react-native';
 
@@ -41,20 +42,24 @@ export function registerComponent<Props>(
   componentRegistry[api.key] = impl;
 }
 
-/**
- * TODO: `useComponents()` with type safety
- */
 export function useComponent<Props>(
   api: ComponentApi<Props>,
 ): React.ComponentType<Props> {
-  const component = componentRegistry[api.key];
-  if (!component) {
-    throw Error(`Component not registered for type "${api.key}"`);
-  }
-
+  const component = componentRegistry[api.key] ?? placeholderComponent(api);
   return component;
 }
 
+function placeholderComponent(api: ComponentApi<any>) {
+  return () => {
+    return (
+      <View>
+        <Text style={{fontFamily: 'Sans-Serif'}}>
+          {__DEV__ ? `No component registered for "${api.key}"` : ''}
+        </Text>
+      </View>
+    );
+  };
+}
 /**
  * TODO: Document
  */
@@ -96,16 +101,53 @@ export type TextProps = React.ComponentProps<typeof Text> & {
   mb?: number;
 };
 
-export const TextComponentApis: Record<string, ComponentApi<TextProps>> = {
-  H1: makeComponentApi<TextProps>('H1'),
-  H2: makeComponentApi<TextProps>('H2'),
+const WELL_KNOWN_COMPONENT_APIS = {
+  Button: makeComponentApi<ButtonProps>('Button'),
+  TextInput: makeComponentApi<TextInputProps>('TextInput'),
+  Title: makeComponentApi<TextProps>('Title'),
+  Subtitle: makeComponentApi<TextProps>('Subtitle'),
   H3: makeComponentApi<TextProps>('H3'),
-  H4: makeComponentApi<TextProps>('H4'),
   Body: makeComponentApi<TextProps>('Body'),
   Info: makeComponentApi<TextProps>('Info'),
   Error: makeComponentApi<TextProps>('Error'),
   Link: makeComponentApi<TextProps>('Link'),
 };
+
+// This could be created using TypeScript magic but
+// didn't seem worth the complexity
+export type WellKnownComponents = {
+  Button: React.ComponentType<ButtonProps>;
+  TextInput: React.ComponentType<TextInputProps>;
+  Title: React.ComponentType<TextProps>;
+  Subtitle: React.ComponentType<TextProps>;
+  H3: React.ComponentType<TextProps>;
+  Body: React.ComponentType<TextProps>;
+  Info: React.ComponentType<TextProps>;
+  Error: React.ComponentType<TextProps>;
+  Link: React.ComponentType<TextProps>;
+};
+
+/**
+ * Use well known app-wide components.
+ *
+ * Usage:
+ * ```
+ * const {Button, Title} = useComponents();
+ * ...
+ *
+ * return (<>
+ *   <Title>This is the title</Title>
+ *   <Button onPress={doSomething}/>
+ * </>);
+ */
+export function useComponents(): WellKnownComponents {
+  const result: Record<string, any> = {};
+  for (const key in WELL_KNOWN_COMPONENT_APIS) {
+    // @ts-ignore
+    result[key] = useComponent(WELL_KNOWN_COMPONENT_APIS[key]);
+  }
+  return result as WellKnownComponents;
+}
 
 /**
  * Utility to register styles for a set of text components.
@@ -120,7 +162,8 @@ export function registerTextStyles(
   for (const key in styles) {
     if (key !== 'default') {
       const style = [defaultStyle, styles[key]];
-      registerComponent(TextComponentApis[key], textComponent(style));
+      // @ts-ignore
+      registerComponent(WELL_KNOWN_COMPONENT_APIS[key], textComponent(style));
     }
   }
 }

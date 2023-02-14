@@ -16,8 +16,7 @@ import {User} from '@toolkit/core/api/User';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
 import {Opt} from '@toolkit/core/util/Types';
-import {useComponent} from '@toolkit/ui/components/Components';
-import {ButtonApi} from '@toolkit/ui/components/Components';
+import {useComponents} from '@toolkit/ui/components/Components';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import {sleep} from '@app/../../npe-toolkit/lib/core/util/DevUtil';
@@ -29,7 +28,7 @@ const CreateNewThingScreen: Screen<{}> = () => {
   const [description, setDescription] = React.useState<string>();
   const [imageUrl, setImageUrl] = React.useState<string>();
   const [previewUrl, setPreviewUrl] = React.useState<Opt<string>>();
-  const Button = useComponent(ButtonApi);
+  const {Button} = useComponents();
 
   const [saving, setSaving] = React.useState<boolean>(false);
 

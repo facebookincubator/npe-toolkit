@@ -16,13 +16,8 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import {
-  ButtonApi,
-  TextInputApi,
-  useComponent,
-} from '@toolkit/ui/components/Components';
+import {useComponents} from '@toolkit/ui/components/Components';
 import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
-import {Body, Title} from '@toolkit/ui/components/legacy/Text';
 
 type Params = {
   next?: string;
@@ -38,8 +33,7 @@ export default function PhoneInput() {
   const params = useRoute().params as Params;
   const {navigate} = useNavigation<any>();
   const {backgroundColor} = useTheme();
-  const Button = useComponent(ButtonApi);
-  const TextInput = useComponent(TextInputApi);
+  const {Button, TextInput, Body, Title} = useComponents();
 
   useEffect(() => {
     setIsValid(isValidPhoneNumber(phoneNumber, 'US'));

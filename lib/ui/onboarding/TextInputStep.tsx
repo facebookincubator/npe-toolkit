@@ -15,14 +15,9 @@ import {toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
-import {
-  ButtonApi,
-  TextInputApi,
-  useComponent,
-} from '@toolkit/ui/components/Components';
+import {useComponents} from '@toolkit/ui/components/Components';
 import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
 import alert from '@toolkit/ui/components/legacy/Alert';
-import {Body, Title} from '@toolkit/ui/components/legacy/Text';
 
 /**
  * Information about the field being edited that is usable across multiple surfaces.
@@ -72,8 +67,7 @@ export default function TextInputStep({config, onNext, value: val}: Props) {
   const [error, setError] = useState<string | null>(null);
   const [value, setValue] = useState(val ?? '');
   const {textColor, backgroundColor} = useTheme();
-  const Button = useComponent(ButtonApi);
-  const TextInput = useComponent(TextInputApi);
+  const {Button, TextInput, Body, Title} = useComponents();
 
   useEffect(() => {
     if (field.required) {

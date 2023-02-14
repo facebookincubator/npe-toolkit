@@ -13,12 +13,12 @@ import {View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@toolkit/core/client/Theme';
-import {ButtonApi, useComponent} from '@toolkit/ui/components/Components';
-import {TextComponentApis} from '@toolkit/ui/components/Components';
+import {useComponents} from '@toolkit/ui/components/Components';
 
 export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
-  const Button = useComponent(ButtonApi);
+  const {Button} = useComponents();
+
   return (
     <Button
       type="primary"
@@ -33,7 +33,8 @@ export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
 export function GoogleButton(props: {onPress: () => Promise<void> | void}) {
   // TODO Use real branding
   const {onPress} = props;
-  const Button = useComponent(ButtonApi);
+  const {Button} = useComponents();
+
   return (
     <View>
       <Button type="primary" style={S.button} onPress={onPress}>
@@ -45,7 +46,7 @@ export function GoogleButton(props: {onPress: () => Promise<void> | void}) {
 
 export function PhoneButton(props: {onPress: () => Promise<void> | void}) {
   const {onPress} = props;
-  const Button = useComponent(ButtonApi);
+  const {Button} = useComponents();
 
   return (
     <Button type="primary" style={S.button} onPress={onPress}>
@@ -61,7 +62,7 @@ type AProps = {
 
 const A = (props: AProps) => {
   const {href, children} = props;
-  const Link = useComponent(TextComponentApis.Link);
+  const {Link} = useComponents();
 
   return <Link onPress={() => Linking.openURL(href)}>{children}</Link>;
 };
