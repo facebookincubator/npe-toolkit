@@ -17,7 +17,7 @@ import {TODELETE} from '@toolkit/experimental/deletion/datastore/deletion';
 import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
 import {useTextInput} from '@toolkit/ui/UiHooks';
-import alert from '@toolkit/ui/components/legacy/Alert';
+import {alert} from '@toolkit/ui/components/Tools';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 

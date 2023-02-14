@@ -16,8 +16,7 @@ import {Opt} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
 import {useComponents} from '@toolkit/ui/components/Components';
-import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
-import alert from '@toolkit/ui/components/legacy/Alert';
+import {KeyboardDismissPressable, alert} from '@toolkit/ui/components/Tools';
 
 /**
  * Information about the field being edited that is usable across multiple surfaces.
