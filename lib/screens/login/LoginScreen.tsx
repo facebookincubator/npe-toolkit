@@ -22,7 +22,7 @@ import {
   LoginTermsOfService,
   PhoneButton,
 } from '@toolkit/screens/login/LoginScreenParts';
-import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
+import {useComponents} from '@toolkit/ui/components/Components';
 
 // Note: Separate config is only needed because SimpleLoginScreen can supports multiple apps.
 // If you branch this and create your own screen, you can just edit the content inline.
@@ -48,6 +48,7 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
   let {title, subtitle, authTypes} = props.config;
   const {appIcon, appName} = useAppInfo();
   let {backgroundColor} = useTheme();
+  const {Title, Body, Info} = useComponents();
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
@@ -88,6 +89,7 @@ export function AuthenticationButtons(props: {
   const [loginErrorMessage, setLoginErrorMessage] = useState<Opt<string>>();
   const tryFacebookLogin = auth.useTryConnect('facebook', FB_SCOPES);
   const tryGoogleLogin = auth.useTryConnect('google', GOOGLE_SCOPES);
+  const {Body, Error} = useComponents();
 
   async function tryLogin(type: AuthType) {
     try {

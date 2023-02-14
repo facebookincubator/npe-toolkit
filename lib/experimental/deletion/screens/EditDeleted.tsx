@@ -22,7 +22,7 @@ import DeletedScreen from '@toolkit/experimental/deletion/screens/Deleted';
 import DryrunScreen from '@toolkit/experimental/deletion/screens/DeletionDryRun';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {NotFoundError} from '@toolkit/tbd/CommonErrors';
-import alert from '@toolkit/ui/components/legacy/Alert';
+import {alert} from '@toolkit/ui/components/Tools';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 

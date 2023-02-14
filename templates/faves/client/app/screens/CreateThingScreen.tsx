@@ -16,9 +16,11 @@ import {User} from '@toolkit/core/api/User';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
 import {Opt} from '@toolkit/core/util/Types';
-import Button from '@toolkit/ui/components/legacy/Button';
+import {useComponents} from '@toolkit/ui/components/Components';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
+import {sleep} from '@app/../../npe-toolkit/lib/core/util/DevUtil';
+import AllThingsScreen from '@app/app/screens/AllThingsScreen';
 import {AddThing} from '@app/common/AppLogic';
 
 const CreateNewThingScreen: Screen<{}> = () => {
@@ -26,6 +28,7 @@ const CreateNewThingScreen: Screen<{}> = () => {
   const [description, setDescription] = React.useState<string>();
   const [imageUrl, setImageUrl] = React.useState<string>();
   const [previewUrl, setPreviewUrl] = React.useState<Opt<string>>();
+  const {Button} = useComponents();
 
   const [saving, setSaving] = React.useState<boolean>(false);
 
@@ -47,14 +50,25 @@ const CreateNewThingScreen: Screen<{}> = () => {
     }
     setSaving(true);
     await addThing({name, description, imageUrl, creator: user});
+    await sleep(5000);
     setSaving(false);
-    nav.back();
+    back();
     nav.setParams({reload: true});
   };
 
   function urlChange(value: string) {
     setImageUrl(value);
     setPreviewUrl(null);
+  }
+
+  function back() {
+    // TODO: We should create the back stack when deep navigating to CreateThingScreen
+    // But for now we need to navigate back to main screen if it doesn't exist
+    if (nav.backOk()) {
+      nav.back();
+    } else {
+      nav.navTo(AllThingsScreen);
+    }
   }
 
   return (
@@ -91,17 +105,15 @@ const CreateNewThingScreen: Screen<{}> = () => {
       )}
 
       <Button
-        text="Create Thing"
-        size="lg"
+        type="primary"
         onPress={messageOnFail(saveThing)}
-        isLoading={saving}
-      />
-      <Button
-        text="Cancel"
-        size="lg"
-        secondary={true}
-        onPress={() => nav.back()}
-      />
+        loading={saving}
+        disabled={saving}>
+        Create Thing
+      </Button>
+      <Button type="tertiary" onPress={back} disabled={saving}>
+        Cancel
+      </Button>
     </View>
   );
 };

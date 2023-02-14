@@ -15,13 +15,8 @@ import {toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
 import {useFlow} from '@toolkit/ui/Components/MultistepFlow';
-import alert from '@toolkit/ui/components/legacy/Alert';
-import Button from '@toolkit/ui/components/legacy/Button';
-import {Body, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {
-  KeyboardDismissPressable,
-  TextFieldType,
-} from '@toolkit/ui/components/legacy/TextField';
+import {useComponents} from '@toolkit/ui/components/Components';
+import {KeyboardDismissPressable, alert} from '@toolkit/ui/components/Tools';
 
 /**
  * Information about the field being edited that is usable across multiple surfaces.
@@ -29,7 +24,6 @@ import TextField, {
  */
 export type FieldInfo = {
   label: string;
-  type?: TextFieldType;
   required?: boolean;
   verify?: (answer: string) => {isValid: boolean; errorMessage?: string};
 };
@@ -66,12 +60,13 @@ type Props = {
 export default function TextInputStep({config, onNext, value: val}: Props) {
   const flow = useFlow();
   const {title, prompt, field, submitText} = config;
-  const {label, type = 'text', required, verify} = field;
+  const {label, required, verify} = field;
   const {top} = useSafeAreaInsets();
   const [isValid, setIsValid] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [value, setValue] = useState(val ?? '');
   const {textColor, backgroundColor} = useTheme();
+  const {Button, TextInput, Body, Title} = useComponents();
 
   useEffect(() => {
     if (field.required) {
@@ -111,30 +106,26 @@ export default function TextInputStep({config, onNext, value: val}: Props) {
             {prompt && <Body>{prompt}</Body>}
           </View>
 
-          <TextField
+          <TextInput
             label={label}
-            type={type}
-            error={error != null}
+            type="primary"
             value={value}
             onChangeText={setValue}
           />
 
           <View>
             {/** Need back button? */}
-            <Button
-              text={nextText}
-              size="lg"
-              onPress={nextStep}
-              disabled={!isValid}
-            />
+            <Button type="primary" onPress={nextStep} disabled={!isValid}>
+              {nextText}
+            </Button>
             {!required && (
               <Button
-                text="Skip"
+                type="primary"
                 style={{backgroundColor: '#00000000', marginTop: 8}}
-                textStyle={{color: textColor}}
-                size="lg"
-                onPress={flow.next}
-              />
+                labelStyle={{color: textColor}}
+                onPress={flow.next}>
+                Skip
+              </Button>
             )}
           </View>
         </View>

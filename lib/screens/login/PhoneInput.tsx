@@ -16,11 +16,8 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import Button from '@toolkit/ui/components/legacy/Button';
-import {Body, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {
-  KeyboardDismissPressable,
-} from '@toolkit/ui/components/legacy/TextField';
+import {useComponents} from '@toolkit/ui/components/Components';
+import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
 
 type Params = {
   next?: string;
@@ -36,6 +33,7 @@ export default function PhoneInput() {
   const params = useRoute().params as Params;
   const {navigate} = useNavigation<any>();
   const {backgroundColor} = useTheme();
+  const {Button, TextInput, Body, Title} = useComponents();
 
   useEffect(() => {
     setIsValid(isValidPhoneNumber(phoneNumber, 'US'));
@@ -77,19 +75,22 @@ export default function PhoneInput() {
             </Body>
           </View>
 
-          <TextField
+          <TextInput
             label="Phone Number"
-            type="phone"
+            type="primary"
+            autoComplete="tel"
+            value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
 
           <Button
+            type="primary"
+            style={{width: '100%', alignSelf: 'center'}}
             disabled={!isValid}
-            text="Continue"
-            size="lg"
-            isLoading={isLoading}
-            onPress={onSubmit}
-          />
+            loading={isLoading}
+            onPress={onSubmit}>
+            Continue
+          </Button>
         </View>
         <FirebaseRecaptchaBanner
           textStyle={{

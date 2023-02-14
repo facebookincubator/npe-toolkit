@@ -40,6 +40,7 @@ import 'react-native-gesture-handler';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';
+import {usePaperComponents} from '@toolkit/ui/components/Paper';
 import AuthConfig from '@app/app/AuthConfig';
 import AboutScreen from '@app/app/screens/AboutScreen';
 import AllThingsScreen from '@app/app/screens/AllThingsScreen';
@@ -157,6 +158,7 @@ export default function App() {
   IdentityService.addProvider(googleAuthProvider(GOOGLE_LOGIN_CONFIG));
   registerIconPack('ion', Ionicons);
   registerIconPack('mci', MaterialCommunityIcons);
+  usePaperComponents();
 
   const {navScreens, linkingScreens} = useReactNavScreens(
     ROUTES,

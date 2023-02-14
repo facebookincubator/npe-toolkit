@@ -15,11 +15,8 @@ import {useAuth} from '@toolkit/core/api/Auth';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {toError} from '@toolkit/core/util/Types';
 import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
-import Button from '@toolkit/ui/components/legacy/Button';
-import {Body, Error, Info, Title} from '@toolkit/ui/components/legacy/Text';
-import TextField, {
-  KeyboardDismissPressable,
-} from '@toolkit/ui/components/legacy/TextField';
+import {useComponents} from '@toolkit/ui/components/Components';
+import {KeyboardDismissPressable} from '@toolkit/ui/components/Tools';
 
 type Params = {
   phone: string;
@@ -36,6 +33,7 @@ export default function PhoneVerification() {
   const auth = useAuth();
   const {backgroundColor} = useTheme();
   const next = params?.next || 'Home';
+  const {Button, TextInput, Title, Body, Error} = useComponents();
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -69,36 +67,37 @@ export default function PhoneVerification() {
           </View>
 
           <View>
-            <TextField
+            <TextInput
               label="Code"
-              type="number"
+              type="primary"
+              keyboardType="number-pad"
               maxLength={6}
-              error={error != null}
               value={code}
               onChangeText={setCode}
             />
             <View style={styles.row}>
-              {error != null ? (
-                <Error>Error - {error}</Error>
-              ) : (
-                <Info>Didn't get a code?</Info>
+              {error != null && (
+                <View style={{paddingLeft: 10}}>
+                  <Error>Error - {error}</Error>
+                </View>
               )}
-
+              <View style={{width: 1}} />
               <Button
-                text="Resend Code"
-                onPress={() => {
-                  navigate('PhoneInput');
-                }}
-              />
+                type="secondary"
+                labelStyle={{fontSize: 14}}
+                onPress={() => navigate('PhoneInput')}>
+                Resend Code
+              </Button>
             </View>
           </View>
 
           <Button
-            text="Verify"
-            size="lg"
-            isLoading={isLoading}
-            onPress={onSubmit}
-          />
+            type="primary"
+            style={{width: '100%', alignSelf: 'center'}}
+            loading={isLoading}
+            onPress={onSubmit}>
+            Verify
+          </Button>
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>

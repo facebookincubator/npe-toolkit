@@ -17,7 +17,7 @@ import {useReload} from '@toolkit/core/client/Reload';
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
-import PressableSpring from '@toolkit/ui/components/legacy/PressableSpring';
+import {PressableSpring} from '@toolkit/ui/components/Tools';
 import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from '@app/common/Api';
 import {AddFave, RemoveThing} from '@app/common/AppLogic';
 import {Fave, Thing} from '@app/common/DataTypes';
