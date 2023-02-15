@@ -40,7 +40,7 @@ Code at any layer of the client stack should be able to log events:
 
 ## Usage
 
-**Logging an event:**
+**Logging an event**
 
 ```tsx
 function MyComponent() {
@@ -59,7 +59,7 @@ function MyComponent() {
 }
 ```
 
-**Configuring logging using existing provider:**
+**Configuring logging using existing provider**
 
 ```tsx
 import {FIREBASE_LOGGER} from '@npe/lib/firebase/FirebaseLogger';
