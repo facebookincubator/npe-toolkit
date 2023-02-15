@@ -52,7 +52,7 @@ Setup
 in `ComponentThatLoadsData.tsx`
 
 ```tsx
-`type Props = {
+type Props = {
   userId: string;
   async: {
     user: User;
@@ -69,10 +69,8 @@ ComponentThatLoadsData.load = async props => {
 }
 
 export default withAsyncLoad(ComponentThatLoadsData);
-`;
 ```
 
-.
 
 ### **Using a Loadable component**
 
@@ -81,5 +79,4 @@ function CallerComponent() {
   // ...
   return <ComponentThatLoadsData userId="123"/>;
 }
-`
 ```
