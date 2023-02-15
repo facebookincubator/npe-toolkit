@@ -73,7 +73,6 @@ specific benefits)
     after transition your navigators should have a consistent set of screens on
     them
 
-..
 
 **Defining a Screen**
 
@@ -103,8 +102,6 @@ MyScreen.load = async props => {
 
 export default MyScreen;
 ```
-
-.
 
 **Defining a layout**
 
@@ -143,8 +140,6 @@ const `MyLayout`: LayoutComponent = (props) => {
   );
 };
 ```
-
-.
 
 **Use library to set up screens as React Nav screens**
 
@@ -195,7 +190,6 @@ function AppComponent() {
 You can also pass in components that call `<ApplyLayout>` directly to create
 screens if you prefer to avoid this layer of abstraction.
 
-.
 
 **Navigating to a screen**
 
