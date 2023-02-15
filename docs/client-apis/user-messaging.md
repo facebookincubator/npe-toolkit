@@ -35,7 +35,7 @@ display a message to the user.
   - Additional / more configurable off-the-shelf messaging UI
   - Ability to add buttons or links into this message
 
-. **Show a message / error to the user:**
+**Show a message / error to the user**
 
 ```tsx
 function ButtonThatDoesSoemthingAsync() {
@@ -54,7 +54,7 @@ function ButtonThatDoesSoemthingAsync() {
 }
 ```
 
-. **Configuring messaging**
+**Configuring messaging**
 
 `<SimpleUserMessaging>` is a basic user messaging component. When you define
 your own you can replace it in the example below.
@@ -70,7 +70,7 @@ function AppComponent() {
 }
 ```
 
-. **Creating your own user messaging component**
+**Creating your own user messaging component**
 
 To create a messaging component, you need to provide a `UserMessagingApi` (with
 `showMessage()`, `clear()`, and `showError()`) in AppContext. You’ll generally
