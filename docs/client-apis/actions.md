@@ -47,7 +47,7 @@ above._
   - If metadata is needed async, you can define an Action inline in a parent
     component that loads the data asynchronously
 
-. **Defining an Action**
+**Defining an Action**
 
 ```tsx
 const GO_BACK_ACTION = () => {
@@ -62,7 +62,6 @@ const GO_BACK_ACTION = () => {
 };
 ```
 
-.
 
 ### **Using an Action**
 
