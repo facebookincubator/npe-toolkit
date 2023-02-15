@@ -63,8 +63,6 @@ const STYLE = context(STYLE_KEY, {fontColor: 'orange'});
 </AppContextProvider>;
 ```
 
-.
-
 **Configuring context values using a function call**
 
 ```tsx
@@ -77,7 +75,6 @@ const STYLE = context(STYLE_KEY, {fontColor: 'orange'});
  }
 ```
 
-.
 
 **Using context**
 
