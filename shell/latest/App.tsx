@@ -3,11 +3,13 @@
 
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @format
  */
 
 import 'expo-dev-client';
-import {DevMenu, isDevelopmentBuild} from 'expo-dev-client';
 import {Button, StyleSheet, Text, View} from 'react-native';
+import {DevMenu, isDevelopmentBuild} from 'expo-dev-client';
 import * as WebViewShared from 'react-native-webview/lib/WebViewShared';
 
 let reactNativeWebViewCrashPatched = false;
@@ -29,13 +31,13 @@ function patchReactNativeWebViewCrash() {
   }
 }
 patchReactNativeWebViewCrash();
-export default function App() {
 
+export default function App() {
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
-      <Text style={{textAlign:'center'}}>{devInfo()}</Text>
-      <Button onPress={() => DevMenu.openMenu()} title="Open dev menu"/>
+      <Text style={{textAlign: 'center'}}>{devInfo()}</Text>
+      <Button onPress={() => DevMenu.openMenu()} title="Open dev menu" />
     </View>
   );
 }
@@ -52,6 +54,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 });
