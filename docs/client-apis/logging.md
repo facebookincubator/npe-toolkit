@@ -59,7 +59,7 @@ function MyComponent() {
 }
 ```
 
-. **Configuring logging using existing provider:** _Built-in loggers exist for
+**Configuring logging using existing provider:** _Built-in loggers exist for
 Firebase and WWW logging_
 
 ```tsx
@@ -73,8 +73,6 @@ function App() {
   );
 }
 ```
-
-.
 
 **Configuring logging using your own provider:**
 
