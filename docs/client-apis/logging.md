@@ -59,8 +59,7 @@ function MyComponent() {
 }
 ```
 
-**Configuring logging using existing provider:** _Built-in loggers exist for
-Firebase and WWW logging_
+**Configuring logging using existing provider:**
 
 ```tsx
 import {FIREBASE_LOGGER} from '@npe/lib/firebase/FirebaseLogger';
@@ -74,7 +73,7 @@ function App() {
 }
 ```
 
-**Configuring logging using your own provider:**
+**Configuring logging using your own provider**
 
 ```tsx
 function useMyAppLogger() {
