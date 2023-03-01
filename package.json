@@ -1,4 +1,12 @@
 {
+  "name": "npe-toolkit",
+  "version": "0.0.1",
+  "description": "Libraries, guides, blueprints, and sample code, to enable rapidly building 0-1 applications on iOS, Android and web.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facebookincubator/npe-toolkit.git"
+  },
+  "license": "MIT",
   "devDependencies": {
     "typescript": "^4.5.5",
     "prettier": "^2.5.1",
