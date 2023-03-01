@@ -17,4 +17,4 @@ if [[ ! -d $NPE_TOOLKIT_SYMLINK ]]; then
     exit 1
 fi
 
-yarn install
+yarn install &
