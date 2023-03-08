@@ -19,7 +19,7 @@ import {Opt} from '@toolkit/core/util/Types';
 import {useComponents} from '@toolkit/ui/components/Components';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
-import {sleep} from '@app/../../npe-toolkit/lib/core/util/DevUtil';
+import {sleep} from '@toolkit/core/util/DevUtil';
 import AllThingsScreen from '@app/app/screens/AllThingsScreen';
 import {AddThing} from '@app/common/AppLogic';
 
