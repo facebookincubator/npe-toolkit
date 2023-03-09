@@ -116,7 +116,6 @@ const TextInput = (props: TextInputProps) => {
   /** @ts-ignore */
   const textTypeProps = ac != null ? AUTOCOMPLETE_ADDITIONAL_PROPS[ac] : {};
 
-  console.log(textTypeProps);
   // TODO: "type" as input type, e.g. "phone"
   const theRest = rest as React.ComponentProps<typeof PaperTextInput>;
   return (
