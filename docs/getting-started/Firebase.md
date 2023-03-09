@@ -39,8 +39,8 @@ from client code and server-side privacy rule enforcement.
   - This will need to be changed soon, as itenables anyone with the address of
     the database to read/write all data - just don't write anything important to
     the database
-  - We'll have instructions on how to properly set up your privacy rules with an
-    allowlilst based on your emails
+  - See Step 5 below for how to set up initial privacy rules after you have the
+    app shell up and running
 - Recommend using a Regional database near you
   - Multi-region provides higher reliability at a higher latency for reads
 
@@ -87,15 +87,13 @@ configuration.
 - In the "Your apps" section, click on the web icon: `</>`
 - Give the app a nickname
 - [optional] You can also configure Firebase Hosting during this time.
-   - If you're going to deploy
-  parts of your app on web, we recommend doing this now vs. later
-- Copy the contents of `const firebaseConfig = {...}` in Step 2
-  into the `FIREBASE_CONFIG` constant in your project @
-  `your-app/commmon/Config.tsx`
-  - You can always get back to this config by going to the initial Firebase settings page.
+  - If you're going to deploy parts of your app on web, we recommend doing this
+    now vs. later
+- Copy the contents of `const firebaseConfig = {...}` in Step 2 into the
+  `FIREBASE_CONFIG` constant in your project @ `your-app/commmon/Config.tsx`
+  - You can always get back to this config by going to the initial Firebase
+    settings page.
 - You don't need to go through Step 3 and 4 at this point
-
-
 
 <!--
 #### (optional) Configure your iOS build for Firebase access
@@ -124,16 +122,102 @@ cd -P /usr/local/lib/npe-toolkit/shell/latest && yarn install && yarn shell
 #### (optional) Configure your Android build for Firebase access
 
 _Coming soon!_
+
 ### 4. Configure your project for Google auth
-If you're using Google auth, need configure the Firebase project in the Google Cloud console to enable local development.
 
-* Go to the [Credentials page](https://console.cloud.google.com/apis/credentials) in Google Cloud console and  select your project in the dropdown
-* Click on "Web client (auto created by Google Service)"
-* Add `http://localhost:19006` to the "Authorized redirect URIs" section
-* After saving, copy the `Client ID` and paste into `webClientId` field in `GOOGLE_LOGIN_CONFIG` in
-  `your-app/commmon/Config.tsx`
-* To login on iOS, you can either use Expo Go (a prebuilt iOS shell), or build your own iOS app
-  * If you are using Expo Go, need to add `https://auth.expo.io/@your-username/your-project-name-from-app.json` as well
-  * If you are building your own iOSapp, follow the instructions on the [Expo site](https://docs.expo.dev/)
+If you're using Google auth, need configure the Firebase project in the Google
+Cloud console to enable local development.
 
-More information on configuring Google for expo auth can be found in the [Expo authentication guide](https://docs.expo.dev/guides/authentication/#google).
+- Go to the
+  [Credentials page](https://console.cloud.google.com/apis/credentials) in
+  Google Cloud console and select your project in the dropdown
+- Click on "Web client (auto created by Google Service)"
+- Add `http://localhost:19006` to the "Authorized redirect URIs" section
+- After saving, copy the `Client ID` and paste into `webClientId` field in
+  `GOOGLE_LOGIN_CONFIG` in `your-app/commmon/Config.tsx`
+- To login on iOS, you can either use Expo Go (a prebuilt iOS shell), or build
+  your own iOS app
+  - If you are using Expo Go, need to add
+    `https://auth.expo.io/@your-username/your-project-name-from-app.json` as
+    well
+  - If you are building your own iOSapp, follow the instructions on the
+    [Expo site](https://docs.expo.dev/)
+
+More information on configuring Google for expo auth can be found in the
+[Expo authentication guide](https://docs.expo.dev/guides/authentication/#google).
+
+### 5. Confgiure an allowlist
+
+Firestore has the benefit of being callable directly from client code, and not
+just from your server-side functions.
+
+However, to protect user data from random people on the internet, you need to
+set up privacy rules to limit access. These aren't needed when you are initially
+testing out the toolkit, but as soon as you start developing your app you need
+to set up rules protect your data.
+
+When starting development of an app, we suggest using an allowlist to protect
+the data, in addition to a few simple privacy rules.
+
+The allowlist is a list of emails and phone #'s of people who can use your
+application. Other users will be able to get to the login screen on web (if they
+can find it), but won't be able to login in or read or write any data.
+
+The allowlist means you can iterate on the privacy logic for user data, with the
+expectation that the limited set of people on the allowlist can have access to
+all of the dat ain the app.
+
+To set up an allowlist, follow these setps
+
+#### Run the app and login one time before configuring rules
+
+Run the app using `yarn web` and log in once before you configure rules.
+
+There are two reasons for this:
+
+1. You can verity that Firebase is configured correctly. It can be tricky to
+   debug data access issues when you're not sure if it's a privacy rule or
+   related to overall Firebase configuration.
+2. Starting the app will set up initial database collections, which will make it
+   easier to add your allowlist to the database
+
+#### Deploy firebase rules
+
+Call the following from your app dir, replacing `$FIREBASE_PROJECT_ID` with the
+ID of your Firebase project)
+
+```
+cd server/functions
+yarn firebase use $FIREBASE_PROJECT_ID
+yarn firebase deploy --only firestore:rules
+```
+
+Alternately you can copy and paste `server/functions/firestore.rules` into
+`Firestore Database` > `Rules` in the Firebase console.
+
+#### Configure your allowlist
+
+You have two options for configuring your allowlist:
+
+- **Edit rules directly (easiest, but need to undo for production)**. Add your
+  email (if using Google login), or phone # (if using phone auth) to
+  `MANUAL_ROLES` in `server/functions/firestore.rules`
+  - You can edit this directly in the Firebase console, or edit locally and
+    redeploy.
+  - This is OK for local testing and checking in to a private repo during early
+    development, but you should avoid checking in emails/phone #'s into public
+    repos
+- **Edit allowlist collection in database**. You can edit the allowlist in the
+  Firebase console
+  - Go to `Firestore Database` in the console
+  - Navigate to `instance` > `YOUR_APP_NAME`
+  - Click `Start collection`, collection ID `allowlist`, then `Next`
+  - Set `Document ID` to `emails` for an email, or `phones` for a phone
+  - Set `Field` to the email or phone #, and type to `Array`
+  - Add children `admin` and `allowlist` as strings.
+    ![Allowlist Config](AllowlistConfig.png)
+  - We'll put up a mini-video soon
+
+After this is completed, log out and try logging back in again to verify you can
+still log in, and then remove the allowlist entry and try logging back in to
+make sure it doesn't work (or try logging in with a different account).

@@ -11,7 +11,8 @@ process. Cases where you'll need to deploy functions:
     Functions
   - This is the most common requirement that leads to your first function deploy
 - To run the admin panel
-  - Admin panel authorization falls into the category of "unsafe for client code"
+  - Admin panel authorization falls into the category of "unsafe for client
+    code"
 - Performance of client side data requests
   - Datastore access from the client is handled serially for each "edge hop"
     (e.g. post -> comment -> author). By deploying on the server you can improve
@@ -31,28 +32,30 @@ Starting from your app directory:
 
 ```
 cd server/functions
-yarn install
-yarn firebase use $FIREBASE_PROJECT
+yarn firebase use $FIREBASE_PROJECT_ID
 yarn firebase deploy --only functions
 ```
 
 Notes:
 
-- Replace `$FIREBASE_PROJECT` with the name of your Firebase project
-
+- Replace `$FIREBASE_PROJECT_ID` with the ID of your Firebase project
 
 ### Testing your deployment
 
-To test that functions have successfully deployed, you can write your own Function, or switch the call to
-`getUser` to use a server-side function:
+To test that functions have successfully deployed, you can write your own
+Function, or switch the call to `getUser` to use a server-side function:
 
 - Go to `client/app/AuthConfig.tsx`
 - Set `CREATE_USERS_ON_SERVER = true`
 
-After making this change, when logging in or opening the app after login, a function request will be made to the server. You can verify this request was made either by:
-- On web, viewing the request in the Network tab in Chrome Developer Tools, **or**
-- Going to the Functions tab in the Firebase console, and viewing request count or logs
+After making this change, when logging in or opening the app after login, a
+function request will be made to the server. You can verify this request was
+made either by:
 
+- On web, viewing the request in the Network tab in Chrome Developer Tools,
+  **or**
+- Going to the Functions tab in the Firebase console, and viewing request count
+  or logs
 
 ## How to run Functions locally (in emulator mode)
 

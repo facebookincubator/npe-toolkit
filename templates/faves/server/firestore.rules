@@ -1,79 +1,180 @@
 rules_version = '2';
-service cloud.firestore {
+service cloud.firestore {  
+  // --- SECURITY PARAMS --- //
+  // Use these functions to configure security rules with a few params
+  // For more complex logic, you can write Firebase rules logic directly above
+
+  // Object mapping database entity type to access rules
+  // Currently supported rules are "public" and "owner"
+  function RULES() {
+    return {
+      "user": {"*": ['owner']},
+      "profile": {"read": ['public'], "write": ['owner']},
+      "things": {"*": ['public']},
+      "faves": {"read": ['public'], "write": ['owner']},
+      "push_tokens": {"*": ['owner']},
+      "notification_pref": {"*": ['owner']},
+      "allowlist": {"*": []},
+    }
+  }
+
+  // Map of object type -> field that is the user ID of owner
+  // If doesn't exist, then no access logic can use the logical owner
+  // 'id' is a special field that maps to the firestore document id
+  function OWNER_FIELDS() {
+    return {
+      "user": "id",
+      "profile": "user",
+      "faves": "user",
+      "push_tokens": "user",
+      "notification_pref": "user"
+    }
+  }
+
+  // Whether to limit access to users in an allowlist
+  // Generally this should be true until you are ready for a public launch,
+  // or if you are distributing to people where it is infeasible to get
+  // an email or phone # in advance
+  function enforceAllowlist() {
+    return true;
+  }
+
+  // Whether admin panel has access to all data by default
+  // In early stages this makes sense. As your app grows larger,
+  // you'll want a more server-based security model
+  function globalAdminAccess() {
+    return true;
+  }
+
+  // Manually added roles
+  // These are OK for local testing and checking in to a private repo
+  // during early development, but you should avoid checking in 
+  // emails/phone #'s into public repos
+  function MANUAL_ROLES() {
+    return {
+      // Key is email or normalized phone, value is roles
+      // Examples:
+      // "joe@joeschmoe.com": ['allowlist', 'admin']
+      // 
+    }
+  }
+
   match /databases/{database}/documents {
+    match /instance/{env} {
+      match /{entity}/{entityId} {
+        allow read, write: if canAccess(entity)
+        
+        // Access check logic
+        function canAccess(entity) {
+          let method = request.method == 'get' || request.method == 'list' ? 'read' : 'write';
+          let ruleset = RULES()[entity];
+          let rule = method in ruleset ? ruleset[method] : '*' in ruleset ? ruleset['*'] : [];
+          let public = 'public' in rule;
+          let roles = getRoles();
+          let allowlisted = !enforceAllowlist() || 'allowlist' in roles;
+          let adminAccess = globalAdminAccess() && 'admin' in roles;
+          let ownerAccess = 'owner' in rule && isOwner(entity);
+          return allowlisted && (public || ownerAccess || adminAccess);
+        }
 
-    // Rules for all namespaces
-    match /instance/{namespaces=**} {
-      match /user/{userId} {
-        allow read, write: if authed() && authUid() == userId;
-      }
-      match /profile/{profileId} {
-        allow read: if true;
-        allow write: if authed() && authUid() == resource.data.user;
-      }
-      match /push_tokens/{tokenId} {
-        allow create: if authed() && authUid() == request.resource.user;
-        allow read, update, delete: if authed() && authUid() == resource.data.user;
-      }
-      match /notification_pref/{prefId} {
-        allow create: if authed() && authUid() == request.resource.user;
-        allow read, update, delete: if authed() && authUid() == resource.data.user;
-      }
-      match /allowlist {
-        allow read, write: if authed() && isAdmin();
+        // Get roles for the current user
+        // Returns a list of roles
+        function getRoles() {
+          return datastoreRoles().concat(allowlistRoles()).concat(manualRoles())
+        }
+        
+        // Get a doc from the current db environment
+        function getDoc(collection, id) {
+          let path = /databases/$(database)/documents/instance/$(env)/$(collection)/$(id);
+          return exists(path) ? get(path) : null;
+        }
+        
+        // Get a doc with a defaulra
+        function getDocWithFallback(collection, id, fallback) {
+          let doc = getDoc(collection, id);
+          return doc != null ? doc : fallback;
+        }
+
+        // Roles associated with the user record in the datastore
+        function datastoreRoles() {
+          let userMeta = request.auth != null ? getDoc('usermeta', request.auth.uid) : null;
+          let roles = userMeta != null && 'roles' in userMeta.data ? userMeta.data['roles'] : [];
+          return roles;
+        }
+
+        // Email of the logged in user
+        function userEmail() {
+          // TODO: Figure out when it needs to be verified
+          let email = getOr(getOr(request.auth, 'token', null), 'email', '');
+          return email;
+        }
+
+        // Phone # of the logged in user. Returns empty string if no phone # for
+        // compatibility with emulator.
+        function userPhone() {
+          let phone = getOr(getOr(request.auth, 'token', null), 'phone_number', '');
+          return phone;
+        }
+
+        // Returns first non-or empty value, or '' if both are empty
+        function firstNonEmpty(a, b) {
+          return (a != null && a != '') ? a : (b != null && b != '') ? b : '';
+        }
+
+        // Get a key from a map, with a fallback, checking for nulls
+        // Helps remove ternary boilerplate
+        function getOr(map, key, fallback) {
+          let value = key != null && key in map ? map[key] : null;
+          return value != null ? value : fallback;
+        }
+
+        // Manually added roles
+        // These are OK for local testing and checking in to a private repo
+        // during early development, but you should avoid checking in 
+        // emails/phone #'s into public repos
+        function manualRoles() {
+          let id = firstNonEmpty(userEmail(), userPhone());
+          let manualRoles = MANUAL_ROLES();
+
+          let roles = getOr(manualRoles, id, []);
+          return roles;
+        }
+
+        // Return roles from looking up matches for email/phone `allowlist` table
+        // Allowlist is useful for granting a role *before* the user has
+        // created an account.
+        function allowlistRoles() {
+          let emails = getDocWithFallback('allowlist', 'emails', {"data": {}});
+          let phones = getDocWithFallback('allowlist', 'phones', {"data": {}});
+          
+          // TODO: Figure out when it needs to be verified
+          let email = userEmail();
+          let phone = userPhone();
+          
+          let emailRoles = getOr(emails.data, email, []);
+          let phoneRoles = getOr(phones.data, phone, []);
+					
+          return emailRoles.concat(phoneRoles);
+        }
+
+        // Owner resource for the request
+        // Always returns a non-null value to avoid null issues in rules eval
+        function ownerResource() {
+          let res = request.method == 'create' ? request.resource : resource;
+          return res != null ? res : {"id": null, "data": {}};
+        }
+
+        // Is the user the logical "owner" of this data
+        function isOwner(entityType) {
+          let res = ownerResource();
+          let data = res.data;
+          let ownerFields = OWNER_FIELDS();
+          let field = entityType in ownerFields ? ownerFields[entityType] : 'n/a';
+
+          let owner = field == 'id' ? entityId : field in data ? data[field] : null;
+          return request.auth != null && owner == request.auth.uid;
+        }
       }
     }
-
-    // Rules for a namespace/project
-    match /instance/haxapp {
-      match /things/{thingId} {
-        allow read, create: if authed();
-        allow write, delete: if authed() && ((resource.data.creator == authUid()) || isAdmin());
-      }
-      match /faves/{faveId} {
-        allow read, write, delete: if authed() && ((resource.data.user == authUid()) || isAdmin());
-        allow create: if authed();
-      }
-    }
-
   }
-
-  // Util fns
-
-  function authed() {
-    return request.auth != null;
-  }
-
-  function authUid() {
-    return request.auth.uid;
-  }
-
-  function isFbEmail() {
-    return request.auth.token.email != null && request.auth.token.email.matches('.*@fb.com$');
-  }
-
-  function isAdmin() {
-    return isFbEmail() || hasRole('admin');
-  }
-
-  function isAdminNamespace(namespace) {
-    return hasRoleNamespace(namespace, 'admin');
-  }
-
-  function getUser(namespace) {
-    return (namespace == null || namespace == '') ?
-      get(/databases/$(database)/documents/user/$(request.auth.uid)) :
-      get(/databases/$(database)/documents/instance/$(namespace)/user/$(request.auth.uid));
-  }
-
-  function hasRole(role) {
-    return hasRoleNamespace('', role);
-  }
-
-  function hasRoleNamespace(namespace, role) {
-    // till we have a new Role feature
-    let user = getUser(namespace);
-    return (user != null && user.data.roles && role in user.data.roles);
-  }
-
 }
