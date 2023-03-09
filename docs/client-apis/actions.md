@@ -21,7 +21,7 @@ implements the operation & metadata about the operation.
     cluttered
 - Decouples operations from specific UI surfaces
   - Can build an Action that is easy to add to a menu, render as a button (with
-    text or just an icon), or use on a settings page.
+    text or just an icon), or use on a settings page
   - Beneficial for reuse and for separation of presentation from functionality
 
 _Often you don't need an `Action` and just writing a simple function will meet
@@ -61,7 +61,6 @@ const GO_BACK_ACTION = () => {
   };
 };
 ```
-
 
 ### **Using an Action**
 
