@@ -76,3 +76,7 @@ settings.json
 
 # Local configuration
 .localconf.json
+
+# Debug logs
+firestore-debug.log
+ui-debug.log

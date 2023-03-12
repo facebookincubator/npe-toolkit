@@ -39,7 +39,7 @@ export const FIREBASE_CONFIG: FirebaseConfig = localConf['firebase'] ?? {
 
 /**
  * Fill in the client IDs from
- * https://console.cloud.google.com/apis/credentials?project=YOUR_PROJECT
+ * https://console.cloud.google.com/apis/credentials (choose your project from dropdown)
  *
  * You also will need to add redirect URIs in the console, see
  * https://github.com/facebookincubator/npe-toolkit/blob/main/docs/getting-started/Firebase.md
