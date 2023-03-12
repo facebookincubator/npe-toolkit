@@ -17,4 +17,15 @@ if [[ ! -d $NPE_TOOLKIT_SYMLINK ]]; then
     exit 1
 fi
 
-yarn install &
+if [[ $PWD == *"/npe/"* ]]; then
+  # Special case for Meta internal build
+  yarn install &
+  pushd ../server/functions
+  yarn install &
+  popd
+else
+  yarn install
+  pushd ../server/functions
+  yarn install
+  popd
+fi
