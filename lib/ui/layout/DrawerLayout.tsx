@@ -309,7 +309,7 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
   return (
     <View style={{flex: 1}}>
       {style?.nav !== 'none' && (
-        <Appbar.Header style={{zIndex: 5}} dark={rnPaperTheme.dark}>
+        <Appbar.Header style={{zIndex: 5}} dark={true}>
           {showNavToggle && <Appbar.Action icon="menu" onPress={toggle} />}
           {showBackNav && (
             <AppBarAction action={GO_BACK} color={appbarTextColor} />
