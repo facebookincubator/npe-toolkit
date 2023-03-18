@@ -13,9 +13,7 @@ let localConf: Record<string, any> = {};
 try {
   // @ts-ignore
   localConf = require('./.localconf.json');
-} catch (e) {
-  console.log(e);
-}
+} catch (__ignored) {}
 
 /**
  * Fill in the Firebase config from values at

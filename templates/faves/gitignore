@@ -80,3 +80,6 @@ settings.json
 # Debug logs
 firestore-debug.log
 ui-debug.log
+
+# Output folder for Expo
+dist
