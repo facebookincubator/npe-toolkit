@@ -10,6 +10,7 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import Markdown from 'react-native-markdown-display';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
 import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
@@ -19,7 +20,6 @@ import {
   FacebookButton,
   GoogleButton,
   LoginFlowBackButton,
-  LoginTermsOfService,
   PhoneButton,
 } from '@toolkit/screens/login/LoginScreenParts';
 import {useComponents} from '@toolkit/ui/components/Components';
@@ -39,16 +39,21 @@ export type SimpleLoginScreenConfig = {
   // React nav screen to go to after logging in if no "next" param is specified
   // Defaults to 'Home'
   home?: string;
+
+  // Markdown for terms of service and privacy policy links. It is important
+  // to have well defined policies for production applications, and you should
+  // get legal advice for terms of service before launching.
+  tos?: string;
 };
 
 /**
  * Basic login screen with buttons for each authType in the config.
  */
 export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
-  let {title, subtitle, authTypes} = props.config;
-  const {appIcon, appName} = useAppInfo();
+  let {title, subtitle, tos} = props.config;
+  const {appIcon} = useAppInfo();
   let {backgroundColor} = useTheme();
-  const {Title, Body, Info} = useComponents();
+  const {Title, Body} = useComponents();
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
@@ -61,12 +66,17 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
         <Body center>{subtitle}</Body>
       </View>
       <AuthenticationButtons config={props.config} />
-      <Info center style={S.info}>
-        <LoginTermsOfService />
-      </Info>
+      <View style={S.tos}>
+        {tos != null && <Markdown style={MARKDOWN_STYLE}>{tos}</Markdown>}
+      </View>
     </SafeAreaView>
   );
 }
+
+const MARKDOWN_STYLE = {
+  body: {textAlign: 'center'},
+  link: {fontWeight: 'bold', textDecorationLine: 'none'},
+};
 
 /**
  * Utility to create `<SimpleLoginScreen>` component bound to config.
@@ -148,7 +158,10 @@ const S = StyleSheet.create({
     borderRadius: 23,
   },
   orText: {opacity: 0.6, fontWeight: '600', marginBottom: 12},
-  info: {
+  tos: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    maxWidth: 400,
     marginVertical: 20,
   },
 });

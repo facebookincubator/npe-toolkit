@@ -55,46 +55,6 @@ export function PhoneButton(props: {onPress: () => Promise<void> | void}) {
   );
 }
 
-type AProps = {
-  href: string;
-  children?: React.ReactNode;
-};
-
-const A = (props: AProps) => {
-  const {href, children} = props;
-  const {Link} = useComponents();
-
-  return <Link onPress={() => Linking.openURL(href)}>{children}</Link>;
-};
-
-type TOSProps = {
-  availableInEu?: boolean;
-};
-
-export function LoginTermsOfService(props: TOSProps) {
-  const {availableInEu = false} = props;
-  // TODO: Consider simple markdown formatting for this type of block
-  return (
-    <>
-      By continuing, you accept{' '}
-      <A href="https://www.facebook.com/legal/terms">Meta's Terms of Service</A>
-      {', '}
-      <A href="https://www.facebook.com/about/privacy">Data Policy</A>
-      {' and the '}
-      <A href="https://npe.facebook.com/supplement">Supplemental NPE Terms.</A>
-      {availableInEu && (
-        <>
-          {'\n\n'}For EU Users, see the{' '}
-          <A href="https://npe.facebook.com/about/eu_data_policy">
-            EU Data Policy for NPE
-          </A>{' '}
-          instead.
-        </>
-      )}
-    </>
-  );
-}
-
 export function LoginFlowBackButton(props: {back?: () => void}) {
   const {back} = props;
   const nav = useNavigation<any>();
