@@ -19,6 +19,7 @@ const LOGIN_SCREEN_CONFIG: SimpleLoginScreenConfig = {
     'This is a Simple Login Screen. \nEdit app/screens/LoginScreen.tsx to edit this!',
   authTypes: ['google'],
   home: 'AllThingsScreen',
+  tos: 'Edit this markdown to link to your your **Terms of Service**.',
 };
 
 const LoginScreen: Screen<{}> = simpleLoginScreen(LOGIN_SCREEN_CONFIG);
