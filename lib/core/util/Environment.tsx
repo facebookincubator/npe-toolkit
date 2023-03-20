@@ -14,6 +14,10 @@ const KNOWN_SUPRIOUS_ERRORS = [
   'React does not recognize the `%s` prop on a DOM element',
   'development build of the Firebase JS SDK',
   'native animated module is missing',
+  'Module not found',
+  'setNativeProps is deprecated',
+  // Can remove this on Expo v48
+  'ReactDOM.render is no longer supported',
 ];
 
 function shouldSuppress(e: Error | string) {

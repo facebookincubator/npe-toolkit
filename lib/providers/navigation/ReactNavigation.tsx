@@ -15,7 +15,11 @@ import {
   PathConfigMap,
   useRoute,
 } from '@react-navigation/core';
-import {NavigationState, useNavigation} from '@react-navigation/native';
+import {
+  NavigationState,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
 import {setInitialAppContext} from '@toolkit/core/util/AppContext';
 import {PropsFor} from '@toolkit/core/util/Loadable';
@@ -117,12 +121,14 @@ export function useReactNavScreens(
         {Object.keys(routes).map(key => {
           const screen = routes[key];
           const screenType = screen?.style?.type || 'std';
+          const options = {...screenOptions[screenType], title: screen.title};
+
           return (
             <ScreenComponent
               key={key}
               name={key}
               component={layout(routes[key])}
-              options={screenOptions[screenType]}
+              options={options}
             />
           );
         })}
@@ -227,7 +233,8 @@ function useSetReactNavContext(routes: Routes) {
 
     replace: <S extends Screen<any>>(to: S, params?: PropsFor<S>) => {
       const key = requireRouteKey(to, routes);
-      //reactNav.navigate(key, params);
+      const action = StackActions.replace(key, params);
+      reactNav.dispatch(action);
     },
 
     setParams: <S extends Screen<any>>(params: PropsFor<S>) => {

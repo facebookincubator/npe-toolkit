@@ -54,7 +54,7 @@ import 'firebase/firestore';
 
 let DevUtil: any;
 try {
-  DevUtil = require('../util/DevUtil');
+  DevUtil = require('@toolkit/core/util/DevUtil');
 } catch (e) {}
 
 type Query<T> = firebase.firestore.Query<T>;

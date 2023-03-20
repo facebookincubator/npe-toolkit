@@ -16,14 +16,14 @@ import {BaseModel, ModelClass} from '@toolkit/data/pads/model';
 export {
   BaseModel,
   DeletedBy,
-  DeletedByTTL,
+  type DeletedByTTL,
   Ref,
   Field,
   InverseField,
   Model,
-  ModelClass,
+  type ModelClass,
   ModelUtil,
-  R,
+  type R,
 } from '@toolkit/data/pads/model';
 export {
   default as registry,
