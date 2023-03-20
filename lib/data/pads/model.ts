@@ -10,7 +10,7 @@
 import 'reflect-metadata';
 import registry from './registry';
 import * as s from './schema';
-import {ID} from './utils';
+import {type ID} from './utils';
 
 export type R<T> = ReturnType<() => T>; // ReturnType shortcut
 
