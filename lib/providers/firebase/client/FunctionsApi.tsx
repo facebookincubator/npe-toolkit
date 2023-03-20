@@ -70,4 +70,4 @@ const toCodedError = function (error: Error): Opt<CodedError> {
   return null;
 };
 
-export {Api, ApiKey, createApiKey};
+export {type Api, type ApiKey, createApiKey};
