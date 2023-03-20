@@ -121,12 +121,14 @@ export function useReactNavScreens(
         {Object.keys(routes).map(key => {
           const screen = routes[key];
           const screenType = screen?.style?.type || 'std';
+          const options = {...screenOptions[screenType], title: screen.title};
+
           return (
             <ScreenComponent
               key={key}
               name={key}
               component={layout(routes[key])}
-              options={screenOptions[screenType]}
+              options={options}
             />
           );
         })}
