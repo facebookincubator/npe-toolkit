@@ -48,6 +48,10 @@ export function CodedErrorFor(
   return errorFn;
 }
 
+export function isErrorType(e: any, codedErrorType: {type: string}) {
+  return e instanceof CodedError && e.type === codedErrorType.type;
+}
+
 const DEFAULT_ERROR_TEXT = 'Unknown failure';
 
 /**
