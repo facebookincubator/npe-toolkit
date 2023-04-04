@@ -12,11 +12,12 @@ import 'firebase/auth';
 import {useIdTokenAuthRequest} from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import {LoginCredential} from '@toolkit/core/api/Auth';
-import {IdentityProvider} from '@toolkit/core/api/Login';
+import {
+  IdentityProvider,
+  LoginError,
+  UserCanceledLogin,
+} from '@toolkit/core/api/Login';
 import {usePersistentPromise} from '@toolkit/core/client/PersistentPromise';
-import {CodedErrorFor} from '@toolkit/core/util/CodedError';
-
-const LoginError = CodedErrorFor('auth.login_fail', 'Error logging in');
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -41,7 +42,7 @@ export function googleAuthProvider(
         usePersistentPromise<LoginCredential>();
       const authResult = React.useRef<Promise<LoginCredential>>();
 
-      if (fullResult !== null) {
+      if (fullResult !== null && fullResult.type === 'success') {
         // @ts-ignore
         const token = fullResult?.params?.id_token;
         resolve({type: 'google', token: token});
@@ -51,6 +52,7 @@ export function googleAuthProvider(
         authResult.current = newPromise();
         const resp = await promptAsync();
         const responseType = resp?.type;
+
         if (responseType === 'success') {
           // Annoyingly, the response here doesn't include the idToken - have to
           // wait for the fullResult state to be set. So return a `PersistentPromise`
@@ -60,6 +62,8 @@ export function googleAuthProvider(
         const error =
           responseType === 'error'
             ? resp.error!
+            : responseType === 'dismiss'
+            ? UserCanceledLogin()
             : LoginError(`Google login failure: ${responseType}`);
         reject(error);
         return authResult.current;
