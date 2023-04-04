@@ -13,8 +13,9 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
+import {UserCanceledLogin} from '@toolkit/core/api/Login';
 import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
-import {toUserMessage} from '@toolkit/core/util/CodedError';
+import {isErrorType, toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   FacebookButton,
@@ -53,7 +54,7 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
   let {title, subtitle, tos} = props.config;
   const {appIcon} = useAppInfo();
   let {backgroundColor} = useTheme();
-  const {Title, Body} = useComponents();
+  const {Title, Subtitle} = useComponents();
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
@@ -63,7 +64,7 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
         <Title mb={8} center>
           {title}
         </Title>
-        <Body center>{subtitle}</Body>
+        <Subtitle center>{subtitle}</Subtitle>
       </View>
       <AuthenticationButtons config={props.config} />
       <View style={S.tos}>
@@ -112,8 +113,10 @@ export function AuthenticationButtons(props: {
       await auth.login(creds);
       navigate(next);
     } catch (e) {
-      console.log(e);
-      setLoginErrorMessage(toUserMessage(e));
+      console.log('Error in login flow', e);
+      if (!isErrorType(e, UserCanceledLogin)) {
+        setLoginErrorMessage(toUserMessage(e));
+      }
     }
   }
 

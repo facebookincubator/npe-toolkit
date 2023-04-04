@@ -129,8 +129,11 @@ export function usePaperComponents() {
   registerComponent(TextInputApi, TextInput);
 
   registerTextStyles({
-    Title: {fontSize: 24, fontWeight: '600'},
-    Subtitle: {fontSize: 17, fontWeight: '600'},
+    Title: {
+      fontSize: 30,
+      fontWeight: '600',
+    },
+    Subtitle: {fontSize: 17, fontWeight: '500'},
     Body: {fontSize: 16},
     Info: {fontSize: 14, opacity: 0.9},
     Error: {fontSize: 14, color: '#DE2B2B'},
@@ -139,6 +142,9 @@ export function usePaperComponents() {
       opacity: 0.9,
       fontWeight: '600',
     },
-    default: {color: theme.colors.text},
+    default: {
+      color: theme.colors.text,
+      fontFamily: 'Roboto, Helvetica Neue, Helvetica, Arial, sans-serif',
+    },
   });
 }

@@ -19,6 +19,7 @@
  */
 
 import {AuthType, LoginCredential, TryConnectFn} from '@toolkit/core/api/Auth';
+import {CodedErrorFor} from '@toolkit/core/util/CodedError';
 
 const IdentityService = {
   // Sets a provider. Will overwrite any existing providers for that type
@@ -136,6 +137,16 @@ function getDevIdentityInfo(): LoginCredential | null {
       }
     : null;
 }
+
+/**
+ * Login errors. It is important to add specific login errors for cases that require special handling,
+ * as the client will need to inspect the CodedError to verify
+ */
+export const LoginError = CodedErrorFor('auth.login_fail', 'Error logging in');
+export const UserCanceledLogin = CodedErrorFor(
+  'auth.user_canceled',
+  'User canceled login',
+);
 
 /**
  * Generic API for identity providers. This won't work for all use cases, as some auth

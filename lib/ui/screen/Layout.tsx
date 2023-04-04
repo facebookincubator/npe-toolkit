@@ -9,11 +9,13 @@
 
 import * as React from 'react';
 import {Text} from 'react-native';
+import {ErrorHandler} from '@toolkit/core/client/TriState';
 import {PropsFor, useAsyncLoad} from '@toolkit/core/util/Loadable';
 import {Screen, ScreenProps} from '@toolkit/ui/screen/Screen';
 
 export type LayoutProps = ScreenProps & {
   children?: React.ReactNode;
+  onError?: ErrorHandler;
 };
 
 export type LayoutComponent = React.ComponentType<LayoutProps>;
