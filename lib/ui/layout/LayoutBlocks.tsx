@@ -98,25 +98,6 @@ export function logError(err: Error) {
   return false;
 }
 
-export function getDeviceType() {
-  const ua = navigator.userAgent;
-  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-    return 'tablet';
-  }
-  if (
-    /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
-      ua,
-    )
-  ) {
-    return 'mobile';
-  }
-  return 'desktop';
-}
-
-export function useIsMobile() {
-  return Platform.OS !== 'web' || getDeviceType() === 'mobile';
-}
-
 export const ModalLayout = (props: LayoutProps) => {
   const {title = '', children, style} = props;
   const loadingView = props.loading ?? LoadingView;

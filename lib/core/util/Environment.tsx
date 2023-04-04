@@ -84,3 +84,29 @@ export function filterHandledExceptions() {
     }
   }
 }
+
+/**
+ * For web platform, gets whether the device is `mobile` or `desktop`.
+ */
+export function getWebDeviceType() {
+  const ua = navigator.userAgent;
+
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return 'tablet';
+  }
+  if (
+    /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+      ua,
+    )
+  ) {
+    return 'mobile';
+  }
+  return 'desktop';
+}
+
+/**
+ * Returns whether this is on a mobile device.
+ */
+export function deviceIsMobile() {
+  return Platform.OS !== 'web' || getWebDeviceType() === 'mobile';
+}
