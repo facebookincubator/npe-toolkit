@@ -54,7 +54,7 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
   let {title, subtitle, tos} = props.config;
   const {appIcon} = useAppInfo();
   let {backgroundColor} = useTheme();
-  const {Title, Body} = useComponents();
+  const {Title, Subtitle} = useComponents();
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
@@ -64,7 +64,7 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
         <Title mb={8} center>
           {title}
         </Title>
-        <Body center>{subtitle}</Body>
+        <Subtitle center>{subtitle}</Subtitle>
       </View>
       <AuthenticationButtons config={props.config} />
       <View style={S.tos}>
