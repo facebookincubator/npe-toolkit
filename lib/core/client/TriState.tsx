@@ -32,7 +32,7 @@ export type ErrorScreenProps = {
   error?: Error | null;
 };
 
-type ErrorHandler = (err: Error | CodedError) => boolean;
+export type ErrorHandler = (err: Error | CodedError) => boolean;
 
 type Props = {
   children: ReactNode;
