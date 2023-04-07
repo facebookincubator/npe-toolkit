@@ -2,7 +2,7 @@ module.exports = {
   "arrowParens": "avoid",
   "bracketSameLine": true,
   "bracketSpacing": false,
-  "requirePragma": true,
+  "requirePragma": false,
   "singleQuote": true,
   "trailingComma": "all",
   "overrides": [
@@ -49,7 +49,13 @@ module.exports = {
       "options": {
         "parser": "typescript"
       }
-    }
+    },
+    {
+      files: ['**/*.d.ts'],
+      options: {
+        requirePragma: true,
+      },
+    },
   ],
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "importOrderSeparation": false,

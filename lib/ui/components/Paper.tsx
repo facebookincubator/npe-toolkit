@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  * `react-native-paper` implementations of pluggable components
- *
- * @format
  */
 
 import React from 'react';
