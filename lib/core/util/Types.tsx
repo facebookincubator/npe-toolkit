@@ -39,9 +39,11 @@ export type Catchable = Error | unknown;
  * type UserVerification = "emailVerified" | "phoneVerified";
  * ```
  */
-export type KeysOfType<T, U> = NonNullable<{
-  [K in keyof T]: T[K] extends U ? K : never;
-}[keyof T]>;
+export type KeysOfType<T, U> = NonNullable<
+  {
+    [K in keyof T]: T[K] extends U ? K : never;
+  }[keyof T]
+>;
 
 /**
  * Convert a the results of a caught object to an Error,
@@ -61,5 +63,5 @@ export function toError(e: Catchable): Error {
   if (error?.name && error?.message) {
     return error;
   }
-  throw (e);
+  throw e;
 }
