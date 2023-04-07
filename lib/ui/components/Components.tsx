@@ -13,8 +13,6 @@
  *
  * Starting with style, `<Button>`, `<TextInput>`, and a few common text styles,
  * but will be adding most common controls over time.
- *
- * @format
  */
 
 import React from 'react';

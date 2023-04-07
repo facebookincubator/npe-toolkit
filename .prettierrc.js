@@ -2,7 +2,7 @@ module.exports = {
   "arrowParens": "avoid",
   "bracketSameLine": true,
   "bracketSpacing": false,
-  "requirePragma": true,
+  "requirePragma": false,
   "singleQuote": true,
   "trailingComma": "all",
   "overrides": [
