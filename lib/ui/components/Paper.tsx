@@ -144,7 +144,7 @@ export function usePaperComponents() {
     },
     default: {
       color: theme.colors.text,
-      fontFamily: 'Roboto, Helvetica Neue, Helvetica, Arial, sans-serif',
+      fontFamily: theme.fonts.regular.fontFamily,
     },
   });
 }
