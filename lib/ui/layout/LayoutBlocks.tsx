@@ -6,13 +6,11 @@
  *
  * Simple layout building blocks that can be used to build a solid initial layout.
  * You will often graduate out of using these as your app gets more complex.
- * @format
  */
 
 import * as React from 'react';
 import {
   ActivityIndicator,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
