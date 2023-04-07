@@ -14,7 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
 import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {useIsMobile} from '@toolkit/ui/layout/LayoutBlocks';
+import {deviceIsMobile} from '@toolkit/core/util/Environment';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
@@ -38,7 +38,7 @@ const LayoutSelector = (props: Layouts & LayoutProps) => {
   const reactNav = useNavigation<any>();
   const nav = useNav();
   const userMessaging = useUserMessaging();
-  const isMobile = useIsMobile();
+  const isMobile = deviceIsMobile();
   const logEvent = useLogEvent();
   const route = useRoute();
 
