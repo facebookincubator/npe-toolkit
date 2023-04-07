@@ -63,11 +63,11 @@ const TabLayout = (props: LayoutProps & NavItems) => {
 
   return (
     <SafeAreaView style={S.top}>
-      <View style={{flex: 1, backgroundColor: '#F0F0F0'}}>
+      <View style={S.innerTop}>
         {navStyle === 'full' && (
           <Header title={title} navItems={headerRight} showBack={showBack} />
         )}
-        <View style={{flex: 1}}>
+        <View style={S.content}>
           <TriState key={key} onError={onError} loadingView={loadingView}>
             <View style={{flex: 1}}>{children}</View>
           </TriState>
@@ -157,7 +157,22 @@ const BottomTabs = ({tabs}: TabBarProps) => {
 };
 
 const S = StyleSheet.create({
-  top: {flex: 1, alignSelf: 'stretch', backgroundColor: '#FFF'},
+  top: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#FFF',
+  },
+  innerTop: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
+    overflow: 'hidden',
+  },
+  content: {
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 400,
+  },
   header: {
     backgroundColor: '#FFF',
     width: '100%',
