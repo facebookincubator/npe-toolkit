@@ -49,7 +49,13 @@ module.exports = {
       "options": {
         "parser": "typescript"
       }
-    }
+    },
+    {
+      files: ['**/*.d.ts'],
+      options: {
+        requirePragma: true,
+      },
+    },
   ],
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "importOrderSeparation": false,

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+
 module '*.png' {
   import {ImageSourcePropType} from 'react-native';
   const value: ImageSourcePropType;
