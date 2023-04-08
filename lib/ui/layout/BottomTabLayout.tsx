@@ -114,7 +114,9 @@ const Header = ({title, navItems = [], showBack}: HeaderProps) => {
         ))}
       </View>
       <View style={S.titleBox}>
-        <Text style={S.title}>{' ' + title + ' '}</Text>
+        <Text style={S.title} numberOfLines={1}>
+          {' ' + title + ' '}
+        </Text>
       </View>
     </View>
   );
@@ -188,6 +190,7 @@ const S = StyleSheet.create({
   },
   titleBox: {
     alignItems: 'center',
+    marginHorizontal: 40,
   },
   title: {
     fontSize: 26,

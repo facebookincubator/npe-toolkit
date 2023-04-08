@@ -8,6 +8,11 @@
 import * as React from 'react';
 import {Text} from 'react-native';
 import {ErrorHandler} from '@toolkit/core/client/TriState';
+import {
+  contextKey,
+  setInitialAppContext,
+  useAppContext,
+} from '@toolkit/core/util/AppContext';
 import {PropsFor, useAsyncLoad} from '@toolkit/core/util/Loadable';
 import {Screen, ScreenProps} from '@toolkit/ui/screen/Screen';
 
@@ -26,8 +31,7 @@ type Props<S extends Screen<any>> = {
 
 export function ApplyLayout<S extends Screen<any>>(props: Props<S>) {
   const {layout: Layout, screen, params} = props;
-
-  const layoutProps = {
+  const baseScreenProps: ScreenProps = {
     title: screen.title || '',
     mainAction: screen.mainAction,
     actions: screen.actions || [],
@@ -35,10 +39,33 @@ export function ApplyLayout<S extends Screen<any>>(props: Props<S>) {
     loading: screen.loading,
     parent: screen.parent,
   };
+  const [screenProps, setScreenProps] =
+    React.useState<ScreenProps>(baseScreenProps);
   const Component = useAsyncLoad(screen);
 
+  const getScreenState = () => {
+    return screenProps;
+  };
+
+  const setScreenState = (props: Partial<ScreenProps>) => {
+    let dirty = false;
+    for (const k in props) {
+      const key = k as keyof ScreenProps;
+      if (props[key] !== screenProps[key]) {
+        dirty = true;
+      }
+    }
+    if (dirty) {
+      setTimeout(() => setScreenProps({...screenProps, ...props}), 0);
+    }
+  };
+
+  const api = {getScreenState, setScreenState};
+
+  setInitialAppContext(SCREEN_API_KEY, api);
+
   return (
-    <Layout {...layoutProps}>
+    <Layout {...screenProps}>
       {Component ? (
         <Component {...params} />
       ) : (
@@ -46,4 +73,15 @@ export function ApplyLayout<S extends Screen<any>>(props: Props<S>) {
       )}
     </Layout>
   );
+}
+
+type ScreenApi = {
+  getScreenState: () => ScreenProps;
+  setScreenState: (props: Partial<ScreenProps>) => void;
+};
+
+const SCREEN_API_KEY = contextKey<ScreenApi>('NPE.ScreenState');
+
+export function useScreenState(): ScreenApi {
+  return useAppContext(SCREEN_API_KEY);
 }
