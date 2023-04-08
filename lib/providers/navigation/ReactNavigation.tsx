@@ -226,7 +226,12 @@ function useSetReactNavContext(routes: Routes) {
   const nav = {
     navTo: <S extends Screen<any>>(to: S, params?: PropsFor<S>) => {
       const key = requireRouteKey(to, routes);
-      reactNav.navigate(key, translate(params));
+      if (to.style?.type === 'top') {
+        reactNav.navigate(key, translate(params));
+      } else {
+        const action = StackActions.push(key, params);
+        reactNav.dispatch(action);
+      }
     },
 
     replace: <S extends Screen<any>>(to: S, params?: PropsFor<S>) => {
