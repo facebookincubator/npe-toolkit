@@ -7,6 +7,7 @@
 
 // This file is the client API, and references React-specific constructs
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {BaseModel, ModelClass} from '@toolkit/data/pads/model';
 
@@ -14,19 +15,19 @@ import {BaseModel, ModelClass} from '@toolkit/data/pads/model';
 export {
   BaseModel,
   DeletedBy,
-  type DeletedByTTL,
-  Ref,
   Field,
   InverseField,
   Model,
-  type ModelClass,
   ModelUtil,
+  Ref,
+  type DeletedByTTL,
+  type ModelClass,
   type R,
 } from '@toolkit/data/pads/model';
 export {
-  default as registry,
   getRepoImpl,
   initRegistry,
+  default as registry,
 } from '@toolkit/data/pads/registry';
 export * from '@toolkit/data/pads/schema';
 
@@ -140,3 +141,18 @@ export type DataStore<T extends BaseModel> = {
   update: (value: Updater<T>) => Promise<T>;
   remove: (id: string) => Promise<void>;
 };
+
+// Testing this out as a separate function outside of dataStore API.
+// If usage is widespread will likely move into the API
+export async function getRequired<T extends BaseModel>(
+  store: DataStore<T>,
+  id: string,
+  opts?: {edges?: EdgeSelector[]},
+) {
+  const value = await store.get(id, opts);
+  if (value == null) {
+    // TODO: Expose data type from dataStore and include in developer message
+    throw new CodedError('dev.not_found', 'Item not found');
+  }
+  return value;
+}

@@ -8,7 +8,14 @@
  */
 
 import React from 'react';
-import {StyleProp, StyleSheet, TextStyle, ViewStyle} from 'react-native';
+import {
+  TextInput as NativeTextInput,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import {
   Button as PaperButton,
   TextInput as PaperTextInput,
@@ -101,6 +108,33 @@ const AUTOCOMPLETE_ADDITIONAL_PROPS = {
   },
 };
 
+/**
+ * Gets the native props for a text input.
+ * For right now, this is usefd to fix a rendering quirk on web,
+ * but in future can be used to customize props further
+ */
+function nativeInputFor(
+  props: React.ComponentProps<typeof NativeTextInput>,
+  roundness: number,
+  mode: string,
+) {
+  const {style, ...rest} = props;
+  if (Platform.OS !== 'web' || !props.multiline || mode !== 'outlined') {
+    return <NativeTextInput {...props} />;
+  }
+  // Need to use margin instead of padding so the content doesn't
+  // overlap with the round border of the TextInput
+  const newStyle = [
+    style,
+    {
+      paddingTop: 0,
+      paddingBottom: 0,
+      marginVertical: roundness / 2,
+    },
+  ];
+  return <NativeTextInput {...rest} style={[style, newStyle]} />;
+}
+
 const TextInput = (props: TextInputProps) => {
   const {type, ...rest} = props;
   const mode = TYPE_TO_TEXT_INPUT_MODE[type ?? 'default'] || 'flat';
@@ -117,7 +151,13 @@ const TextInput = (props: TextInputProps) => {
   // TODO: "type" as input type, e.g. "phone"
   const theRest = rest as React.ComponentProps<typeof PaperTextInput>;
   return (
-    <PaperTextInput theme={theme} mode={mode} {...textTypeProps} {...theRest} />
+    <PaperTextInput
+      theme={theme}
+      mode={mode}
+      {...textTypeProps}
+      {...theRest}
+      render={props => nativeInputFor(props, roundness, mode)}
+    />
   );
 };
 
