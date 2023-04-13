@@ -6,13 +6,12 @@
  */
 
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
+import {type Opt} from '@toolkit/core/util/Types';
 import {
   BaseModel,
   Field,
   Model,
   TArray,
-  TBool,
-  TModel,
   TString,
 } from '@toolkit/data/DataStore';
 import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
@@ -36,9 +35,6 @@ export class UserRoles extends BaseModel {
  * Only id, name, and canLogin are required fields to set.
  *
  * All other fields are optional, and if set they will be used in a "standard" way for that type of field.
- *
- * Apps can also extend with User with any fields they would like, with custom semantics for the app.
- *
  */
 @Model({name: 'user'})
 export class User extends BaseModel {
@@ -48,35 +44,28 @@ export class User extends BaseModel {
    */
   @Field(TString) name: string;
   /**
-   * Whether the user is allowed to view content and take operations asa a fully
-   * logged-in user
-   */
-  @Field(TBool) canLogin: boolean;
-  /**
    * URL of the user's profile picture
    */
-  @Field(TString) pic?: string | null | undefined;
+  @Field(TString) pic?: Opt<string>;
   /**
    * The user's primary email
    */
-  @Field(TString) email?: string | null | undefined;
-  /**
-   * Whether the email has been verified
-   */
-  @Field(TBool) emailVerified?: boolean | null | undefined;
+  @Field(TString) email?: Opt<string>;
   /**
    * The user's primary phone number,
    * formatted for the country of the current request.
    */
-  @Field(TString) phone?: string | null | undefined;
+  @Field(TString) phone?: Opt<string>;
+
+  // *** Fields below are added to the user object and not part of the User Model ***
+
   /**
-   * Whether the phone # has been verified
+   * Whether the user is allowed to view content and take operations asa a fully
+   * logged-in user
    */
-  @Field(TBool) phoneVerified?: boolean | null | undefined;
+  canLogin?: Opt<boolean>;
   /**
-   * A unique username across all users of the app
-   */
-  @Field(TString) username?: string | null | undefined;
+   * 
   /**
    * Set of roles associated with the user (e.g. "admin", "dev")
    *
@@ -84,15 +73,17 @@ export class User extends BaseModel {
    * this field is authoritative. On the client, these values are provided to determine
    * what UI and actions to make available to the user
    */
-  @Field(TModel(UserRoles)) roles?: UserRoles;
-}
+  roles?: UserRoles;
 
-// Base type for profile. Profile is public to other users.
-@Model({name: 'profile'})
-export class Profile extends BaseModel {
-  @Field(TString) pic?: string | null | undefined;
-  @Field(TString) name: string;
-  @Field(TModel(User)) user?: User;
+  /**
+   * Whether the phone # has been verified
+   */
+  phoneVerified?: Opt<boolean>;
+
+  /**
+   * Whether the email has been verified
+   */
+  emailVerified?: Opt<boolean>;
 }
 
 /**
