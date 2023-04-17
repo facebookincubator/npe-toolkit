@@ -5,27 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
-import {AuthData} from 'firebase-functions/lib/common/providers/https';
-import {Profile, User, UserRoles} from '@toolkit/core/api/User';
-import {CodedError} from '@toolkit/core/util/CodedError';
-import {Updater} from '@toolkit/data/DataStore';
-import {firebaseStore} from '@toolkit/providers/firebase/DataStore';
-import {
-  requireAccountInfo,
-  requireLoggedInUser,
-  setAccountToUserCallback,
-} from '@toolkit/providers/firebase/server/Auth';
-import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
-import {
-  getAdminDataStore,
-  getDataStore,
-} from '@toolkit/providers/firebase/server/Firestore';
-import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
-import {apnsToFCMToken} from '@toolkit/providers/firebase/server/PushNotifications';
-import {getSender} from '@toolkit/providers/firebase/server/PushNotifications';
-import {getAllowlistMatchedRoles} from '@toolkit/providers/firebase/server/Roles';
 import {
   ADD_FAVE,
   ADD_THING,
@@ -38,8 +17,35 @@ import {
 } from '@app/common/Api';
 import {Fave, PROFILE_FIELDS, Thing} from '@app/common/DataTypes';
 import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
+import {Profile, User, UserRoles} from '@toolkit/core/api/User';
+import {CodedError} from '@toolkit/core/util/CodedError';
+import {Updater} from '@toolkit/data/DataStore';
+import {
+  FirestoreContext,
+  firebaseStore,
+} from '@toolkit/providers/firebase/DataStore';
+import {getInstanceFor} from '@toolkit/providers/firebase/Instance';
+import {
+  requireAccountInfo,
+  requireLoggedInUser,
+  setAccountToUserCallback,
+} from '@toolkit/providers/firebase/server/Auth';
+import {getAppConfig} from '@toolkit/providers/firebase/server/Config';
+import {
+  getAdminDataStore,
+  getDataStore,
+} from '@toolkit/providers/firebase/server/Firestore';
+import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
+import {
+  apnsToFCMToken,
+  getSender,
+} from '@toolkit/providers/firebase/server/PushNotifications';
+import {getAllowlistMatchedRoles} from '@toolkit/providers/firebase/server/Roles';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import {AuthData} from 'firebase-functions/lib/common/providers/https';
 
-const firebaseConfig = getFirebaseConfig();
+const instance = getInstanceFor(getAppConfig());
 
 /**
  * Convert Firebase Auth account to User
@@ -48,8 +54,9 @@ async function accountToUser(auth: AuthData): Promise<User> {
   // TODO: Make `firestore` role-based (e.g. firestoreForRole('ACCOUNT_CREATOR'))
   // @ts-ignore
   const users = await getDataStore(User);
-  const user = await users.get(auth.uid, {edges: [UserRoles]});
+  const user = await users.get(auth.uid);
   if (user != null) {
+    user.canLogin = true;
     return user;
   }
 
@@ -90,28 +97,17 @@ async function accountToUser(auth: AuthData): Promise<User> {
   });
 
   const adminFirestore = admin.firestore();
+
   await adminFirestore.runTransaction(async (transaction: any) => {
-    const userStoreInTxn = firebaseStore(
-      User,
-      // @ts-ignore: hack to pass in `transaction`
-      adminFirestore,
-      transaction,
-      firebaseConfig,
-    );
-    const profileStoreInTxn = firebaseStore(
-      Profile,
-      // @ts-ignore: hack to pass in `transaction`
-      adminFirestore,
-      transaction,
-      firebaseConfig,
-    );
-    const rolesStoreInTxn = firebaseStore(
-      UserRoles,
-      // @ts-ignore: hack to pass in `transaction`
-      adminFirestore,
-      transaction,
-      firebaseConfig,
-    );
+    const ctx: FirestoreContext = {
+      /** @ts-ignore Server and client types can be used interchangably in datastore  */
+      firestore: adminFirestore,
+      firestoreTxn: transaction,
+      instance,
+    };
+    const userStoreInTxn = firebaseStore(User, ctx);
+    const profileStoreInTxn = firebaseStore(Profile, ctx);
+    const rolesStoreInTxn = firebaseStore(UserRoles, ctx);
 
     userStoreInTxn.create({...newUser, roles: {id: newUser.id}});
     profileStoreInTxn.create(newProfile);
@@ -119,6 +115,7 @@ async function accountToUser(auth: AuthData): Promise<User> {
   });
 
   const createdUser = await users.get(newUser.id, {edges: [UserRoles]});
+  createdUser && (createdUser.canLogin = true);
   return createdUser!;
 }
 setAccountToUserCallback(accountToUser);
@@ -189,7 +186,11 @@ export const sendThingDeleteNotif = registerHandler(
 export const getUser = registerHandler(GET_USER, async () => {
   const account = requireAccountInfo();
   const store = await getDataStore(User);
-  return store.get(account.uid, {edges: [UserRoles]});
+  const user = await store.get(account.uid, {edges: [UserRoles]});
+  if (user) {
+    user.canLogin = true;
+  }
+  return user;
 });
 
 export const updateUser = registerHandler(
@@ -202,21 +203,15 @@ export const updateUser = registerHandler(
       throw new Error('Not allowed');
     }
     const firestore = admin.firestore();
-    await firestore.runTransaction(async transaction => {
-      const userStoreInTxn = firebaseStore(
-        User,
-        // @ts-ignore: hack to pass in `transaction`
-        firestore,
-        transaction,
-        firebaseConfig,
-      );
-      const profileStoreInTxn = firebaseStore(
-        Profile,
-        // @ts-ignore: hack to pass in `transaction`
-        firestore,
-        transaction,
-        firebaseConfig,
-      );
+    await firestore.runTransaction(async (transaction: any) => {
+      const ctx: FirestoreContext = {
+        /** @ts-ignore Server and client types can be used interchangably in datastore  */
+        firestore: adminFirestore,
+        firestoreTxn: transaction,
+        instance,
+      };
+      const userStoreInTxn = firebaseStore(User, ctx);
+      const profileStoreInTxn = firebaseStore(Profile, ctx);
       const profileValues: Updater<Profile> = {id: user.id, user: user};
       PROFILE_FIELDS.forEach(pField => {
         if (pField in values) {
