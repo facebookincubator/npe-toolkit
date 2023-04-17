@@ -7,6 +7,7 @@
 
 import {Api, ApiKey, createApiKey} from '@toolkit/core/api/DataApi';
 import {BOOL, useStored} from '@toolkit/core/client/Storage';
+import {useAppConfig} from '@toolkit/core/util/AppConfig';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {
@@ -14,6 +15,10 @@ import {
   getFirebaseConfig,
   useFirebaseApp,
 } from '@toolkit/providers/firebase/Config';
+import {
+  getFunctionsPrefix,
+  getInstanceFor,
+} from '@toolkit/providers/firebase/Instance';
 import 'firebase/functions';
 
 // Change this to your local IP address when enabling emulation.
@@ -27,8 +32,10 @@ export function useEmulator() {
 }
 
 export function useApi<I, O>(apiKey: ApiKey<I, O>): Api<I, O> {
+  const appConfig = useAppConfig();
   const firebaseConfig = getFirebaseConfig();
-  const prefix = firebaseConfig.namespace ? firebaseConfig.namespace + '-' : '';
+  const instance = getInstanceFor(appConfig);
+  const prefix = getFunctionsPrefix(instance);
   // const [enableEmulator] = useStoredAsync(USE_EMULATOR_KEY, BOOL, false);
 
   return async (input?: I) => {

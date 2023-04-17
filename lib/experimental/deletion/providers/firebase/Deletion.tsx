@@ -38,7 +38,12 @@ import {
   toDatastoreRepresentation,
   toRepoRepresentation,
 } from '@toolkit/providers/firebase/DataStore';
-import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
+import {
+  getFirestorePrefix,
+  getFunctionsPrefix,
+  getInstanceFor,
+} from '@toolkit/providers/firebase/Instance';
+import {getAppConfig} from '@toolkit/providers/firebase/server/Config';
 import {registerHandler} from '@toolkit/providers/firebase/server/Handler';
 
 const {getFunctions} = require('firebase-admin/functions');
@@ -46,8 +51,6 @@ const {getFunctions} = require('firebase-admin/functions');
 // TODO: Add back type safety to these
 type TaskOptions = any;
 type TaskQueue = any;
-
-const firebaseConfig = getFirebaseConfig();
 
 // TODO: Use context vs. a global variable
 let deletionConfig = {
@@ -95,9 +98,8 @@ export class FirebaseDeletionQueue implements workflow.JobQueue {
 initRegistry(FirestoreDeletionRepo);
 
 // Init queue and workflow
-const fullQueueName =
-  (firebaseConfig.namespace ? firebaseConfig.namespace + '-' : '') +
-  'deletion-deletionQueue';
+const instance = getInstanceFor(getAppConfig());
+const fullQueueName = getFunctionsPrefix(instance) + 'deletion-deletionQueue';
 // `deletion` is the Firebase Functions name prefix (i.e. export name in `index.ts`)
 // 'deletionQueue` is the name of Firebase Functions task queue below (i.e. `const deletionQueue=functions.task.taskQueue(...)`)
 const queue: FirebaseDeletionQueue = new FirebaseDeletionQueue(fullQueueName);
@@ -129,8 +131,7 @@ export const deletionQueue = functions.tasks
   });
 
 const triggerPath =
-  (firebaseConfig.namespace ? `instance/${firebaseConfig.namespace}/` : '') +
-  '{collectionId}/{documentId}';
+  getFirestorePrefix(instance) + '{collectionId}/{documentId}';
 
 // Register `OnCreate` trigger handler.
 // When a new document is created, check for TTL rule and schedule a future deletion job.

@@ -7,17 +7,23 @@
 
 import * as admin from 'firebase-admin';
 import firebase from 'firebase/app';
+import {AppConfig} from '@toolkit/core/util/AppConfig';
 import {FirebaseConfig} from '@toolkit/providers/firebase/Config';
 import {getAccountInfo} from '@toolkit/providers/firebase/server/Auth';
 import {getRequestScope} from '@toolkit/providers/firebase/server/Handler';
 
-// Global variable for now
+// Global variables for now.
+// TODO: Switch to using `AppContext`` on the server
 let firebaseConfig: FirebaseConfig;
+let globalAppConfig: AppConfig;
 
 /**
  * Init Firebase server config
  */
-export function initFirebaseServer(config: FirebaseConfig): admin.app.App {
+export function initFirebaseServer(
+  config: FirebaseConfig,
+  appConfig: AppConfig,
+): admin.app.App {
   const {projectId} = config;
   const defaultOptions = {
     credential: admin.credential.applicationDefault(),
@@ -27,9 +33,9 @@ export function initFirebaseServer(config: FirebaseConfig): admin.app.App {
     serviceAccountId: `${projectId}@appspot.gserviceaccount.com`,
   };
   firebaseConfig = {...defaultOptions, ...config};
+  globalAppConfig = appConfig;
   return admin.initializeApp(firebaseConfig);
 }
-
 /**
  * Get the full Firebase config
  */
@@ -39,6 +45,10 @@ export function getFirebaseConfig() {
     throw Error('FirebaseServer is not initialized');
   }
   return firebaseConfig;
+}
+
+export function getAppConfig() {
+  return globalAppConfig;
 }
 
 export async function getApp(): Promise<firebase.app.App> {

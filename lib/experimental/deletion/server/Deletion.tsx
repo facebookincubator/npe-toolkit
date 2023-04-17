@@ -36,7 +36,6 @@ import {
 } from '@toolkit/data/pads/repo';
 import {OptionalId, Success} from '@toolkit/data/pads/utils';
 import {toRepoRepresentation} from '@toolkit/providers/firebase/DataStore';
-import {getFirebaseConfig} from '@toolkit/providers/firebase/server/Config';
 import {getAdminDataStore} from '@toolkit/providers/firebase/server/Firestore';
 
 type Transaction = admin.firestore.Transaction;
@@ -74,11 +73,7 @@ export class FirestoreDeletionRepo<T extends BaseModel> implements Repo<T> {
   constructor(mClass: ModelClass<T>, options?: RepoOpOptions) {
     this.modelClass = mClass;
     this.options = options ?? {};
-    const conf = getFirebaseConfig();
-    this.adminStore = getAdminDataStore(this.modelClass, undefined, {
-      ...conf,
-      keepEdge: true,
-    });
+    this.adminStore = getAdminDataStore(this.modelClass, {keepEdge: true});
   }
 
   async create(m: OptionalId<T>): Promise<T> {
