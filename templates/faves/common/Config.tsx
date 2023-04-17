@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {APP_CONFIG_KEY} from '@toolkit/core/util/AppConfig';
+import {context} from '@toolkit/core/util/AppContext';
 import {FirebaseConfig} from '@toolkit/providers/firebase/Config';
 
 let localConf: Record<string, any> = {};
@@ -44,3 +46,9 @@ export const GOOGLE_LOGIN_CONFIG = localConf['google-login'] ?? {
   iosClientId: 'fill-me-in',
   webClientId: 'fill-me-in',
 };
+
+export const APP_CONFIG = context(APP_CONFIG_KEY, {
+  product: 'helloworld',
+  dataEnv: 'prod',
+  fbAppId: '',
+});

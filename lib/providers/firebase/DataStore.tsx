@@ -23,6 +23,7 @@
  */
 
 import firebase from 'firebase/app';
+import {useAppConfig} from '@toolkit/core/util/AppConfig';
 import {context} from '@toolkit/core/util/AppContext';
 import {Opt} from '@toolkit/core/util/Types';
 import {uuidv4} from '@toolkit/core/util/Util';
@@ -43,11 +44,11 @@ import {
   isInverseModelRefType,
   isModelRefType,
 } from '@toolkit/data/DataStore';
+import {getFirebaseLib, getFirestore} from '@toolkit/providers/firebase/Config';
 import {
-  getFirebaseConfig,
-  getFirebaseLib,
-  getFirestore,
-} from '@toolkit/providers/firebase/Config';
+  getFirestorePrefix,
+  getInstanceFor,
+} from '@toolkit/providers/firebase/Instance';
 import 'firebase/firestore';
 
 let DevUtil: any;
@@ -71,38 +72,50 @@ function useFirestore() {
   return getFirestore();
 }
 
-function useFirestoreConfig() {
-  try {
-    return {
-      namespace: getFirebaseConfig().namespace,
-      keepEdge: false,
-    };
-  } catch (err) {
-    // Likely called from server code that isn't using `FirebaseServerFirestore`
-    // TODO: need to patch call sites directly calling `firebaseStore()`
-    console.error(err);
-  }
-  return null;
+function useFirestoreContext() {
+  const appConfig = useAppConfig();
+  const firestore = useFirestore();
+
+  return {
+    firestore,
+    firestoreTxn: null,
+    instance: getInstanceFor(appConfig),
+  };
 }
 
-export type FirestoreConfig = {
-  namespace?: string;
+export type FirestoreContext = {
+  /**
+   * Firestore isntance to use.
+   * NOTE: Could be of type `firebase.firestore` or `firebase-admin.firestore`
+   */
+  firestore: firebase.firestore.Firestore;
+
+  /**
+   * Optional transaction to use for all operations on this instance.
+   *  NOTE: `firebase.firestore.Transaction` and `firebase-admin.firestore.Transaction` APIs are different
+   * e.g. missing `create`, `getAll`, `get(query)` in `firebase.firestore.Transaction`
+   */
+  firestoreTxn: Opt<firebase.firestore.Transaction>;
+
+  /**
+   * Data can be organized into different `instance`s to map to different environments
+   * (prod, staging, etc). This is used as a top level folder in Firestore for all content.
+   */
+  instance: Opt<string>;
+
+  /**
+   * TODO: Document this context option
+   */
   keepEdge?: boolean;
 };
 
 export function firebaseStore<T extends BaseModel>(
   entityType: ModelClass<T>,
-  // NOTE: Could be of type `firebase.firestore` or `firebase-admin.firestore`
-  firestore?: firebase.firestore.Firestore,
-  // NOTE: `firebase.firestore.Transaction` and `firebase-admin.firestore.Transaction` APIs are different
-  // e.g. missing `create`, `getAll`, `get(query)` in `firebase.firestore.Transaction`
-  firestoreTxn?: firebase.firestore.Transaction,
-  firestoreConfig?: FirestoreConfig,
+  ctx: FirestoreContext,
 ): DataStore<T> {
-  const store = firestore || useFirestore();
-
-  const config = firestoreConfig || useFirestoreConfig();
-  const prefix = config?.namespace ? `instance/${config.namespace}/` : '';
+  const store = ctx.firestore;
+  const firestoreTxn = ctx.firestoreTxn;
+  const prefix = getFirestorePrefix(ctx.instance);
   const name = ModelUtil.getName(entityType);
 
   async function getCollection(): Promise<CollectionReference<T>> {
@@ -144,12 +157,7 @@ export function firebaseStore<T extends BaseModel>(
     thisEdge: ModelClass<any>,
     edges: EdgeSelector[],
   ): Promise<void> {
-    const edgeStore = await firebaseStore(
-      thisEdge,
-      store,
-      firestoreTxn,
-      config ?? undefined,
-    );
+    const edgeStore = await firebaseStore(thisEdge, ctx);
 
     // Load edge by the ID(s)
     const values = await Promise.all(
@@ -181,12 +189,7 @@ export function firebaseStore<T extends BaseModel>(
     isKeyFieldArray: boolean,
   ): Promise<T[]> {
     const edgeSchema = ModelUtil.getSchema(thisEdge);
-    const edgeStore = await firebaseStore(
-      thisEdge,
-      store,
-      firestoreTxn,
-      config ?? undefined,
-    );
+    const edgeStore = await firebaseStore(thisEdge, ctx);
 
     let fieldToMatch: string = '';
     for (const [key, val] of Object.entries(edgeSchema)) {
@@ -228,7 +231,7 @@ export function firebaseStore<T extends BaseModel>(
 
   async function getDocumentRef(id: string) {
     if (firestoreTxn) {
-      return firestore!.doc(`${prefix}${name}/${id}`);
+      return store!.doc(`${prefix}${name}/${id}`);
     } else {
       const collection = await getCollection();
       return collection.doc(id);
@@ -282,7 +285,7 @@ export function firebaseStore<T extends BaseModel>(
         const thisEdge = findEdge(edgeModelClass, edgeCopies);
         if (!thisEdge) {
           // @ts-ignore
-          if (!config?.keepEdge) entities.forEach(value => delete value[key]);
+          if (!ctx?.keepEdge) entities.forEach(value => delete value[key]);
           continue;
         }
         promises.push(
@@ -293,7 +296,7 @@ export function firebaseStore<T extends BaseModel>(
         const thisEdge = findEdge(edgeModelClass, edgeCopies);
         if (!thisEdge) {
           // @ts-ignore
-          if (!config?.keepEdge) entities.forEach(value => delete value[key]);
+          if (!ctx?.keepEdge) entities.forEach(value => delete value[key]);
           continue;
         }
         promises.push(
@@ -605,7 +608,8 @@ function isClientTransaction(transaction: any) {
 const useProvideDataStore: DataStoreProvider = <M extends BaseModel>(
   dataType: ModelClass<M>,
 ) => {
-  return firebaseStore(dataType);
+  const ctx = useFirestoreContext();
+  return firebaseStore(dataType, ctx);
 };
 
 export const FIRESTORE_DATASTORE = context(

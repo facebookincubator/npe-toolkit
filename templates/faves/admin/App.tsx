@@ -19,8 +19,12 @@ import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import {usePaperComponents} from '@toolkit/ui/components/Paper';
 import AuthConfig from '@app/admin/app/AuthConfig';
 import DrawerNavigator from '@app/admin/app/DrawerNavigator';
-import {FIREBASE_CONFIG, GOOGLE_LOGIN_CONFIG} from '@app/common/Config';
-import {APP_CONFIG, APP_INFO} from './lib/Config';
+import {
+  APP_CONFIG,
+  FIREBASE_CONFIG,
+  GOOGLE_LOGIN_CONFIG,
+} from '@app/common/Config';
+import {APP_INFO} from './lib/Config';
 
 function initIcons() {
   registerIconPack('ion', Ionicons);

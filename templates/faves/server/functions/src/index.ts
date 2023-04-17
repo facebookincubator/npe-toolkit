@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {FIREBASE_CONFIG} from '@app/common/Config';
+import {APP_CONFIG, FIREBASE_CONFIG} from '@app/common/Config';
 import {initFirebaseServer} from '@toolkit/providers/firebase/server/Config';
 import {
   AuthenticateMiddleware,
@@ -16,7 +16,7 @@ import {
 
 // Follow the wiki below to enable Firestore security rule enforcement in Functions:
 // https://github.com/facebookincubator/npe-toolkit/blob/main/docs/datastore/server-rules.md
-initFirebaseServer(FIREBASE_CONFIG);
+initFirebaseServer(FIREBASE_CONFIG, APP_CONFIG);
 
 initMiddlewares([
   AuthenticateMiddleware,

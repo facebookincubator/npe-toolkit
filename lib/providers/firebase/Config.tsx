@@ -20,12 +20,6 @@ export type FirebaseConfig = {
   storageBucket?: string;
   messagingSenderId?: string;
   measurementId?: string;
-  // For Hackathon teams only
-  // Set `namespace` to your team or app name in lowercase alphanumeric chars
-  // (This enables us to host multiple apps under a Firebase project.)
-  // - Firestore data will be added as subcollections under the parent document `project/{namespace}`
-  // - Functions will be deploed as `{namespace}-{handler_name}`
-  namespace?: string;
   emulators?: {
     functions?: {
       useEmulator: boolean;
