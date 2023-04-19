@@ -46,9 +46,14 @@ export type FileStore = {
   getUrl: (storageUri: StorageUri) => Promise<string>;
 };
 
+export type FileStoreOpts = {
+  maxBytes?: number;
+};
+
 export type FileStoreProvider = <T extends BaseModel>(
   dataType: ModelClass<T>,
   field: keyof T,
+  opts: FileStoreOpts,
 ) => FileStore;
 
 // Context key for providing app config using AppContext
@@ -59,7 +64,8 @@ export const FILE_STORE_PROVIDER_KEY = contextKey<FileStoreProvider>(
 export function useStorage<T extends BaseModel>(
   dataType: ModelClass<T>,
   field: keyof T,
+  opts?: FileStoreOpts,
 ): FileStore {
   const fileStoreProvider = useAppContext(FILE_STORE_PROVIDER_KEY);
-  return fileStoreProvider(dataType, field);
+  return fileStoreProvider(dataType, field, opts ?? {});
 }
