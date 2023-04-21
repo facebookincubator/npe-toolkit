@@ -56,6 +56,10 @@ export default function AuthConfig(props: {children?: React.ReactNode}) {
   );
 }
 
+function addDerivedFields(user: User) {
+  user.canLogin = true;
+}
+
 /**
  * Client version of creating user - this is for early development,
  * should switch to a server-based version for launch
@@ -69,9 +73,11 @@ async function getOrCreateUser(
   profileStore: DataStore<Profile>,
 ) {
   const userId = firebaseAccount.uid;
-  const user = await userStore.get(userId);
+  let user = await userStore.get(userId);
   const profile = await profileStore.get(userId);
+
   if (user != null && profile != null) {
+    addDerivedFields(user);
     return user;
   }
 
@@ -107,8 +113,8 @@ async function getOrCreateUser(
   }
 
   if (user == null) {
-    return await userStore.create(newUser);
-  } else {
-    return user;
+    user = await userStore.create(newUser);
   }
+  addDerivedFields(newUser);
+  return user;
 }
