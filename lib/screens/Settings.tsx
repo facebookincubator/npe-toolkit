@@ -8,10 +8,10 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
-import {Action, useAction} from '@toolkit/core/client/Action';
+import {ActionItem, useAction} from '@toolkit/core/client/Action';
 import {Screen} from '@toolkit/ui/screen/Screen';
 
-export type Setting = Action | string;
+export type Setting = ActionItem | string;
 
 // TODO: Consider putting settings in AppContext so parts of app can contribute
 type Props = {
@@ -25,7 +25,7 @@ const Settings: Screen<Props> = ({settings}) => {
         if (typeof setting === 'string') {
           return <SectionTitle key={idx} title={setting} />;
         } else {
-          return <SettingsItem key={idx} action={setting} />;
+          return <SettingsItem key={idx} item={setting} />;
         }
       })}
     </View>
@@ -35,24 +35,25 @@ const Settings: Screen<Props> = ({settings}) => {
 // TODO: Is this the best approach?
 Settings.title = 'Settings';
 
-type SettingsItemProps = {action: Action};
+type SettingsItemProps = {item: ActionItem};
 
 const SettingsItem = (props: SettingsItemProps) => {
-  const action = useAction(props.action);
+  const {item} = props;
+  const [handler] = useAction(item.id, item.action);
 
   // TODO: Add item info (leaving in for reference)
   const info = null;
 
   return (
-    <TouchableOpacity style={S.itemRow} onPress={() => action.act()}>
-      {action.icon != null && (
+    <TouchableOpacity style={S.itemRow} onPress={handler}>
+      {item.icon != null && (
         <Icon /* @ts-ignore */
-          name={action.icon}
+          name={item.icon}
           size={28}
           style={{opacity: 0.65, marginRight: 16, width: 28}}
         />
       )}
-      <Text style={S.itemTitle}>{action.label}</Text>
+      <Text style={S.itemTitle}>{item.label}</Text>
       {info && <Text style={S.itemInfo}>{info}</Text>}
       <View style={{flex: 1}} />
       <Icon name="chevron-right" size={24} style={{opacity: 0.5}} />

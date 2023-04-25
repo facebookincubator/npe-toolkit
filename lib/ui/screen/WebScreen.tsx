@@ -12,7 +12,7 @@ import {
   WebViewMessageEvent,
   WebViewNavigation,
 } from 'react-native-webview';
-import {Action} from '@toolkit/core/client/Action';
+import {ActionItem, actionHook} from '@toolkit/core/client/Action';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
@@ -60,18 +60,18 @@ export type UrlSpec = {
   url: string;
 };
 
-export function openUrlAction(spec: UrlSpec): Action {
+export function openUrlAction(spec: UrlSpec): ActionItem {
   const {id, label, url} = spec;
 
-  return () => {
-    const openUrl = useOpenUrl();
-    return {
-      id: `LINK_TO_${id}`,
-      label,
-      act: () => {
+  return {
+    id: `LINK_TO_${id}`,
+    label,
+    action: actionHook(() => {
+      const openUrl = useOpenUrl();
+      return () => {
         openUrl(url);
-      },
-    };
+      };
+    }),
   };
 }
 

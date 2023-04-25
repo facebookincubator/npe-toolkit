@@ -29,7 +29,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
-import {Action, useAction} from '@toolkit/core/client/Action';
+import {ActionItem, actionHook, useAction} from '@toolkit/core/client/Action';
 import TriState from '@toolkit/core/client/TriState';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
@@ -37,6 +37,7 @@ import Modal from '@toolkit/ui/components/ModalDialog';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
+import {WaitForAppLoad} from './LayoutBlocks';
 
 type NavItemProps = Readonly<{
   title: string;
@@ -171,7 +172,7 @@ type DrawerProps = {
   loadingView?: React.ComponentType<any>;
   loginScreen?: Screen<any>;
   home?: Screen<any>;
-  navActions?: Action[];
+  navActions?: ActionItem[];
 };
 type DrawerLayoutProps = LayoutProps & DrawerProps;
 
@@ -188,25 +189,27 @@ export function drawerLayout(layoutProps: DrawerProps): LayoutComponent {
   return layout;
 }
 
-const GO_BACK = () => {
-  const nav = useNav();
-
-  return {
-    id: 'GO_BACK',
-    label: 'go back',
-    icon: 'chevron-left',
-    act: () => nav.back(),
-  };
+const GO_BACK = {
+  id: 'GO_BACK',
+  label: 'go back',
+  icon: 'chevron-left',
+  action: actionHook(() => {
+    const nav = useNav();
+    return () => nav.back();
+  }),
 };
 
-function AppBarAction(props: {action: Action; color: string}) {
-  const {action, color} = props;
-  const {icon, act} = useAction(action);
+function AppBarAction(props: {item: ActionItem; color: string}) {
+  const {
+    item: {icon, label, action},
+    color,
+  } = props;
+  const [handler] = useAction(action);
 
   if (icon == null) {
     return <></>;
   }
-  return <Appbar.Action icon={icon} color={color} onPress={() => act()} />;
+  return <Appbar.Action icon={icon} color={color} onPress={handler} />;
 }
 
 const DrawerLayout = (props: DrawerLayoutProps) => {
@@ -227,7 +230,6 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
   const {routes, location} = useNavState();
   const route = useRoute();
   const userMessaging = useUserMessaging();
-  const rnPaperTheme = useTheme();
 
   function onError(err: Error) {
     if (canLoggingInFix(err) && loginScreen) {
@@ -271,16 +273,16 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
   const showNavToggle = !showBackNav && (!navOver || curPageInNav);
   const includeNavBar = style?.nav !== 'none' && style?.type !== 'modal';
   const showNavHere = showNav && showNavToggle;
-  const navActionButtons = navActions.map((action, i) => (
-    <AppBarAction key={i} action={action} color={appbarTextColor} />
+  const navActionButtons = navActions.map((item, i) => (
+    <AppBarAction key={i} item={item} color={appbarTextColor} />
   ));
 
   // Show actions in a menu if there's more than 1. Otherwise, just show the icon in the action bar
   let screenActions =
     actions.length === 1 ? (
-      <AppBarAction action={actions[0]} color={appbarTextColor} />
+      <AppBarAction item={actions[0]} color={appbarTextColor} />
     ) : (
-      <ActionMenu actions={actions} color={appbarTextColor} />
+      <ActionMenu items={actions} color={appbarTextColor} />
     );
 
   if (title != null) {
@@ -290,16 +292,18 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
   if (style?.type === 'modal') {
     return (
       <Modal>
-        <TriState
-          key={route.key}
-          onError={onError}
-          loadingView={() => (
-            <View style={S.modalLoading}>
-              <Text>Loading...</Text>
-            </View>
-          )}>
-          {children}
-        </TriState>
+        <WaitForAppLoad>
+          <TriState
+            key={route.key}
+            onError={onError}
+            loadingView={() => (
+              <View style={S.modalLoading}>
+                <Text>Loading...</Text>
+              </View>
+            )}>
+            {children}
+          </TriState>
+        </WaitForAppLoad>
       </Modal>
     );
   }
@@ -310,7 +314,7 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
         <Appbar.Header style={{zIndex: 5}} dark={true}>
           {showNavToggle && <Appbar.Action icon="menu" onPress={toggle} />}
           {showBackNav && (
-            <AppBarAction action={GO_BACK} color={appbarTextColor} />
+            <AppBarAction item={GO_BACK} color={appbarTextColor} />
           )}
           {home && includeNavBar && (
             <Appbar.Action icon="home" onPress={() => nav.navTo(home)} />
@@ -333,13 +337,15 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
         )}
         <ScrollView style={S.container} contentContainerStyle={{flex: 1}}>
           <TriState key={route.key} onError={onError} loadingView={loadingView}>
-            <View style={{flex: 1}}>{children}</View>
+            <WaitForAppLoad>
+              <View style={{flex: 1}}>{children}</View>
+            </WaitForAppLoad>
           </TriState>
         </ScrollView>
       </View>
       <View style={S.bottomItems}>
         <View style={{flexGrow: 1}} />
-        {mainAction && <ActionFAB action={mainAction} />}
+        {mainAction && <ActionFAB item={mainAction} />}
       </View>
     </View>
   );
@@ -399,37 +405,40 @@ const S = StyleSheet.create({
 export default DrawerLayout;
 
 type WithoutIcon = Omit<React.ComponentProps<typeof FAB>, 'icon'>;
-type ActionFABProps = WithoutIcon & {action: Action; icon?: string};
+type ActionFABProps = WithoutIcon & {item: ActionItem; icon?: string};
 
 function ActionFAB(props: ActionFABProps) {
-  const {action, icon, ...fabProps} = props;
+  const {item, icon, ...fabProps} = props;
 
-  const actionSpec = useAction(action);
-  const iconSpec = actionSpec.icon || icon;
+  const [handler] = useAction(item.action);
+  const iconSpec = item.icon || icon;
 
   if (!iconSpec) {
     throw Error('Must provide icon to FAB via Action or icon prop');
   }
 
-  return <FAB {...fabProps} icon={iconSpec} onPress={() => actionSpec.act()} />;
+  return <FAB {...fabProps} icon={iconSpec} onPress={handler} />;
 }
 
 type ActionMenuProps = {
-  actions: Action[];
+  items: ActionItem[];
   size?: number;
   color: string;
 };
 
 const ActionMenu = (props: ActionMenuProps) => {
-  const {size = 18, color} = props;
-  const actions = props.actions.map(action => useAction(action));
+  const {size = 18, color, items} = props;
+  const handlers = items.map(item => {
+    const [handler] = useAction(item.action);
+    return handler;
+  });
   const [menuVisible, setMenuVisible] = React.useState(false);
 
   const show = () => setMenuVisible(true);
   const hide = () => setMenuVisible(false);
 
   function menuItemSelected(index: number): void {
-    actions[index].act();
+    handlers[index]();
     setMenuVisible(false);
   }
 
@@ -444,13 +453,13 @@ const ActionMenu = (props: ActionMenuProps) => {
       style={styles.menu}
       contentStyle={styles.menuContent}
       anchor={anchor}>
-      {actions.map((action, index) => (
+      {items.map((item, index) => (
         <Menu.Item
-          key={action.id}
+          key={item.id}
           onPress={() => menuItemSelected(index)}
           style={styles.menuItem}
-          icon={action.icon}
-          title={action.label}
+          icon={item.icon}
+          title={item.label}
         />
       ))}
     </Menu>

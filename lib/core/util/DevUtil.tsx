@@ -13,10 +13,7 @@ export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const TimeoutError = new CodedError(
-  'npe.action.timeout',
-  'Operation exceeded timeout',
-);
+const TimeoutError = new CodedError('npe.action.timeout', 'Request timed out');
 
 /**
  * Return a promise that throws after a timeout if the
@@ -26,7 +23,7 @@ const TimeoutError = new CodedError(
  * just will ignore the result from that promise.
  */
 export function withTimeout<T>(
-  fn: () => Promise<T>,
+  fn: (() => Promise<T>) | (() => T),
   timeoutMs: number,
 ): Promise<T> {
   const wrapped = async (): Promise<T> => {
