@@ -65,9 +65,9 @@ type AsyncResolver<Props> = (props: Sync<Props>) => Promise<Async<Props>>;
  * 1. <ComponentThatHoldsPromise>
  * 2.   <LoadWrapper>
  * 3.   <ComponentThatThrows>
- * 4.    <RealComponent/>
- *      </ComponentThatHoldsPromise>
- *    </ComponentWithPromise>
+ * 4.     <RealComponent/>
+ *      </ComponentThatThrows>
+ *    </ComponentThatHoldsPromise>
  *```
  * The components and why each is needed
  * 1. `ComponentThatHoldsPromise`
