@@ -10,12 +10,14 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useRoute} from '@react-navigation/core';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import TriState from '@toolkit/core/client/TriState';
+import {StatusContainer} from '@toolkit/core/client/UserMessaging';
 import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
 import {
   IconButton,
   LoadingView,
   NavItem,
   NavItems,
+  WaitForAppLoad,
   getIcon,
   logError,
 } from '@toolkit/ui/layout/LayoutBlocks';
@@ -38,7 +40,6 @@ export function topbarLayout(navItems: NavItems): LayoutComponent {
     <TopbarLayout {...navItems} {...layoutProps} />
   );
 }
-
 const TopbarLayout = (props: LayoutProps & NavItems) => {
   const {children, style} = props;
   const loadingView = props.loading ?? LoadingView;
@@ -50,16 +51,20 @@ const TopbarLayout = (props: LayoutProps & NavItems) => {
   const navStyle = style?.nav ?? 'full';
 
   return (
-    <SafeAreaView style={S.top}>
-      <View style={{flex: 1, backgroundColor: '#F0F0F0'}}>
-        {navStyle === 'full' && <TopHeader {...props} />}
-        <View style={{flex: 1}}>
-          <TriState key={key} onError={onError} loadingView={loadingView}>
-            <View style={{flex: 1}}>{children}</View>
-          </TriState>
+    <StatusContainer>
+      <SafeAreaView style={S.top}>
+        <View style={{flex: 1, backgroundColor: '#F0F0F0'}}>
+          {navStyle === 'full' && <TopHeader {...props} />}
+          <View style={{flex: 1}}>
+            <TriState key={key} onError={onError} loadingView={loadingView}>
+              <WaitForAppLoad>
+                <View style={{flex: 1}}>{children}</View>
+              </WaitForAppLoad>
+            </TriState>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </StatusContainer>
   );
 };
 

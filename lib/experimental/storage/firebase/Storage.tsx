@@ -139,6 +139,11 @@ const uploadFile = async (
 };
 
 const getExtension = (uri: string): string => {
-  const tokens = uri.split('.');
-  return tokens[tokens.length - 1];
+  if (uri.startsWith('data:')) {
+    const endswithExtension = uri.split(';')[0];
+    return endswithExtension.split('/')[1];
+  } else {
+    const tokens = uri.split('.');
+    return tokens[tokens.length - 1];
+  }
 };

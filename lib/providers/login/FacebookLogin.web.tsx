@@ -8,6 +8,7 @@
 import {LoginCredential} from '@toolkit/core/api/Auth';
 import {IdentityProvider} from '@toolkit/core/api/Login';
 import {getAppConfig} from '@toolkit/core/util/AppConfig';
+import {sleep} from '@toolkit/core/util/DevUtil';
 
 // Defaults to native, can be overridden in web
 export function fbAuthProvider(): IdentityProvider {
@@ -22,6 +23,7 @@ export function fbAuthProvider(): IdentityProvider {
         window.fbAsyncInit = function () {
           resolve();
         };
+        //sleep(5000).then(() => reject(new Error('Failed to load Facebook JS')));
 
         (function (doc, script, id) {
           const facebookJS = doc.getElementsByTagName(script)[0];

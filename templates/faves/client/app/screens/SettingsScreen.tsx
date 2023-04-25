@@ -15,6 +15,7 @@ import {NotificationSettingsScreen} from '@toolkit/screens/settings/Notification
 import {navToAction} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import {openUrlAction} from '@toolkit/ui/screen/WebScreen';
+import {actionHook} from '@app/../../npe-toolkit/lib/core/client/Action';
 import AboutScreen from './AboutScreen';
 
 const META_TOS = {
@@ -53,24 +54,24 @@ const NOTIF_SETTINGS = {
   to: NotificationSettingsScreen,
 };
 
-const DEV_SETTINGS = () => {
-  const {showMessage} = useUserMessaging();
-  return {
-    id: 'DEV_SETTINGS',
-    label: 'Dev Settings',
-    icon: 'wrench-outline',
-    act: () => showMessage('coming soon'!),
-  };
+const DEV_SETTINGS = {
+  id: 'DEV_SETTINGS',
+  label: 'Dev Settings',
+  icon: 'wrench-outline',
+  action: actionHook(() => {
+    const {showMessage} = useUserMessaging();
+    return () => showMessage('Coming soon!');
+  }),
 };
 
-export const LOGOUT_ACTION = () => {
-  const auth = useAuth();
-  return {
-    id: 'LOGOUT',
-    label: 'Log Out',
-    icon: 'logout',
-    act: () => auth.logout(),
-  };
+export const LOGOUT_ACTION = {
+  id: 'LOGOUT',
+  label: 'Log Out',
+  icon: 'logout',
+  action: actionHook(() => {
+    const auth = useAuth();
+    return () => auth.logout();
+  }),
 };
 
 const SETTINGS: Setting[] = [

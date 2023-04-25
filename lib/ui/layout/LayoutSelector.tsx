@@ -6,7 +6,6 @@
  */
 
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
 import {useRoute} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
@@ -59,17 +58,17 @@ const LayoutSelector = (props: Layouts & LayoutProps) => {
     return false;
   }
 
-  const MobileLayout = mobile ?? base;
-  const DesktopLayout = desktopWeb ?? base;
-  const ModalLayout = modal ?? base;
+  let Layout;
 
   if (style?.type === 'modal') {
-    return <ModalLayout {...props} onError={onError} />;
+    Layout = modal ?? base;
   } else if (isMobile) {
-    return <MobileLayout {...props} onError={onError} />;
+    Layout = mobile ?? base;
   } else {
-    return <DesktopLayout {...props} onError={onError} />;
+    Layout = desktopWeb ?? base;
   }
+
+  return <Layout {...props} onError={onError} />;
 };
 
 function eventNameFromScreen(screen: string) {

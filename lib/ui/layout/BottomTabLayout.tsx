@@ -16,6 +16,7 @@ import {
   LoadingView,
   NavItem,
   NavItems,
+  WaitForAppLoad,
   getIcon,
   logError,
 } from '@toolkit/ui/layout/LayoutBlocks';
@@ -67,7 +68,9 @@ const TabLayout = (props: LayoutProps & NavItems) => {
         )}
         <View style={S.content}>
           <TriState key={key} onError={onError} loadingView={loadingView}>
-            <View style={{flex: 1}}>{children}</View>
+            <WaitForAppLoad>
+              <View style={{flex: 1}}>{children}</View>
+            </WaitForAppLoad>
           </TriState>
         </View>
         {showTabs && <BottomTabs tabs={tabs} />}
