@@ -7,9 +7,35 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLoggedInUser} from '@toolkit/core/api/User';
+import {CodedError} from '@toolkit/core/util/CodedError';
 
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const TimeoutError = new CodedError('npe.action.timeout', 'Request timed out');
+
+/**
+ * Return a promise that throws after a timeout if the
+ * underlying timeout hasn't been fulfilled.
+ *
+ * Note that this doesn't stop the underlying promise from executing,
+ * just will ignore the result from that promise.
+ */
+export function withTimeout<T>(
+  fn: (() => Promise<T>) | (() => T),
+  timeoutMs: number,
+): Promise<T> {
+  const wrapped = async (): Promise<T> => {
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(TimeoutError), timeoutMs);
+    });
+
+    const result = await Promise.race([fn(), timeoutPromise]);
+    return result;
+  };
+
+  return wrapped();
 }
 
 // TODO: Make this settable in Dev Settings

@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import {Action} from '@toolkit/core/client/Action';
+import {ActionItem} from '@toolkit/core/client/Action';
 import {MayLoad} from '@toolkit/core/util/Loadable';
 
 /**
@@ -42,10 +42,10 @@ export interface ScreenProps {
   };
 
   // A primary action to be shown in a FAB or similar
-  mainAction?: Action;
+  mainAction?: ActionItem;
 
   // List of all top level actions available on this screen
-  actions?: Action[];
+  actions?: ActionItem[];
 
   // Parents are used when deep navigating to a screen that
   // needs to have a "back" button - the parent is pushed on the

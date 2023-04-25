@@ -6,11 +6,15 @@
  */
 
 import firebase from 'firebase/app';
+import {useAppConfig} from '@toolkit/core/util/AppConfig';
+import {uuidv4} from '@toolkit/core/util/Util';
+import {
+  getInstanceFor,
+  getStoragePrefix,
+} from '@toolkit/providers/firebase/Instance';
 import 'firebase/storage';
 import * as mime from 'mime';
 import 'react-native-get-random-values';
-import {uuidv4} from '@toolkit/core/util/Util';
-import {getFirebaseConfig} from '@toolkit/providers/firebase/Config';
 
 export type StoredObjectData = {
   displayUrl: string;
@@ -26,8 +30,9 @@ const FIREBASE_SCHEME = 'firebasestorage://';
 export const useFirebaseStorage = () => {
   const app = firebase.app();
   const storage = app.storage();
-  const config = getFirebaseConfig();
-  const prePath = config?.namespace ? `${config.namespace}/` : '';
+  const appConfig = useAppConfig();
+  const instance = getInstanceFor(appConfig);
+  const prefix = getStoragePrefix(instance);
   return {
     upload: async (
       folder: string,
@@ -38,7 +43,7 @@ export const useFirebaseStorage = () => {
     ): Promise<StoredObjectData> => {
       return new Promise(async (resolve, reject) => {
         const ext = getExtension(uri);
-        const key = `${prePath}${folder}/${uuidv4()}.${ext}`;
+        const key = `${prefix}${folder}/${uuidv4()}.${ext}`;
         const storageRef = storage.ref();
         const ref = storageRef.child(key);
 
@@ -73,7 +78,7 @@ export const useFirebaseStorage = () => {
       progress?: (snapshot: firebase.storage.UploadTaskSnapshot) => void,
       error?: (error: firebase.storage.FirebaseStorageError) => void,
     ): Promise<StoredObjectData> => {
-      const key = `${prePath}${folder}/${uuidv4()}.${extension}`;
+      const key = `${prefix}${folder}/${uuidv4()}.${extension}`;
       return await uploadFile(
         storage,
         key,
@@ -134,6 +139,11 @@ const uploadFile = async (
 };
 
 const getExtension = (uri: string): string => {
-  const tokens = uri.split('.');
-  return tokens[tokens.length - 1];
+  if (uri.startsWith('data:')) {
+    const endswithExtension = uri.split(';')[0];
+    return endswithExtension.split('/')[1];
+  } else {
+    const tokens = uri.split('.');
+    return tokens[tokens.length - 1];
+  }
 };

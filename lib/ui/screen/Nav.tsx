@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Action} from '@toolkit/core/client/Action';
+import {ActionItem, actionHook} from '@toolkit/core/client/Action';
 import {contextKey, useAppContext} from '@toolkit/core/util/AppContext';
 import {PropsFor} from '@toolkit/core/util/Loadable';
 import {Screen} from '@toolkit/ui/screen/Screen';
@@ -97,19 +97,23 @@ export type NavSpec = {
   icon: string;
   params?: any;
 };
+
 /**
  * `Action` to enacpsulate a navigation event
- * @returns
  */
-export function navToAction(spec: NavSpec): Action {
+export function navToAction(spec: NavSpec): ActionItem {
   const {to, label, icon, params} = spec;
 
-  return () => {
-    const {navTo} = useNav();
+  const screen = 'getScreen' in to ? to.getScreen() : to;
+  const id = (screen.displayName ?? label).toUpperCase();
 
-    const screen = 'getScreen' in to ? to.getScreen() : to;
-    const id = (screen.displayName ?? label).toUpperCase();
-
-    return {id, label, icon, act: () => navTo(screen, params)};
+  return {
+    id,
+    label,
+    icon,
+    action: actionHook(() => {
+      const {navTo} = useNav();
+      return () => navTo(screen, params);
+    }),
   };
 }

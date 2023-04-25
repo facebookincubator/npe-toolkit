@@ -8,13 +8,14 @@
 import * as admin from 'firebase-admin';
 import {BaseModel, DataStore, ModelClass} from '@toolkit/data/DataStore';
 import {
-  FirestoreConfig,
+  FirestoreContext,
   firebaseStore,
 } from '@toolkit/providers/firebase/DataStore';
+import {getInstanceFor} from '@toolkit/providers/firebase/Instance';
 import {
   getAdminApp,
   getApp,
-  getFirebaseConfig,
+  getAppConfig,
 } from '@toolkit/providers/firebase/server/Config';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -37,30 +38,32 @@ export function setAlwaysUseAdminDatastore(value: boolean) {
 export async function getDataStore<T extends BaseModel>(
   entityType: ModelClass<T>,
 ): Promise<DataStore<T>> {
-  const conf = getFirebaseConfig();
+  const appConfig = getAppConfig();
+
   if (alwaysUseAdminDatastore) {
     return getAdminDataStore(entityType);
   }
   const app = await getApp();
-  return firebaseStore(entityType, app.firestore(), undefined, {
-    namespace: conf.namespace,
-  });
+  const ctx = {
+    firestore: app.firestore(),
+    firestoreTxn: null,
+    instance: getInstanceFor(appConfig),
+  };
+
+  return firebaseStore(entityType, ctx);
 }
 
 export function getAdminDataStore<T extends BaseModel>(
   entityType: ModelClass<T>,
-  transaction?: admin.firestore.Transaction,
-  firestoreConfig?: FirestoreConfig,
+  ctx?: Partial<FirestoreContext>,
 ): DataStore<T> {
-  const conf = getFirebaseConfig();
+  const appConfig = getAppConfig();
   const app = getAdminApp();
-  return firebaseStore(
-    entityType,
-    // @ts-ignore
-    app.firestore(),
-    transaction,
-    firestoreConfig ?? {
-      namespace: conf.namespace,
-    },
-  );
+  const fullCtx: FirestoreContext = {
+    /* @ts-ignore Client and server have same API but are different types */
+    firestore: app.firestore(),
+    instance: getInstanceFor(appConfig),
+    ...ctx,
+  };
+  return firebaseStore(entityType, fullCtx);
 }

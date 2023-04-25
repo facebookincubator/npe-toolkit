@@ -10,8 +10,7 @@ import {Image, StyleSheet, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {TextInput} from 'react-native-paper';
 import {useData} from '@toolkit/core/api/DataApi';
-import {User} from '@toolkit/core/api/User';
-import {useLoggedInUser} from '@toolkit/core/api/User';
+import {User, useLoggedInUser} from '@toolkit/core/api/User';
 import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
 import {sleep} from '@toolkit/core/util/DevUtil';
 import {Opt} from '@toolkit/core/util/Types';
@@ -22,10 +21,10 @@ import AllThingsScreen from '@app/app/screens/AllThingsScreen';
 import {AddThing} from '@app/common/AppLogic';
 
 const CreateNewThingScreen: Screen<{}> = () => {
-  const [name, setName] = React.useState<string>();
-  const [description, setDescription] = React.useState<string>();
-  const [imageUrl, setImageUrl] = React.useState<string>();
-  const [previewUrl, setPreviewUrl] = React.useState<Opt<string>>();
+  const [name, setName] = React.useState<string>('');
+  const [description, setDescription] = React.useState<string>('');
+  const [imageUrl, setImageUrl] = React.useState<string>('');
+  const [previewUrl, setPreviewUrl] = React.useState<Opt<string>>('');
   const {Button} = useComponents();
 
   const [saving, setSaving] = React.useState<boolean>(false);
@@ -48,7 +47,6 @@ const CreateNewThingScreen: Screen<{}> = () => {
     }
     setSaving(true);
     await addThing({name, description, imageUrl, creator: user});
-    await sleep(5000);
     setSaving(false);
     back();
     nav.setParams({reload: true});

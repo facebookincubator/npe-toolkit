@@ -14,6 +14,7 @@ import {SimpleUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {registerAppConfig} from '@toolkit/core/util/AppConfig';
 import {AppContextProvider} from '@toolkit/core/util/AppContext';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';
+import {initializeFirebase} from '@toolkit/providers/firebase/Config';
 import {FIRESTORE_DATASTORE} from '@toolkit/providers/firebase/DataStore';
 import {FIREBASE_LOGGER} from '@toolkit/providers/firebase/client/Logger';
 import {fbAuthProvider} from '@toolkit/providers/login/FacebookLogin';
@@ -27,18 +28,10 @@ import PhoneVerification from '@toolkit/screens/login/PhoneVerification';
 import {NotificationSettingsScreen} from '@toolkit/screens/settings/NotificationSettings';
 import {BLACK_AND_WHITE} from '@toolkit/ui/QuickThemes';
 import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
+import {usePaperComponents} from '@toolkit/ui/components/Paper';
 import {NavItem, tabLayout} from '@toolkit/ui/layout/TabLayout';
 import {Routes} from '@toolkit/ui/screen/Nav';
 import WebViewScreen from '@toolkit/ui/screen/WebScreen';
-import 'expo-dev-client';
-import React from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
-import 'react-native-gesture-handler';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {initializeFirebase} from '@toolkit/providers/firebase/Config';
-import {usePaperComponents} from '@toolkit/ui/components/Paper';
 import AuthConfig from '@app/app/AuthConfig';
 import AboutScreen from '@app/app/screens/AboutScreen';
 import AllThingsScreen from '@app/app/screens/AllThingsScreen';
@@ -47,8 +40,19 @@ import LoginScreen from '@app/app/screens/LoginScreen';
 import MyFavesScreen from '@app/app/screens/MyFavesScreen';
 import SettingsScreen from '@app/app/screens/SettingsScreen';
 import StartupScreen from '@app/app/screens/StartupScreen';
-import {FIREBASE_CONFIG, GOOGLE_LOGIN_CONFIG} from '@app/common/Config';
-import {APP_CONFIG, APP_INFO, NOTIF_CHANNELS_CONTEXT} from './lib/Config';
+import {
+  APP_CONFIG,
+  FIREBASE_CONFIG,
+  GOOGLE_LOGIN_CONFIG,
+} from '@app/common/Config';
+import {APP_INFO, NOTIF_CHANNELS_CONTEXT} from '@app/lib/Config';
+import 'expo-dev-client';
+import React from 'react';
+import {Platform, StyleSheet, View} from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import 'react-native-gesture-handler';
+import {Provider as PaperProvider} from 'react-native-paper';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 //
 /**
