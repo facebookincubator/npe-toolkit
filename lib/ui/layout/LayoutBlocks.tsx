@@ -19,6 +19,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {useRoute} from '@react-navigation/core';
+import {useLoggedInUser} from '@toolkit/core/api/User';
 import TriState from '@toolkit/core/client/TriState';
 import {Opt} from '@toolkit/core/util/Types';
 import {Icon} from '@toolkit/ui/components/Icon';
@@ -130,6 +131,21 @@ export const ModalLayout = (props: LayoutProps) => {
       </ScrollView>
     </View>
   );
+};
+
+/**
+ * Utility to only render contents after app has loaded.
+ *
+ * Currently this only ensures that initial user value is set (can be null) but
+ * has already checked if the user has logged in.
+ *
+ * Need to call inside `<TriState>` or other `<React.Suspense>` boundary.
+ */
+export const WaitForAppLoad = (props: {children: React.ReactNode}) => {
+  // Throws a `<React.Suspense>` promise if user isn't loaded
+  useLoggedInUser();
+
+  return <>{props.children}</>;
 };
 
 const S = StyleSheet.create({
