@@ -1,5 +1,6 @@
 import {context} from '@toolkit/core/util/AppContext';
 import {CodedError} from '@toolkit/core/util/CodedError';
+import {sleep} from '@toolkit/core/util/DevUtil';
 import {BaseModel, ModelClass, ModelUtil} from '@toolkit/data/DataStore';
 import {
   FILE_STORE_PROVIDER_KEY,
@@ -27,7 +28,7 @@ function useFileStore<T extends BaseModel>(
     if (file.size > maxBytes) {
       throw new CodedError(
         'npe.storage.toolarge',
-        `This file exceeded the maximum upload size of ${maxBytes} bytes`,
+        `This file exceeded the maximum upload size of ${maxBytes.toLocaleString()} bytes.`,
       );
     }
     const result = await storage.upload(path, toUploadUri);
