@@ -8,6 +8,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {User, requireLoggedInUser} from '@toolkit/core/api/User';
+import {actionHook} from '@toolkit/core/client/Action';
 import {useDataStore} from '@toolkit/data/DataStore';
 import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
@@ -50,14 +51,14 @@ NotificationsScreen.load = async () => {
   return {users: await userStore.getAll()};
 };
 
-const SHOW_BROADCAST_MODAL_ACTION = () => {
-  const nav = useNav();
-  return {
-    id: 'showBroadcastModal',
-    label: 'Send Broadcast',
-    icon: 'oct:megaphone',
-    act: () => nav.navTo(BroadcastNotificationModal),
-  };
+const SHOW_BROADCAST_MODAL_ACTION = {
+  id: 'showBroadcastModal',
+  label: 'Send Broadcast',
+  icon: 'oct:megaphone',
+  action: actionHook(() => {
+    const nav = useNav();
+    return () => nav.navTo(BroadcastNotificationModal);
+  }),
 };
 
 NotificationsScreen.actions = [SHOW_BROADCAST_MODAL_ACTION];
