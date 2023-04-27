@@ -10,7 +10,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useRoute} from '@react-navigation/core';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import TriState from '@toolkit/core/client/TriState';
-import {StatusContainer} from '@toolkit/core/client/UserMessaging';
+import {StatusBar, StatusContainer} from '@toolkit/core/client/UserMessaging';
 import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
 import {
   IconButton,
@@ -55,6 +55,7 @@ const TopbarLayout = (props: LayoutProps & NavItems) => {
       <SafeAreaView style={S.top}>
         <View style={{flex: 1, backgroundColor: '#F0F0F0'}}>
           {navStyle === 'full' && <TopHeader {...props} />}
+          <StatusBar style={{alignItems: 'center'}} />
           <View style={{flex: 1}}>
             <TriState key={key} onError={onError} loadingView={loadingView}>
               <WaitForAppLoad>
