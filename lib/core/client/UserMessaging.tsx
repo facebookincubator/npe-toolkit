@@ -264,7 +264,7 @@ export const StatusBar = (props: StatuBarsProps) => {
   return visible ? (
     <View style={[S.statusBar, color, style]}>
       <Body style={{color: '#333', fontWeight: 'bold'}}>
-        Sorry, there was a problem:
+        Sorry, there was a problem
       </Body>
       <Body style={{color: '#333'}}>{msg}</Body>
     </View>
@@ -315,7 +315,6 @@ const S = StyleSheet.create({
     backgroundColor: '#BDE5F8',
   },
   statusBar: {
-    borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 16,
   },
