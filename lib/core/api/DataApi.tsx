@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Opt} from '@toolkit/core/util/Types';
+
 export type ApiKey<I, O> = {id: string};
 export type Api<I, O> = (input: I) => Promise<O>;
 
@@ -13,25 +15,32 @@ export function createApiKey<I, O>(id: string) {
   return key;
 }
 
-export type DataKey<I, O> = {dataId: string};
-export type UseData<I, O> = () => Api<I, O>;
+export type UseApi<I, O> = (key: ApiKey<I, O>) => Api<I, O>;
 
-const dataKeys: Record<string, () => Api<any, any>> = {};
+const APIS: Record<string, UseApi<any, any>> = {};
+const CLIENT_FALLBACKS: Record<string, UseApi<any, any>> = {};
+let clientFallbackEnabled = false;
 
-function createDataKey<I, O>(dataId: string) {
-  const key: DataKey<I, O> = {dataId};
-  return key;
+/**
+ * For early development, it is convenient to run all logic on the client using Firestore APIs,
+ * including, for example creating user.
+ *
+ * For launch you'll need to switch this to true and use a server-side call by
+ * setting `clientFallbackEnabled` to `false`.
+ */
+export function setClientFallbackEnabled(enabled: boolean) {
+  clientFallbackEnabled = enabled;
 }
 
 /**
- * Register an implementation that provides the data for a given key.
+ * Register an async method that provides  that provides the data for a given key.
  *
  * ## Usage
  *
  * *Using Data*
  * ```
  * function MyComponent() {
- *   const doIt = useData(DoIt);
+ *   const doIt = useApi(DoIt);
  *
  *   async function onPress() {
  *     await doIt();
@@ -44,7 +53,7 @@ function createDataKey<I, O>(dataId: string) {
  *
  * *Defining a Key*
  * ```
- *  const DoIt = dataApi<InputType, OutputType>('doit', () => {
+ *  const DoIt = api<InputType, OutputType>('doit', () => {
  *    // Hooks go here
  *    const dataStore = useDataStore(THING);
  *
@@ -54,16 +63,44 @@ function createDataKey<I, O>(dataId: string) {
  *  });
  * ```
  */
-export function useData<I, O>(dataKey: DataKey<I, O>): Api<I, O> {
-  const useDataFn: any = dataKeys[dataKey.dataId];
-  if (useDataFn == null) {
-    throw Error(`Attempt to use unregistered Data key ${dataKey.dataId}`);
+export function useApi<I, O>(key: ApiKey<I, O>): Api<I, O> {
+  let useDataFn = APIS[key.id] as Opt<UseApi<I, O>>;
+  if (clientFallbackEnabled && CLIENT_FALLBACKS[key.id]) {
+    useDataFn = CLIENT_FALLBACKS[key.id] as Opt<UseApi<I, O>>;
   }
-  return useDataFn();
+  if (useDataFn == null) {
+    throw Error(`Attempt to use unregistered API Key ${key.id}`);
+  }
+  return useDataFn(key);
 }
 
-export function dataApi<I, O>(id: string, impl: UseData<I, O>): DataKey<I, O> {
-  const key = createDataKey<I, O>(id);
-  dataKeys[id] = impl;
+/**
+ * Register an API. Includes:
+ * - Signature of the API: `api<string, void>`
+ * - Unique string key for the API: `api<string, void>(key...`
+ * - Implementation (can be local or remote):
+ *   - Local: `api<string, void>(key, (in: string) => {...})`
+ *   - Remote: `api<string, void>(key, firebaseFn)
+ * - Optional fallback for remote APIs. These are only used in early
+ *   iterations of the app and in local testing for client-only development:
+ *   `api<string, void>(key, firebaseFn, (in: string) => {...})
+ */
+export function api<I, O>(
+  id: string,
+  fn: UseApi<I, O>,
+  client?: UseApi<I, O>,
+): ApiKey<I, O> {
+  const key = createApiKey<I, O>(id);
+  APIS[id] = fn;
+  if (client) {
+    CLIENT_FALLBACKS[id] = client;
+  }
   return key;
+}
+
+// No-op client fallback function, if you want app to degrade gracefully
+// for a given server call not existing. The call must return `void` to use this
+// as a fallback
+export function noop() {
+  return async () => {};
 }

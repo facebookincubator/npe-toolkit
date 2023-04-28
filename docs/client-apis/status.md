@@ -1,8 +1,8 @@
-# User Messaging
+# Status
 
-API to enable code at any layer of the client stack to display a message to the
-use, often displayed as transient overlays (but this UI treatment is not a
-requirement).
+API to to coordinate an area of the app to have a central API for setting
+"status" Status is used to show errors, error state, and messages that result
+from system or user actions.
 
 ## Motivation
 

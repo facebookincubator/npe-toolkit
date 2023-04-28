@@ -8,7 +8,7 @@
 import * as React from 'react';
 import {Animated, StyleSheet, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {useData} from '@toolkit/core/api/DataApi';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import {GetFaves} from '@app/common/AppLogic';
@@ -54,7 +54,7 @@ MyFavesScreen.title = 'My Faves';
 MyFavesScreen.style = {type: 'top'};
 
 MyFavesScreen.load = async () => {
-  const getFaves = useData(GetFaves);
+  const getFaves = useApi(GetFaves);
   // Give time to show the fun loading screen
   await new Promise(r => setTimeout(r, 4000));
 

@@ -10,7 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {CONSOLE_LOGGER} from '@toolkit/core/api/Log';
 import IdentityService from '@toolkit/core/api/Login';
-import {SimpleUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {SimpleUserMessaging} from '@toolkit/core/client/Status';
 import {registerAppConfig} from '@toolkit/core/util/AppConfig';
 import {AppContextProvider} from '@toolkit/core/util/AppContext';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';

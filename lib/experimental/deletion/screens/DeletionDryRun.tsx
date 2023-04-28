@@ -18,7 +18,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {BaseModel, ModelUtil, registry} from '@toolkit/data/DataStore';
 import {

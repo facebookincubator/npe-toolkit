@@ -9,7 +9,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {useAuth} from '@toolkit/core/api/Auth';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import Settings, {Setting} from '@toolkit/screens/Settings';
 import {NotificationSettingsScreen} from '@toolkit/screens/settings/NotificationSettings';
 import {navToAction} from '@toolkit/ui/screen/Nav';

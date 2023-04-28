@@ -73,12 +73,13 @@ callable API method with `useAPI()` and call.
 
 ```tsx
 import {createApiKey} from '@toolkit/core/api/DataApi';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
+import {useApi} from '@toolkit/core/api/DataApi';
+import {firebaseFn} from '@toolkit/providers/firebase/client/FunctionsApi';
 
 type InputType = {foo: string};
 type OutputType = {bar: number};
 
-const MY_API_KEY = createApiKey<InputType,OutputType>('myNewHandler');
+const MY_API_KEY = api<InputType,OutputType>('myNewHandler', firebaseFn);
 const myApi = useApi(MY_API_KEY);
 
 function MyComponent(props: Props) {

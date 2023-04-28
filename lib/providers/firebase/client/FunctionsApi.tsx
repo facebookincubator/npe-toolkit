@@ -31,7 +31,7 @@ export function useEmulator() {
   return useStored(USE_EMULATOR_KEY, BOOL, false);
 }
 
-export function useApi<I, O>(apiKey: ApiKey<I, O>): Api<I, O> {
+export function firebaseFn<I, O>(key: ApiKey<I, O>) {
   const appConfig = useAppConfig();
   const firebaseConfig = getFirebaseConfig();
   const instance = getInstanceFor(appConfig);
@@ -51,7 +51,7 @@ export function useApi<I, O>(apiKey: ApiKey<I, O>): Api<I, O> {
     }
 
     try {
-      const result = await functions.httpsCallable(prefix + apiKey.id)(input);
+      const result = await functions.httpsCallable(prefix + key.id)(input);
       return result.data as O;
     } catch (e: any) {
       throw toCodedError(e) || e;

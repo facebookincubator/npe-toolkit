@@ -8,7 +8,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {SYSTEM_ROLES, requireLoggedInUser} from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {Updater, useDataStore} from '@toolkit/data/DataStore';
 import {Allowlist} from '@toolkit/tbd/Allowlist';
 import DataTable from '@toolkit/ui/components/DataTable';

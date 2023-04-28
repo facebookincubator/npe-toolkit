@@ -11,7 +11,7 @@ import {
   StatusApiType,
   useBackgroundStatus,
   useStatus,
-} from '@toolkit/core/client/UserMessaging';
+} from '@toolkit/core/client/Status';
 import {Opt} from '@toolkit/core/util/Types';
 import {withTimeout} from '../util/DevUtil';
 

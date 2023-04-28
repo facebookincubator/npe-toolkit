@@ -6,15 +6,13 @@
  */
 
 import React from 'react';
-import {ViewStyle} from 'react-native';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, ViewStyle} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {useData} from '@toolkit/core/api/DataApi';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useReload} from '@toolkit/core/client/Reload';
-import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
+import {useMessageOnFail} from '@toolkit/core/client/Status';
 import {useDataStore} from '@toolkit/data/DataStore';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {PressableSpring} from '@toolkit/ui/components/Tools';
 import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from '@app/common/Api';
 import {AddFave, RemoveThing} from '@app/common/AppLogic';
@@ -32,9 +30,9 @@ export default function ThingRow(props: Props) {
   const {thing, isFave, faveId, style, canDelete = false} = props;
   const {imageUrl} = thing;
   requireLoggedInUser();
-  const addFave = useData(AddFave);
+  const addFave = useApi(AddFave);
   const faveStore = useDataStore(Fave);
-  const removeThing = useData(RemoveThing);
+  const removeThing = useApi(RemoveThing);
   const reload = useReload();
   const messageOnFail = useMessageOnFail();
 

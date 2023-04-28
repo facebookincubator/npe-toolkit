@@ -438,7 +438,7 @@ function MyComponent() {
 }
 
 export const ChooseAngle = ({visible, onClose, sides}: Props) => {
-  const joinAngle = useData(JoinAngle);
+  const joinAngle = useApi(JoinAngle);
 
   ...
   async function onChoose(side: Side) {
