@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Api, ApiKey, createApiKey, useData} from '@toolkit/core/api/DataApi';
+import {Api, ApiKey, createApiKey} from '@toolkit/core/api/DataApi';
 import {BOOL, useStored} from '@toolkit/core/client/Storage';
 import {useAppConfig} from '@toolkit/core/util/AppConfig';
 import {CodedError} from '@toolkit/core/util/CodedError';
@@ -29,10 +29,6 @@ const USE_EMULATOR_KEY = 'DEV.USE_EMULATOR';
 
 export function useEmulator() {
   return useStored(USE_EMULATOR_KEY, BOOL, false);
-}
-
-export function useApi<I, O>(key: ApiKey<I, O>) {
-  return useData(key);
 }
 
 export function firebaseFn<I, O>(key: ApiKey<I, O>) {

@@ -8,7 +8,7 @@
 import * as React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import * as Device from 'expo-device';
-import {useData} from '@toolkit/core/api/DataApi';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useNotifications} from '@toolkit/services/notifications/NotificationsClient';
 import {useNav} from '@toolkit/ui/screen/Nav';
@@ -77,8 +77,8 @@ AllThingsScreen.title = 'All Things';
 AllThingsScreen.style = {type: 'top'};
 
 AllThingsScreen.load = async () => {
-  const getAllThings = useData(GetThings);
-  const getFaves = useData(GetFaves);
+  const getAllThings = useApi(GetThings);
+  const getFaves = useApi(GetFaves);
 
   const [faves, allThings] = await Promise.all([getFaves(), getAllThings()]);
 

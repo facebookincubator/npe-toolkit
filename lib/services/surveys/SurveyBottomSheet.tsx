@@ -10,7 +10,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import {Button} from 'react-native-paper';
 import {URL} from 'react-native-url-polyfill';
-import {useData} from '@toolkit/core/api/DataApi';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {Survey} from '@toolkit/services/surveys/Survey';
@@ -51,9 +51,9 @@ export default function SurveyBottomSheet(props: Props) {
   } = props;
   const bottomSheetRef = useRef<BottomSheet>(null);
   const openUrl = useOpenUrl();
-  const getSurveyForUser = useData(GetSurveyForUser);
+  const getSurveyForUser = useApi(GetSurveyForUser);
   const [survey, setSurvey] = useState<Survey>();
-  const logSurveyImpression = (b: any) => {}; //useData(LogSurveyImpression);
+  const logSurveyImpression = (b: any) => {}; //useApi(LogSurveyImpression);
   const user = requireLoggedInUser();
   const {backgroundColor} = useTheme();
 

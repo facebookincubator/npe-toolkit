@@ -8,9 +8,9 @@
 import React from 'react';
 import firebase from 'firebase';
 import {Account} from '@toolkit/core/api/Auth';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
 import {FirebaseAuthService} from '@toolkit/providers/firebase/client/AuthService';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {UnauthorizedError} from '@toolkit/tbd/CommonErrors';
 import {GET_USER} from '@app/common/Api';
 

@@ -17,7 +17,7 @@ export function createApiKey<I, O>(id: string) {
 
 export type UseApi<I, O> = (key: ApiKey<I, O>) => Api<I, O>;
 
-const apis: Record<string, UseApi<any, any>> = {};
+const APIS: Record<string, UseApi<any, any>> = {};
 
 /**
  * Register an async method that provides  that provides the data for a given key.
@@ -50,8 +50,8 @@ const apis: Record<string, UseApi<any, any>> = {};
  *  });
  * ```
  */
-export function useData<I, O>(key: ApiKey<I, O>): Api<I, O> {
-  const useDataFn = apis[key.id] as Opt<UseApi<I, O>>;
+export function useApi<I, O>(key: ApiKey<I, O>): Api<I, O> {
+  const useDataFn = APIS[key.id] as Opt<UseApi<I, O>>;
   if (useDataFn == null) {
     throw Error(`Attempt to use unregistered API Key ${key.id}`);
   }
@@ -60,6 +60,6 @@ export function useData<I, O>(key: ApiKey<I, O>): Api<I, O> {
 
 export function api<I, O>(id: string, fn: UseApi<I, O>): ApiKey<I, O> {
   const key = createApiKey<I, O>(id);
-  apis[id] = fn;
+  APIS[id] = fn;
   return key;
 }

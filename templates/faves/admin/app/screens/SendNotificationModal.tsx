@@ -8,9 +8,9 @@
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, TextInput, Title, useTheme} from 'react-native-paper';
+import {useApi} from '@toolkit/core/api/DataApi';
 import {User} from '@toolkit/core/api/User';
 import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
-import {useApi} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import {SEND_ADMIN_NOTIF} from '@app/common/Api';
