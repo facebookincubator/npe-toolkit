@@ -1,7 +1,6 @@
 {
   "name": "functions",
   "scripts": {
-    "lint": "eslint --ext .js,.ts .",
     "build": "yarn tsc && yarn tsc-alias",
     "build:watch": "yarn tsc -w & yarn tsc-alias -w",
     "serve": "yarn build && firebase emulators:start --only functions",
@@ -18,6 +17,7 @@
   },
   "main": "lib/helloworld/server/functions/src/index.js",
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "axios": "^1.2.0",
     "cls-hooked": "^4.2.2",
     "firebase": "^8.2.3",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/cls-hooked": "^4.3.3",
+    "@types/react": "^17.0.23",
     "@typescript-eslint/eslint-plugin": "^3.9.1",
     "@typescript-eslint/parser": "^3.8.0",
     "eslint": "^7.6.0",
