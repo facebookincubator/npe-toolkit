@@ -9,8 +9,8 @@ import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useRoute} from '@react-navigation/core';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {StatusBar, StatusContainer} from '@toolkit/core/client/Status';
 import TriState from '@toolkit/core/client/TriState';
-import {StatusBar, StatusContainer} from '@toolkit/core/client/UserMessaging';
 import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
 import {
   IconButton,

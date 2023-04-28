@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {dataApi} from '@toolkit/core/api/DataApi';
+import {api} from '@toolkit/core/api/DataApi';
 import {User, requireLoggedInUser} from '@toolkit/core/api/User';
-import {useDataStore} from '@toolkit/data/DataStore';
+import {Updater, useDataStore} from '@toolkit/data/DataStore';
 import {Fave, Thing} from './DataTypes';
 
 // Cilent business logic
@@ -15,7 +15,7 @@ import {Fave, Thing} from './DataTypes';
 /**
  * Get all of the things the app knows about
  */
-export const GetThings = dataApi<void, Thing[]>('things.get', () => {
+export const GetThings = api<void, Thing[]>('things.get', () => {
   const user = requireLoggedInUser<User>();
   const thingStore = useDataStore(Thing);
 
@@ -41,7 +41,7 @@ export const GetThings = dataApi<void, Thing[]>('things.get', () => {
 /**
  * Get all favorites for a user.
  */
-export const GetFaves = dataApi<void, Fave[]>('getFaves', () => {
+export const GetFaves = api<void, Fave[]>('getFaves', () => {
   const user = requireLoggedInUser<User>();
   const faveStore = useDataStore(Fave);
 
@@ -58,7 +58,7 @@ export const GetFaves = dataApi<void, Fave[]>('getFaves', () => {
 /**
  * Add a new favorite to a given thingID.
  */
-export const AddFave = dataApi<string, Fave>('addFave', () => {
+export const AddFave = api<string, Fave>('addFave', () => {
   const user = requireLoggedInUser<User>();
   const thingStore = useDataStore(Thing);
   const faveStore = useDataStore(Fave);
@@ -95,10 +95,10 @@ export const AddFave = dataApi<string, Fave>('addFave', () => {
 /**
  * Add a new thing
  */
-export const AddThing = dataApi<Partial<Thing>, string>('addThing', () => {
+export const AddThing = api<Updater<Thing>, string>('addThing', () => {
   const user = requireLoggedInUser<User>();
   const thingStore = useDataStore(Thing);
-  return async (thing: Partial<Thing>) => {
+  return async (thing: Updater<Thing>) => {
     thing.creator = user;
     const result = await thingStore.create(thing);
     return result.id;
@@ -108,7 +108,7 @@ export const AddThing = dataApi<Partial<Thing>, string>('addThing', () => {
 /**
  * Delete a thing and associated faves
  */
-export const RemoveThing = dataApi<string, void>('removeThing', () => {
+export const RemoveThing = api<string, void>('removeThing', () => {
   const faveStore = useDataStore(Fave);
   const thingStore = useDataStore(Thing);
 

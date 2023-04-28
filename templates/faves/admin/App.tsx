@@ -9,7 +9,7 @@ import React, {Suspense} from 'react';
 import {Ionicons, MaterialCommunityIcons, Octicons} from '@expo/vector-icons';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import IdentityService from '@toolkit/core/api/Login';
-import {SimpleUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {SimpleUserMessaging} from '@toolkit/core/client/Status';
 import {AppContextProvider} from '@toolkit/core/util/AppContext';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';

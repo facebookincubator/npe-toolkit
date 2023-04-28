@@ -9,7 +9,7 @@ import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, RadioButton, Text, Title, useTheme} from 'react-native-paper';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {TODELETE} from '@toolkit/experimental/deletion/datastore/deletion';
 import ToDeleteScreen from '@toolkit/experimental/deletion/screens/Deletion';
