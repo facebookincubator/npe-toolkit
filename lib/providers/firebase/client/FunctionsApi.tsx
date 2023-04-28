@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Api, ApiKey, createApiKey} from '@toolkit/core/api/DataApi';
+import {Api, ApiKey, createApiKey, useData} from '@toolkit/core/api/DataApi';
 import {BOOL, useStored} from '@toolkit/core/client/Storage';
 import {useAppConfig} from '@toolkit/core/util/AppConfig';
 import {CodedError} from '@toolkit/core/util/CodedError';
@@ -31,7 +31,11 @@ export function useEmulator() {
   return useStored(USE_EMULATOR_KEY, BOOL, false);
 }
 
-export function useApi<I, O>(apiKey: ApiKey<I, O>): Api<I, O> {
+export function useApi<I, O>(key: ApiKey<I, O>) {
+  return useData(key);
+}
+
+export function firebaseFn<I, O>(key: ApiKey<I, O>) {
   const appConfig = useAppConfig();
   const firebaseConfig = getFirebaseConfig();
   const instance = getInstanceFor(appConfig);
@@ -51,7 +55,7 @@ export function useApi<I, O>(apiKey: ApiKey<I, O>): Api<I, O> {
     }
 
     try {
-      const result = await functions.httpsCallable(prefix + apiKey.id)(input);
+      const result = await functions.httpsCallable(prefix + key.id)(input);
       return result.data as O;
     } catch (e: any) {
       throw toCodedError(e) || e;

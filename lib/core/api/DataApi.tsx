@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Opt} from '@toolkit/core/util/Types';
+
 export type ApiKey<I, O> = {id: string};
 export type Api<I, O> = (input: I) => Promise<O>;
 
@@ -13,15 +15,9 @@ export function createApiKey<I, O>(id: string) {
   return key;
 }
 
-export type DataKey<I, O> = {dataId: string};
-export type UseData<I, O> = () => Api<I, O>;
+export type UseApi<I, O> = (key: ApiKey<I, O>) => Api<I, O>;
 
-const dataKeys: Record<string, () => Api<any, any>> = {};
-
-function createDataKey<I, O>(dataId: string) {
-  const key: DataKey<I, O> = {dataId};
-  return key;
-}
+const apis: Record<string, UseApi<any, any>> = {};
 
 /**
  * Register an implementation that provides the data for a given key.
@@ -54,16 +50,21 @@ function createDataKey<I, O>(dataId: string) {
  *  });
  * ```
  */
-export function useData<I, O>(dataKey: DataKey<I, O>): Api<I, O> {
-  const useDataFn: any = dataKeys[dataKey.dataId];
+export function useData<I, O>(key: ApiKey<I, O>): Api<I, O> {
+  const useDataFn = apis[key.id] as Opt<UseApi<I, O>>;
   if (useDataFn == null) {
-    throw Error(`Attempt to use unregistered Data key ${dataKey.dataId}`);
+    throw Error(`Attempt to use unregistered API Key ${key.id}`);
   }
-  return useDataFn();
+  return useDataFn(key);
 }
 
-export function dataApi<I, O>(id: string, impl: UseData<I, O>): DataKey<I, O> {
-  const key = createDataKey<I, O>(id);
-  dataKeys[id] = impl;
+export function api<I, O>(id: string, fn: UseApi<I, O>): ApiKey<I, O> {
+  const key = createApiKey<I, O>(id);
+  apis[id] = fn;
   return key;
 }
+
+/**
+ * @deprecated Will switch all to `registerApi()`
+ */
+export const dataApi = api;
