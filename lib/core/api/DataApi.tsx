@@ -18,6 +18,19 @@ export function createApiKey<I, O>(id: string) {
 export type UseApi<I, O> = (key: ApiKey<I, O>) => Api<I, O>;
 
 const APIS: Record<string, UseApi<any, any>> = {};
+const CLIENT_FALLBACKS: Record<string, UseApi<any, any>> = {};
+let clientFallbackEnabled = false;
+
+/**
+ * For early development, it is convenient to run all logic on the client using Firestore APIs,
+ * including, for example creating user.
+ *
+ * For launch you'll need to switch this to true and use a server-side call by
+ * setting `clientFallbackEnabled` to `false`.
+ */
+export function setClientFallbackEnabled(enabled: boolean) {
+  clientFallbackEnabled = enabled;
+}
 
 /**
  * Register an async method that provides  that provides the data for a given key.
@@ -27,7 +40,7 @@ const APIS: Record<string, UseApi<any, any>> = {};
  * *Using Data*
  * ```
  * function MyComponent() {
- *   const doIt = useData(DoIt);
+ *   const doIt = useApi(DoIt);
  *
  *   async function onPress() {
  *     await doIt();
@@ -51,15 +64,43 @@ const APIS: Record<string, UseApi<any, any>> = {};
  * ```
  */
 export function useApi<I, O>(key: ApiKey<I, O>): Api<I, O> {
-  const useDataFn = APIS[key.id] as Opt<UseApi<I, O>>;
+  let useDataFn = APIS[key.id] as Opt<UseApi<I, O>>;
+  if (clientFallbackEnabled && CLIENT_FALLBACKS[key.id]) {
+    useDataFn = CLIENT_FALLBACKS[key.id] as Opt<UseApi<I, O>>;
+  }
   if (useDataFn == null) {
     throw Error(`Attempt to use unregistered API Key ${key.id}`);
   }
   return useDataFn(key);
 }
 
-export function api<I, O>(id: string, fn: UseApi<I, O>): ApiKey<I, O> {
+/**
+ * Register an API. Includes:
+ * - Signature of the API: `api<string, void>`
+ * - Unique string key for the API: `api<string, void>(key...`
+ * - Implementation (can be local or remote):
+ *   - Local: `api<string, void>(key, (in: string) => {...})`
+ *   - Remote: `api<string, void>(key, firebaseFn)
+ * - Optional fallback for remote APIs. These are only used in early
+ *   iterations of the app and in local testing for client-only development:
+ *   `api<string, void>(key, firebaseFn, (in: string) => {...})
+ */
+export function api<I, O>(
+  id: string,
+  fn: UseApi<I, O>,
+  client?: UseApi<I, O>,
+): ApiKey<I, O> {
   const key = createApiKey<I, O>(id);
   APIS[id] = fn;
+  if (client) {
+    CLIENT_FALLBACKS[id] = client;
+  }
   return key;
+}
+
+// No-op client fallback function, if you want app to degrade gracefully
+// for a given server call not existing. The call must return `void` to use this
+// as a fallback
+export function noop() {
+  return async () => {};
 }
