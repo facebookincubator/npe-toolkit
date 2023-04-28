@@ -11,7 +11,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useApi} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {useReload} from '@toolkit/core/client/Reload';
-import {useMessageOnFail} from '@toolkit/core/client/UserMessaging';
+import {useMessageOnFail} from '@toolkit/core/client/Status';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {PressableSpring} from '@toolkit/ui/components/Tools';
 import {SEND_FAVE_NOTIF, SEND_THING_DELETE_NOTIF} from '@app/common/Api';

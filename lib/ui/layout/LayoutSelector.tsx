@@ -10,7 +10,7 @@ import {useRoute} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
 import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {deviceIsMobile} from '@toolkit/core/util/Environment';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav} from '@toolkit/ui/screen/Nav';

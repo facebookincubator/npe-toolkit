@@ -22,7 +22,7 @@ import {
   UserRoles,
   requireLoggedInUser,
 } from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {UserNotFoundError} from '@toolkit/tbd/CommonErrors';
 import {useNav} from '@toolkit/ui/screen/Nav';

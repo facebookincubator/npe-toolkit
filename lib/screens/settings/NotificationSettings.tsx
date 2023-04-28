@@ -8,7 +8,7 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import {List, Switch} from 'react-native-paper';
-import {useUserMessaging} from '@toolkit/core/client/UserMessaging';
+import {useUserMessaging} from '@toolkit/core/client/Status';
 import {Opt} from '@toolkit/core/util/Types';
 import NotificationChannel, {
   useNotificationChannels,
