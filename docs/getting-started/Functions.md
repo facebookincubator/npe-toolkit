@@ -69,7 +69,7 @@ made either by:
 
 **Switch app to use emulator mode**
 
-- Go to `common/Firebase.tsx'
+- Go to `common/Config.tsx'
 - Set `useEmulator: true`
 
 **Run emulators**
