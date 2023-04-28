@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {dataApi, useData} from '@toolkit/core/api/DataApi';
+import {api} from '@toolkit/core/api/DataApi';
 import {requireLoggedInUser} from '@toolkit/core/api/User';
 import {Opt} from '@toolkit/core/util/Types';
 import {useDataStore} from '@toolkit/data/DataStore';
@@ -15,7 +15,7 @@ import {
   SurveyImpressions,
 } from '@toolkit/services/surveys/Survey';
 
-export const LogSurveyImpression = dataApi<
+export const LogSurveyImpression = api<
   {survey: Survey; state: SurveyImpressionState},
   void
 >('logSurveyImpression', () => {
@@ -39,7 +39,7 @@ export const LogSurveyImpression = dataApi<
   };
 });
 
-export const GetSurveyForUser = dataApi<{cooldownDays: number}, Opt<Survey>>(
+export const GetSurveyForUser = api<{cooldownDays: number}, Opt<Survey>>(
   'getSurveyForUser',
   () => {
     const surveyImpStore = useDataStore(SurveyImpressions);

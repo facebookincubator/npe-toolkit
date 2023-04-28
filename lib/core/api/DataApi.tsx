@@ -20,7 +20,7 @@ export type UseApi<I, O> = (key: ApiKey<I, O>) => Api<I, O>;
 const apis: Record<string, UseApi<any, any>> = {};
 
 /**
- * Register an implementation that provides the data for a given key.
+ * Register an async method that provides  that provides the data for a given key.
  *
  * ## Usage
  *
@@ -40,7 +40,7 @@ const apis: Record<string, UseApi<any, any>> = {};
  *
  * *Defining a Key*
  * ```
- *  const DoIt = dataApi<InputType, OutputType>('doit', () => {
+ *  const DoIt = api<InputType, OutputType>('doit', () => {
  *    // Hooks go here
  *    const dataStore = useDataStore(THING);
  *
@@ -63,8 +63,3 @@ export function api<I, O>(id: string, fn: UseApi<I, O>): ApiKey<I, O> {
   apis[id] = fn;
   return key;
 }
-
-/**
- * @deprecated Will switch all to `registerApi()`
- */
-export const dataApi = api;
