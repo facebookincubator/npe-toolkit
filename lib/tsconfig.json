@@ -18,10 +18,10 @@
         "*"
       ],
       "*": [
-        "../shell/latest/node_modules/*",
-        "../shell/latest/node_modules/@types/*",
-        "../shell/latest/server/node_modules/*",
-        "../shell/latest/server/node_modules/@types/*"
+        "../deps/v47/node_modules/*",
+        "../deps/v47/node_modules/@types/*",
+        "../deps/v47/server/node_modules/*",
+        "../deps/v47/server/node_modules/@types/*"
       ]
     },
     "inlineSourceMap": true,

@@ -31,8 +31,8 @@
       ],
       "*": [
         "*",
-        "../../../toolkit/shell/latest/node_modules/*",
-        "../../../toolkit/shell/latest/node_modules/@types/*"
+        "../../../toolkit/deps/v47/node_modules/*",
+        "../../../toolkit/deps/v47/node_modules/@types/*"
       ]
     }
   }

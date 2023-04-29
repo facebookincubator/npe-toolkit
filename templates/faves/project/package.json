@@ -10,7 +10,7 @@
     "build:admin": "CLIENT=admin expo export:web"
   },
   "dependencies": {
-    "@npe-toolkit-shell": "file:../../npe-toolkit/shell/latest"
+    "@npe-toolkit-shell": "file:../../npe-toolkit/deps/v47"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
