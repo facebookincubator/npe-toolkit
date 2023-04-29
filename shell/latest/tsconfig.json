@@ -21,7 +21,8 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "target": "es5"
   },
   "extends": "expo/tsconfig.base"
 }
