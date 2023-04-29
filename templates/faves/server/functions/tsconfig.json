@@ -19,13 +19,13 @@
         "../../../npe-toolkit/lib/*"
       ],
       "@npe-toolkit-shell/*": [
-        "../../../npe-toolkit/shell/latest/*"
+        "../../../npe-toolkit/deps/v47/*"
       ],
       "*": [
         "*",
         "node_modules/*",
         "node_modules/@types/*",
-        "../../../npe-toolkit/shell/latest/server/node_modules/@types/*"
+        "../../../npe-toolkit/deps/v47/server/node_modules/@types/*"
       ]
     },
     "skipLibCheck": true

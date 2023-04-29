@@ -12,5 +12,5 @@ BASEDIR=$(cd $SCRIPTDIR/../.. && echo $PWD)
 echo Calling \`yarn install\` on all directories
 cd $BASEDIR && yarn install
 cd $BASEDIR/tools/project && yarn install
-cd $BASEDIR/shell/latest && yarn install
-cd $BASEDIR/shell/latest/server && yarn install
+cd $BASEDIR/deps/v47 && yarn install
+cd $BASEDIR/deps/v47/server && yarn install

@@ -14,6 +14,6 @@ rm -rf $BASEDIR/node_modules
 rm -rf $BASEDIR/tools/project/node_modules
 rm -rf $BASEDIR/templates/faves/project/node_modules
 rm -rf $BASEDIR/templates/faves/server/functions/node_modules
-rm -rf $BASEDIR/shell/latest/node_modules
-rm -rf $BASEDIR/shell/latest/server/node_modules
-rm -rf $BASEDIR/shell/latest/ios/Pods
+rm -rf $BASEDIR/deps/v47/node_modules
+rm -rf $BASEDIR/deps/v47/server/node_modules
+rm -rf $BASEDIR/deps/v47/ios/Pods

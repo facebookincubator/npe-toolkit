@@ -1,7 +1,7 @@
 {
   "include": [
     ".",
-    "../../npe-toolkit/shell/latest/types"
+    "../../npe-toolkit/deps/v47/types"
   ],
   "compilerOptions": {
     "baseUrl": ".",
@@ -16,7 +16,7 @@
         "../../npe-toolkit/lib/*"
       ],
       "@npe-toolkit-shell/*": [
-        "../../npe-toolkit/shell/latest"
+        "../../npe-toolkit/deps/v47"
       ],
       "*": [
         "*",
@@ -24,9 +24,9 @@
         "../project/node_modules/@types/*",
         // Temporary until we separate out server datastore deps in core datatore API
         // TODO: Remove once API is cleaned up
-        "../../npe-toolkit/shell/latest/server/node_modules/*"
+        "../../npe-toolkit/deps/v47/server/node_modules/*"
       ]
     }
   },
-  "extends": "../../npe-toolkit/shell/latest/tsconfig"
+  "extends": "../../npe-toolkit/deps/v47/tsconfig"
 }
