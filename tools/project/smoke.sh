@@ -15,8 +15,8 @@ cd $BASEDIR && yarn install
 cd $BASEDIR/tools/project && yarn install
 cd $BASEDIR/templates/faves/project && yarn install
 cd $BASEDIR/templates/faves/server/functions && yarn install
-cd $BASEDIR/shell/latest && yarn install
-cd $BASEDIR/shell/latest/server && yarn install
+cd $BASEDIR/deps/v47 && yarn install
+cd $BASEDIR/deps/v47/server && yarn install
 
 echo Typechecking all directories
 STATUS=0
@@ -28,7 +28,7 @@ yarn tsc -p $BASEDIR/templates/faves/admin --noEmit
 STATUS=$(($STATUS + $?))
 yarn tsc -p $BASEDIR/templates/faves/server/functions --noEmit
 STATUS=$(($STATUS + $?))
-yarn tsc -p $BASEDIR/shell/latest --noEmit
+yarn tsc -p $BASEDIR/deps/v47 --noEmit
 STATUS=$(($STATUS + $?))
 
 echo Status: $STATUS

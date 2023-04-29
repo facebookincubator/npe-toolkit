@@ -13,5 +13,5 @@ echo Creating checksums at /tmp/tkchecksum.txt for $BASEDIR
 shasum $BASEDIR/tools/project/yarn.lock \
   $BASEDIR/templates/faves/project/yarn.lock \
   $BASEDIR/templates/faves/server/functions/yarn.lock \
-  $BASEDIR/shell/latest/yarn.lock \
-  $BASEDIR/shell/latest/server/yarn.lock > /tmp/tkchecksum.txt
+  $BASEDIR/deps/v47/yarn.lock \
+  $BASEDIR/deps/v47/server/yarn.lock > /tmp/tkchecksum.txt
