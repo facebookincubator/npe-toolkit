@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import {StyleSheet, View, ViewStyle} from 'react-native';
+import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
 import {Octicons} from '@expo/vector-icons';
 import {
   Button,
@@ -145,11 +145,12 @@ const S = StyleSheet.create({
   },
 });
 
-export type SortOrder = 'ascending' | 'descending';
+export type SortOrder = 'asc' | 'desc';
+export type SortState = {col: string; order: SortOrder};
 export type CellProps = {
   title: string;
   style?: ViewStyle;
-  onSort?: (order: SortOrder) => void;
+  onSort?: (sortState: SortState) => void;
 };
 
 type Props = {
@@ -166,11 +167,22 @@ type Props = {
 export default function DataTable({children: rows, style}: Props) {
   const {Title, Header} = PaperDataTable;
   const [sortColKey, setSortColKey] = useState<string>();
-  const [sortOrder, setSortOrder] = useState<SortOrder>('descending');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   // TODO: Better empty state
   if (rows.length === 0) {
     return <Text>No data available for this table</Text>;
+  }
+
+  function onHeaderPress(props: CellProps, key: string) {
+    const {title, onSort} = props;
+    if (onSort == null) {
+      return;
+    }
+    const order = sortOrder == 'asc' ? 'desc' : 'asc';
+    onSort({col: title, order});
+    setSortColKey(key);
+    setSortOrder(order);
   }
 
   const headers = rows[0].props.children.map((cell, i) => {
@@ -180,17 +192,16 @@ export default function DataTable({children: rows, style}: Props) {
       <Title
         key={key}
         style={style}
-        sortDirection={sortColKey === key ? sortOrder : undefined}
-        onPress={() => {
-          if (onSort == null) {
-            return;
-          }
-          const order = sortOrder == 'ascending' ? 'descending' : 'ascending';
-          onSort(order);
-          setSortColKey(key);
-          setSortOrder(order);
-        }}>
-        {title}
+        sortDirection={
+          sortColKey === key
+            ? sortOrder === 'asc'
+              ? 'ascending'
+              : 'descending'
+            : undefined
+        }>
+        <Pressable onPress={() => onHeaderPress(cell.props, key)}>
+          <Text>{title}</Text>
+        </Pressable>
       </Title>
     );
   });
