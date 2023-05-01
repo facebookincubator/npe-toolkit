@@ -210,7 +210,6 @@ export const SimpleUserMessaging = (props: {style?: ViewStyle}) => {
 
     timeout.current = setTimeout(() => {
       timeout.current = null;
-      console.log('atc');
       clear();
     }, CLEAR_DELAY);
   }
