@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import {Pressable, StyleProps, StyleSheet, View, ViewStyle} from 'react-native';
+import {Pressable, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {Octicons} from '@expo/vector-icons';
 import {
   Button,
@@ -21,7 +21,7 @@ type ButtonCellProps = CellProps & {
   onPress: () => void;
   icon?: string;
   label?: string;
-  labelStyle?: StyleProps<ViewStyle>;
+  labelStyle?: StyleProp<ViewStyle>;
 };
 
 const ButtonCell = ({
