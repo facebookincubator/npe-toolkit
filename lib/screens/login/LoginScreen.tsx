@@ -11,9 +11,9 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthType, useAuth} from '@toolkit/core/api/Auth';
-import {UserCanceledLogin} from '@toolkit/core/api/Login';
+import {useAction} from '@toolkit/core/client/Action';
+import {StatusBar, StatusContainer} from '@toolkit/core/client/Status';
 import {useAppInfo, useTheme} from '@toolkit/core/client/Theme';
-import {isErrorType, toUserMessage} from '@toolkit/core/util/CodedError';
 import {Opt} from '@toolkit/core/util/Types';
 import {
   FacebookButton,
@@ -56,21 +56,24 @@ export function SimpleLoginScreen(props: {config: SimpleLoginScreenConfig}) {
 
   return (
     <SafeAreaView style={[S.root, {backgroundColor}]}>
-      <LoginFlowBackButton />
-      <View style={S.header}>
-        <Image style={S.appLogo} source={appIcon} />
-        <Title mb={8} center>
-          {title}
-        </Title>
-        <Subtitle center>{subtitle}</Subtitle>
-      </View>
-      <AuthenticationButtons config={props.config} />
-      <View style={S.tos}>
-        {tos != null && (
-          // @ts-ignore Markdown props don't have "children" yet
-          <Markdown style={MARKDOWN_STYLE}>{tos}</Markdown>
-        )}
-      </View>
+      <StatusContainer>
+        <LoginFlowBackButton />
+        <View style={S.header}>
+          <Image style={S.appLogo} source={appIcon} />
+          <Title mb={8} center>
+            {title}
+          </Title>
+          <Subtitle center>{subtitle}</Subtitle>
+        </View>
+        <StatusBar style={S.statusBox} errorStyle={S.error} />
+        <AuthenticationButtons config={props.config} />
+        <View style={S.tos}>
+          {tos != null && (
+            // @ts-ignore Markdown props don't have "children" yet
+            <Markdown style={MARKDOWN_STYLE}>{tos}</Markdown>
+          )}
+        </View>
+      </StatusContainer>
     </SafeAreaView>
   );
 }
@@ -102,28 +105,26 @@ export function AuthenticationButtons(props: {
   const tryFacebookLogin = auth.useTryConnect('facebook', FB_SCOPES);
   const tryGoogleLogin = auth.useTryConnect('google', GOOGLE_SCOPES);
   const {Body, Error} = useComponents();
+  const [tryLoginAction] = useAction(tryLogin);
 
-  async function tryLogin(type: AuthType) {
-    try {
-      setLoginErrorMessage(null);
-      const tryConnect = type === 'google' ? tryGoogleLogin : tryFacebookLogin;
-      const creds = await tryConnect();
-      await auth.login(creds);
-      navigate(next);
-    } catch (e) {
-      console.log('Error in login flow', e);
-      if (!isErrorType(e, UserCanceledLogin)) {
-        setLoginErrorMessage(toUserMessage(e));
-      }
-    }
+  async function tryLogin(type: AuthType): Promise<void> {
+    setLoginErrorMessage(null);
+    const tryConnect = type === 'google' ? tryGoogleLogin : tryFacebookLogin;
+    const creds = await tryConnect();
+    await auth.login(creds);
+    navigate(next);
   }
 
   // TODO: Add loading state
   const buttons = authTypes.map((type, idx) => {
     if (type === 'facebook') {
-      return <FacebookButton key={idx} onPress={() => tryLogin('facebook')} />;
+      return (
+        <FacebookButton key={idx} onPress={() => tryLoginAction('facebook')} />
+      );
     } else if (type === 'google') {
-      return <GoogleButton key={idx} onPress={() => tryLogin('google')} />;
+      return (
+        <GoogleButton key={idx} onPress={() => tryLoginAction('google')} />
+      );
     } else if (type === 'phone') {
       return (
         <PhoneButton key={idx} onPress={() => navigate('PhoneInput', {next})} />
@@ -160,6 +161,14 @@ const S = StyleSheet.create({
     height: 144,
     marginVertical: 16,
     borderRadius: 23,
+  },
+  statusBox: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center',
   },
   orText: {opacity: 0.6, fontWeight: '600', marginBottom: 12},
   tos: {

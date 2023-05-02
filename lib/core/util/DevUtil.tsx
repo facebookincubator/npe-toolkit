@@ -96,7 +96,7 @@ export function useSetNetworkDelay() {
 export function useIsDev() {
   const user = useLoggedInUser();
 
-  if (user?.roles != null && user?.roles.roles.indexOf('DEV') != -1) {
+  if (user?.roles != null && user?.roles.roles.indexOf('dev') != -1) {
     return true;
   }
 

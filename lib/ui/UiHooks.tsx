@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {TextInput, TextInputProps} from 'react-native';
+import {TextInputProps, useComponents} from '@toolkit/ui/components/Components';
 
 type NewProps = Omit<TextInputProps, 'value' | 'onChangeText'>;
 
@@ -44,18 +44,21 @@ type NewProps = Omit<TextInputProps, 'value' | 'onChangeText'>;
  */
 export function useTextInput(
   defaultValue: string,
-  Component: React.ComponentType<TextInputProps> = TextInput,
+  component?: React.ComponentType<TextInputProps>,
 ): [React.ComponentType<NewProps>, string, Setter<string>] {
   const [value, setValue, state] = useSharedState(defaultValue);
+  const {TextInput} = useComponents();
 
-  const component = (props: NewProps) => {
+  let Component = component || TextInput;
+
+  const wrappedComponent = (props: NewProps) => {
     const [value, setValue] = useParentState(state);
     return <Component {...props} value={value} onChangeText={setValue} />;
   };
 
   // Ref is needed for component equality for all renders of a hook by the same parent component.
   // Otherwise each render recreates initial state in the referenced component
-  const componentRef = React.useRef(component);
+  const componentRef = React.useRef(wrappedComponent);
 
   return [componentRef.current, value, setValue];
 }

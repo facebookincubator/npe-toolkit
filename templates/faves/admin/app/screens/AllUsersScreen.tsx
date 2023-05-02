@@ -9,7 +9,10 @@ import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {User, UserRoles, requireLoggedInUser} from '@toolkit/core/api/User';
 import {useDataStore} from '@toolkit/data/DataStore';
-import DataTable, {SortOrder} from '@toolkit/ui/components/DataTable';
+import DataTable, {
+  SortOrder,
+  SortState,
+} from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
 import EditUserScreen from './EditUserScreen';
@@ -20,33 +23,28 @@ type Props = {
   };
 };
 
-const AllUsersScreen: Screen<Props> = ({async: {users: initUsers}}: Props) => {
+const DEFAULT_SORT: SortState = {
+  col: 'name',
+  order: 'asc',
+};
+
+const AllUsersScreen: Screen<Props> = (props: Props) => {
   const nav = useNav();
-  const [users, setUsers] = React.useState(initUsers);
-
   const {Row, ButtonCell, TextCell} = DataTable;
+  const [sort, setSort] = React.useState<SortState>(DEFAULT_SORT);
 
-  const getRoles = (u: User) => {
-    return u.roles?.roles.sort().join(', ') ?? '';
-  };
+  function sortUsers() {
+    const users = props.async.users;
+    const col = sort.col.toLowerCase();
+    if (col === 'name') {
+      sortByName(users, sort.order);
+    } else if (col === 'roles') {
+      sortByRoles(users, sort.order);
+    }
+    return users;
+  }
 
-  const sortByName = (order: SortOrder) => {
-    const sorted = users.sort((a, b) => {
-      return order === 'ascending'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name);
-    });
-    setUsers([...sorted]);
-  };
-
-  const sortByRoles = (order: SortOrder) => {
-    const sorted = users.sort((a, b) => {
-      return order === 'ascending'
-        ? getRoles(a).localeCompare(getRoles(b))
-        : getRoles(b).localeCompare(getRoles(a));
-    });
-    setUsers([...sorted]);
-  };
+  const users = sortUsers();
 
   return (
     <DataTable style={S.table}>
@@ -58,18 +56,41 @@ const AllUsersScreen: Screen<Props> = ({async: {users: initUsers}}: Props) => {
             icon="oct:pencil"
             style={{flex: 0.2}}
           />
-          <TextCell title="ID" value={user.id} />
-          <TextCell title="Name" value={user.name} onSort={sortByName} />
+          <TextCell title="Name" value={user.name} onSort={s => setSort(s)} />
           <TextCell
             title="Email"
             value={user.email ?? ''}
             verified={user.emailVerified ?? false}
           />
-          <TextCell title="Roles" value={getRoles(user)} onSort={sortByRoles} />
+          <TextCell
+            title="Roles"
+            value={getRoles(user)}
+            onSort={s => setSort(s)}
+          />
         </Row>
       ))}
     </DataTable>
   );
+};
+
+const getRoles = (u: User) => {
+  return u.roles?.roles.sort().join(', ') ?? '';
+};
+
+const sortByName = (users: User[], order: SortOrder) => {
+  users.sort((a, b) => {
+    return order === 'asc'
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
+  });
+};
+
+const sortByRoles = (users: User[], order: SortOrder) => {
+  users.sort((a, b) => {
+    return order === 'asc'
+      ? getRoles(a).localeCompare(getRoles(b))
+      : getRoles(b).localeCompare(getRoles(a));
+  });
 };
 
 AllUsersScreen.title = 'All Users';

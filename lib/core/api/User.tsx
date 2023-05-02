@@ -22,8 +22,8 @@ import {NotLoggedInError} from '@toolkit/tbd/CommonErrors';
  * Strings below are well-known roles, and apps can define custom roles
  * using `app.ROLE`
  */
-export type Role = 'USER' | 'ADMIN' | 'DEV' | `app.${string}`;
-export const SYSTEM_ROLES: Role[] = ['USER', 'ADMIN', 'DEV'];
+export type Role = 'admin' | 'dev' | 'allowlist' | `app.${string}`;
+export const SYSTEM_ROLES: Role[] = ['admin', 'dev', 'allowlist'];
 
 @Model({name: 'user_roles'})
 export class UserRoles extends BaseModel {

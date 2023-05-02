@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import {StyleSheet, View, ViewStyle} from 'react-native';
+import {Pressable, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {Octicons} from '@expo/vector-icons';
 import {
   Button,
@@ -21,14 +21,21 @@ type ButtonCellProps = CellProps & {
   onPress: () => void;
   icon?: string;
   label?: string;
+  labelStyle?: StyleProp<ViewStyle>;
 };
 
-const ButtonCell = ({onPress, icon, label, style}: ButtonCellProps) => {
+const ButtonCell = ({
+  onPress,
+  icon,
+  label,
+  style,
+  labelStyle,
+}: ButtonCellProps) => {
   const {Cell} = PaperDataTable;
 
   // Override rn-paper default margins
   // Remove horizontal margins on icon-less buttons so button text aligns with column header
-  const labelStyle = icon == null ? {marginHorizontal: 0} : {};
+  const labelMargin = icon == null ? {marginHorizontal: 0} : {};
   // Reverse the 12px horizontal margin on icons so icon aligns with column header
   const contentStyle = icon != null ? {marginHorizontal: -12} : {};
 
@@ -40,7 +47,7 @@ const ButtonCell = ({onPress, icon, label, style}: ButtonCellProps) => {
         mode="outlined"
         onPress={onPress}
         icon={icon}
-        labelStyle={labelStyle}
+        labelStyle={[labelMargin, labelStyle]}
         contentStyle={contentStyle}>
         {label}
       </Button>
@@ -100,11 +107,12 @@ export const EditableTextCell = ({
 };
 
 export type RowProps = {
+  onPress?: () => void | Promise<void>;
   children: React.ReactElement<CellProps>[];
 };
 
 const Row = (props: RowProps) => {
-  return <PaperDataTable.Row>{props.children}</PaperDataTable.Row>;
+  return <PaperDataTable.Row {...props} />;
 };
 
 type TextCellProps = CellProps & {
@@ -145,11 +153,12 @@ const S = StyleSheet.create({
   },
 });
 
-export type SortOrder = 'ascending' | 'descending';
+export type SortOrder = 'asc' | 'desc';
+export type SortState = {col: string; order: SortOrder};
 export type CellProps = {
   title: string;
   style?: ViewStyle;
-  onSort?: (order: SortOrder) => void;
+  onSort?: (sortState: SortState) => void;
 };
 
 type Props = {
@@ -166,11 +175,22 @@ type Props = {
 export default function DataTable({children: rows, style}: Props) {
   const {Title, Header} = PaperDataTable;
   const [sortColKey, setSortColKey] = useState<string>();
-  const [sortOrder, setSortOrder] = useState<SortOrder>('descending');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   // TODO: Better empty state
   if (rows.length === 0) {
     return <Text>No data available for this table</Text>;
+  }
+
+  function onHeaderPress(props: CellProps, key: string) {
+    const {title, onSort} = props;
+    if (onSort == null) {
+      return;
+    }
+    const order = sortOrder == 'asc' ? 'desc' : 'asc';
+    onSort({col: title, order});
+    setSortColKey(key);
+    setSortOrder(order);
   }
 
   const headers = rows[0].props.children.map((cell, i) => {
@@ -180,17 +200,16 @@ export default function DataTable({children: rows, style}: Props) {
       <Title
         key={key}
         style={style}
-        sortDirection={sortColKey === key ? sortOrder : undefined}
-        onPress={() => {
-          if (onSort == null) {
-            return;
-          }
-          const order = sortOrder == 'ascending' ? 'descending' : 'ascending';
-          onSort(order);
-          setSortColKey(key);
-          setSortOrder(order);
-        }}>
-        {title}
+        sortDirection={
+          sortColKey === key
+            ? sortOrder === 'asc'
+              ? 'ascending'
+              : 'descending'
+            : undefined
+        }>
+        <Pressable onPress={() => onHeaderPress(cell.props, key)}>
+          <Text>{title}</Text>
+        </Pressable>
       </Title>
     );
   });

@@ -14,64 +14,17 @@ import {
   TString,
 } from '@toolkit/data/DataStore';
 
+/**
+ * Allowlist is a data stucture to give permissions and access to the app for
+ * users before they have signed up for an account.
+ *
+ * It uses an email or phone # key to identify the user, and provides
+ * a list of roles for the user.
+ */
 @Model({name: 'allowlist'})
-export class Allowlist extends BaseModel {
-  @Field(TArray(TString)) uids?: string[]; // User IDs
-  @Field(TArray(TString)) emails?: string[]; // Emails (exact match)
-  @Field(TArray(TString)) emailREs?: string[]; // Email patterns (regex match)
-  @Field(TArray(TString)) phones?: string[]; // Phones (formatted, exact match)
-}
-
-// TODO: Limit this to your initial test account emails
-const ALLOW_EMAILRE_LIST = ['.*'];
-
-export function matchUID(uid: string, lists: Allowlist[]): Role[] {
-  const roles: Role[] = [];
-
-  lists.forEach(allowlist => {
-    if (!Array.isArray(allowlist.uids)) return;
-    if (allowlist.uids.includes(uid)) roles.push(allowlist.id as Role);
-  });
-
-  return roles;
-}
-
-export function matchPhone(phoneNumber: string, lists: Allowlist[]): Role[] {
-  const roles: Role[] = [];
-
-  lists.forEach(allowlist => {
-    if (!Array.isArray(allowlist.phones)) return;
-    if (allowlist.phones.includes(phoneNumber))
-      roles.push(allowlist.id as Role);
-  });
-
-  return roles;
-}
-
-export function matchEmail(email: string, lists: Allowlist[]): Role[] {
-  const roles: Role[] = [];
-
-  lists.forEach(allowlist => {
-    if (Array.isArray(allowlist.emails) && allowlist.emails.includes(email)) {
-      roles.push(allowlist.id as Role);
-      return;
-    }
-    if (Array.isArray(allowlist.emailREs)) {
-      allowlist.emailREs.forEach(emailRE => {
-        if (email.match(emailRE)) {
-          roles.push(allowlist.id as Role);
-          return;
-        }
-      });
-    }
-  });
-
-  ALLOW_EMAILRE_LIST.forEach(emailRE => {
-    if (email.match(emailRE)) {
-      roles.push('USER');
-      return;
-    }
-  });
-
-  return roles;
+export class AllowlistEntry extends BaseModel {
+  /** User Key can be email, phone, or user ID depending on login type */
+  @Field() userKey: string;
+  /** Roles is array of roles for that user */
+  @Field(TArray(TString)) roles: Role[];
 }
