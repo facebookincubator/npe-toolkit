@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
+import {Pressable, StyleProps, StyleSheet, View, ViewStyle} from 'react-native';
 import {Octicons} from '@expo/vector-icons';
 import {
   Button,
@@ -21,14 +21,21 @@ type ButtonCellProps = CellProps & {
   onPress: () => void;
   icon?: string;
   label?: string;
+  labelStyle?: StyleProps<ViewStyle>;
 };
 
-const ButtonCell = ({onPress, icon, label, style}: ButtonCellProps) => {
+const ButtonCell = ({
+  onPress,
+  icon,
+  label,
+  style,
+  labelStyle,
+}: ButtonCellProps) => {
   const {Cell} = PaperDataTable;
 
   // Override rn-paper default margins
   // Remove horizontal margins on icon-less buttons so button text aligns with column header
-  const labelStyle = icon == null ? {marginHorizontal: 0} : {};
+  const labelMargin = icon == null ? {marginHorizontal: 0} : {};
   // Reverse the 12px horizontal margin on icons so icon aligns with column header
   const contentStyle = icon != null ? {marginHorizontal: -12} : {};
 
@@ -40,7 +47,7 @@ const ButtonCell = ({onPress, icon, label, style}: ButtonCellProps) => {
         mode="outlined"
         onPress={onPress}
         icon={icon}
-        labelStyle={labelStyle}
+        labelStyle={[labelMargin, labelStyle]}
         contentStyle={contentStyle}>
         {label}
       </Button>
@@ -100,11 +107,12 @@ export const EditableTextCell = ({
 };
 
 export type RowProps = {
+  onPress?: () => void | Promise<void>;
   children: React.ReactElement<CellProps>[];
 };
 
 const Row = (props: RowProps) => {
-  return <PaperDataTable.Row>{props.children}</PaperDataTable.Row>;
+  return <PaperDataTable.Row {...props} />;
 };
 
 type TextCellProps = CellProps & {
