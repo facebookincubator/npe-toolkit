@@ -7,103 +7,117 @@
 
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {SYSTEM_ROLES, requireLoggedInUser} from '@toolkit/core/api/User';
-import {useUserMessaging} from '@toolkit/core/client/Status';
-import {Updater, useDataStore} from '@toolkit/data/DataStore';
-import {Allowlist} from '@toolkit/tbd/Allowlist';
+import {format as formatPhone, parse as parsePhone} from 'libphonenumber-js';
+import {Role, requireLoggedInUser} from '@toolkit/core/api/User';
+import {actionHook, useAction} from '@toolkit/core/client/Action';
+import {useReload} from '@toolkit/core/client/Reload';
+import {CodedError} from '@toolkit/core/util/CodedError';
+import {useDataStore} from '@toolkit/data/DataStore';
+import {AllowlistEntry} from '@toolkit/tbd/Allowlist';
 import DataTable from '@toolkit/ui/components/DataTable';
+import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
+import AllowlistEdit from './AllowlistEdit';
 
 type Props = {
   async: {
-    items: Allowlist[];
+    entries: AllowlistEntry[];
   };
 };
 
-const AllowlistScreen: Screen<Props> = ({async: {items}}: Props) => {
-  const {Row, TextCell, EditableTextCell} = DataTable;
+const AllowlistScreen: Screen<Props> = ({async: {entries}}: Props) => {
+  const {Row, TextCell, EditableTextCell, ButtonCell} = DataTable;
+  const {navTo} = useNav();
+  const allowlistStoreNew = useDataStore(AllowlistEntry);
+  const reload = useReload();
+  const [onDelete] = useAction(deleteEntry);
 
-  const allowlistStore = useDataStore(Allowlist);
-  const messaging = useUserMessaging();
-
-  function update(
-    id: string,
-    field: keyof Pick<Allowlist, 'uids' | 'phones' | 'emails' | 'emailREs'>,
-    value: string,
-  ) {
-    try {
-      const updateValue: Updater<Allowlist> = {
-        id: id,
-        [field]: splitString(value),
-      };
-      allowlistStore.update(updateValue);
-      messaging.showMessage('Updated');
-    } catch (error) {
-      console.error(error);
-      messaging.showError('Failed to update');
+  async function deleteEntry(entry: AllowlistEntry) {
+    const adminCount = entries.filter(e => e.roles.includes('admin')).length;
+    if (adminCount == 1 && entry.roles.includes('admin')) {
+      throw new CodedError(
+        'npe.adhoc',
+        'You are not allowed to delete last admin',
+      );
     }
+    await allowlistStoreNew.remove(entry.id);
+    reload();
   }
 
-  function joinStringArray(array?: string[], separator: string = '\n') {
-    return array ? array.join(separator) : '';
+  function fixed(width: number) {
+    return {flexBasis: width, flexShrink: 0};
   }
 
-  function splitString(s: string, separator: string = '\n'): string[] {
-    return s.split(separator).filter(v => v !== '');
+  function grow() {
+    return {flexGrow: 100, flexBasis: 100};
   }
 
   return (
     <DataTable style={S.table}>
-      {items.map(item => (
-        <Row key={item.id}>
-          <TextCell title="Role" value={item.id} />
-          <EditableTextCell
-            title="UID"
-            value={joinStringArray(item.uids)}
-            onSubmit={(newValue: string) => update(item.id, 'uids', newValue)}
-          />
-          <EditableTextCell
-            title="Phone"
-            value={joinStringArray(item.phones)}
-            onSubmit={(newValue: string) => update(item.id, 'phones', newValue)}
-          />
-          <EditableTextCell
-            title="Email"
-            value={joinStringArray(item.emails)}
-            onSubmit={(newValue: string) => update(item.id, 'emails', newValue)}
-          />
-          <EditableTextCell
-            title="Email RegEx"
-            value={joinStringArray(item.emailREs)}
-            onSubmit={(newValue: string) =>
-              update(item.id, 'emailREs', newValue)
-            }
-          />
-        </Row>
-      ))}
+      {entries.map(entry => {
+        const {id, roles, userKey} = entry;
+        const keyStr = formatKey(userKey);
+        const roleStr = formatRoles(roles);
+        const KEY_TITLE = 'Email or Phone #';
+        return (
+          <Row key={entry.userKey} onPress={() => navTo(AllowlistEdit, {id})}>
+            <TextCell title={KEY_TITLE} value={keyStr} style={fixed(200)} />
+            <TextCell title="Roles" value={roleStr} style={grow()} />
+            <ButtonCell
+              title=""
+              icon="delete"
+              onPress={() => onDelete(entry)}
+              style={fixed(40)}
+            />
+          </Row>
+        );
+      })}
     </DataTable>
   );
 };
 
 AllowlistScreen.title = 'Allowlist';
 
+AllowlistScreen.mainAction = {
+  id: 'allowlist-add',
+  icon: 'plus',
+  action: actionHook(() => {
+    const {navTo} = useNav();
+    return () => navTo(AllowlistEdit);
+  }),
+  label: 'Add entry',
+};
+
 AllowlistScreen.load = async () => {
   requireLoggedInUser();
-  const allowlistStore = useDataStore(Allowlist);
-  let allowlists = await allowlistStore.getAll();
-  if (allowlists.length === 0) {
-    allowlists = await Promise.all(
-      SYSTEM_ROLES.map(role =>
-        allowlistStore.create({
-          id: role,
-        }),
-      ),
-    );
-  }
+  const allowlistStore = useDataStore(AllowlistEntry);
+
   return {
-    items: allowlists,
+    entries: await allowlistStore.getAll(),
   };
 };
+
+// TODO: Move functions below to common Role utils
+export function formatKey(key: string) {
+  if (key.match(/^[0-9\s\-\+\(\)]+$/)) {
+    return formatPhone(parsePhone(key, 'US'), 'NATIONAL');
+  }
+  return key;
+}
+
+export function rolesEqual(lhs: Role[], rhs: Role[]) {
+  return formatRoles(lhs) === formatRoles(rhs);
+}
+
+export function formatRoles(roles: Role[]) {
+  const formatted = roles.map(role => formatRole(role));
+
+  return formatted.sort((a, b) => a.localeCompare(b)).join(', ');
+}
+
+export function formatRole(role: Role) {
+  return role.slice(0, 1).toUpperCase() + role.slice(1).toLowerCase();
+}
 
 const S = StyleSheet.create({
   table: {

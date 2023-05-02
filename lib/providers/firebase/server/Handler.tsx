@@ -70,11 +70,12 @@ export const RolesCheckMiddleware: Middleware = async (
   if (handlerConfig != null && handlerConfig.allowedRoles != null) {
     const user = requireLoggedInUser();
     const roles = user.roles?.roles || [];
+    const normalizedRoles = handlerConfig.allowedRoles.map(role =>
+      role.toLowerCase(),
+    );
 
     // Check if the user's roles match any of the allowed roles
-    const allowed = handlerConfig.allowedRoles.some(role =>
-      roles.includes(role),
-    );
+    const allowed = normalizedRoles.some(role => roles.includes(role));
     if (!allowed) {
       throw CommonErrors.UnauthorizedError(
         "User's roles do not match any allowed roles for this function",
