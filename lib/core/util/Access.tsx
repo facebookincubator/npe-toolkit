@@ -1,7 +1,12 @@
 /**
  * Utilities to allow client code to check access levels.
  */
-import {BaseModel, Model, useDataStore} from '@toolkit/data/DataStore';
+import {
+  BaseModel,
+  Model,
+  ModelClass,
+  useDataStore,
+} from '@toolkit/data/DataStore';
 
 /**
  * Datastore type that is only accessible to admin users.
@@ -14,6 +19,14 @@ import {BaseModel, Model, useDataStore} from '@toolkit/data/DataStore';
 export class CheckAdmin extends BaseModel {}
 
 /**
+ * Datastore type that is only accessible if you are on the allowlist.
+ *
+ * Use `"check_allowlist": {"*": ['allowlist']}` in privacy rules.
+ */
+@Model({name: 'check_allowlist'})
+export class CheckAllowlist extends BaseModel {}
+
+/**
  * Datastore type that is never accesible.
  * If privacy is enabled this should always fail.
  *
@@ -24,14 +37,14 @@ export class CheckAdmin extends BaseModel {}
 export class CheckPrivacy extends BaseModel {}
 
 /**
- * Check if the current user has the admin role
+ * Check if user has access to a give datastore table
  */
-export function useHasAdminRole() {
-  const checkAdminStore = useDataStore(CheckAdmin);
+export function useCheckAccess(type: ModelClass<BaseModel>) {
+  const datastore = useDataStore(type);
 
   return async () => {
     try {
-      await checkAdminStore.getAll();
+      await datastore.getAll();
       return true;
     } catch (e: any) {
       return false;
@@ -40,17 +53,22 @@ export function useHasAdminRole() {
 }
 
 /**
+ * Check if the current user has the admin role
+ */
+export function useHasAdminRole() {
+  return useCheckAccess(CheckAdmin);
+}
+
+/**
+ * Check if the current user is on the allowlist
+ */
+export function useOnAllowlist() {
+  return useCheckAccess(CheckAllowlist);
+}
+
+/**
  * Check if privacy rules are enabled
  */
 export function usePrivacyRulesEnabled() {
-  const checkPrivacyStore = useDataStore(CheckPrivacy);
-
-  return async () => {
-    try {
-      await checkPrivacyStore.getAll();
-      return true;
-    } catch (e: any) {
-      return false;
-    }
-  };
+  return useCheckAccess(CheckPrivacy);
 }
