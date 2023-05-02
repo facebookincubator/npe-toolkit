@@ -39,7 +39,7 @@ const TYPE_TO_BUTTON_MODE: Record<string, ButtonModeType> = {
   default: 'outlined',
 };
 
-const Button = (props: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
   const {style, labelStyle, contentStyle, type, ...rest} = props;
   const mode = TYPE_TO_BUTTON_MODE[type ?? 'default'] || 'outlined';
   const theRest = rest as React.ComponentProps<typeof PaperButton>;
@@ -135,7 +135,7 @@ function nativeInputFor(
   return <NativeTextInput {...rest} style={[style, newStyle]} />;
 }
 
-const TextInput = (props: TextInputProps) => {
+export const TextInput = (props: TextInputProps) => {
   const {type, ...rest} = props;
   const mode = TYPE_TO_TEXT_INPUT_MODE[type ?? 'default'] || 'flat';
 

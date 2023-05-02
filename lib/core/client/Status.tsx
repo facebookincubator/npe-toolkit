@@ -6,7 +6,14 @@
  */
 
 import * as React from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {Handler} from '@toolkit/core/client/Action';
 import {contextKey, setInitialAppContext} from '@toolkit/core/util/AppContext';
 import {CodedError, toUserMessage} from '@toolkit/core/util/CodedError';
@@ -210,7 +217,6 @@ export const SimpleUserMessaging = (props: {style?: ViewStyle}) => {
 
     timeout.current = setTimeout(() => {
       timeout.current = null;
-      console.log('atc');
       clear();
     }, CLEAR_DELAY);
   }
@@ -234,6 +240,8 @@ export const SimpleUserMessaging = (props: {style?: ViewStyle}) => {
 
 type StatuBarsProps = {
   style?: StyleProp<ViewStyle>;
+  errorStyle?: StyleProp<TextStyle>;
+  msgStyle?: StyleProp<TextStyle>;
 };
 
 /**
@@ -245,28 +253,29 @@ type StatuBarsProps = {
  * TODO: Consider moving this and SimpleUserMessaging to component
  */
 export const StatusBar = (props: StatuBarsProps) => {
-  const {style} = props;
+  const {style, errorStyle, msgStyle} = props;
   const {error, message} = useStatus();
   const {Body} = useComponents();
-  let msg;
-  let color;
+  let msg, color, textStyle;
 
   const visible = message != null || error != null;
 
   if (error != null) {
     msg = typeof error === 'string' ? error : toUserMessage(error);
     color = S.errorBox;
+    textStyle = errorStyle;
   } else if (message != null) {
     msg = message;
     color = S.messageBox;
+    textStyle = msgStyle;
   }
 
   return visible ? (
     <View style={[S.statusBar, color, style]}>
-      <Body style={{color: '#333', fontWeight: 'bold'}}>
+      <Body style={[{color: '#333', fontWeight: 'bold'}, textStyle]}>
         Sorry, there was a problem
       </Body>
-      <Body style={{color: '#333'}}>{msg}</Body>
+      <Body style={[{color: '#333'}, textStyle]}>{msg}</Body>
     </View>
   ) : null;
 };

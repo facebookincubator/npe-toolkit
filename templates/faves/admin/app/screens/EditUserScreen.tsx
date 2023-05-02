@@ -77,7 +77,7 @@ const EditUserScreen: Screen<Props> = ({async: {user}}: Props) => {
   };
 
   const roleToggled = (role: Role) => {
-    if (loggedInUser.id === user.id && role === 'ADMIN') {
+    if (loggedInUser.id === user.id && role === 'admin') {
       showError('You cannot remove your own admin permissions');
       return;
     }

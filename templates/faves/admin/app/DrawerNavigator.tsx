@@ -34,7 +34,7 @@ const Stack = createStackNavigator();
 const DrawerNavigator = () => {
   const auth = useAuth();
   const user = useLoggedInUser();
-  const isDev = user?.roles?.roles.includes('DEV') || true;
+  const isDev = user?.roles?.roles.includes('dev') || true;
 
   const logoutAction = {
     id: 'logout',

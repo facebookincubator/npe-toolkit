@@ -275,9 +275,7 @@ export const getGraph = registerHandler(
   async () => {
     return graph.getGraph();
   },
-  {
-    allowedRoles: ['ADMIN', 'DEV'],
-  },
+  {allowedRoles: ['admin', 'dev']},
 );
 
 // Kick off an individual deletion job
@@ -297,7 +295,7 @@ export const runJob = registerHandler(
     }
   },
   {
-    allowedRoles: ['ADMIN', 'DEV'],
+    allowedRoles: ['admin', 'dev'],
   },
 );
 
@@ -331,7 +329,7 @@ export const dryrunDeletion = registerHandler(
     );
   },
   {
-    allowedRoles: ['ADMIN', 'DEV'],
+    allowedRoles: ['admin', 'dev'],
     timeoutSecs: 300, // 5mins
   },
 );
@@ -375,7 +373,7 @@ export const dryrunRestoration = registerHandler(
     return results;
   },
   {
-    allowedRoles: ['ADMIN', 'DEV'],
+    allowedRoles: ['admin', 'dev'],
     timeoutSecs: 300, // 5mins
   },
 );

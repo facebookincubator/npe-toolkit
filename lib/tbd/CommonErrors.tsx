@@ -38,7 +38,7 @@ export const UnsupportedNotifMethodError: CodedErrorType = CodedErrorFor(
 
 export const UnauthorizedError: CodedErrorType = CodedErrorFor(
   'SERVER.UNAUTHORIZED',
-  'You do not have permissions for this',
+  'You are not authorized to perform this action',
 );
 
 export const GenericError: CodedErrorType = CodedErrorFor(

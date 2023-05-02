@@ -24,8 +24,8 @@ type ARGS = any[];
  * operation of the action.
  */
 export type Handler<I extends ARGS = [], O = void> =
-  | ((...args: I) => O)
-  | ((...args: I) => Promise<O>);
+  | ((...args: I) => Promise<O>)
+  | ((...args: I) => O);
 
 /**
  * A type for Actions that need to call hooks.
@@ -176,7 +176,8 @@ export function useActionImpl<I extends ARGS, O>(
   opts: ActionOpts,
 ): ActionStatus<I, O> {
   const {timeout = DEFAULT_TIMEOUT, type = 'screen'} = opts;
-  const {error, setError} = type == 'app' ? useBackgroundStatus() : useStatus();
+  const {error, setError} =
+    type === 'app' ? useBackgroundStatus() : useStatus();
   const logEvent = useLogEvent();
   const [pending, setPending] = React.useState(false);
   const handler = executeHooks(action);

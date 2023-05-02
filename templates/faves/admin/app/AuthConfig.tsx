@@ -37,7 +37,7 @@ export default function AuthConfig(props: {children?: React.ReactNode}) {
     // If the user doesn't have roles set or if the user isn't an admin or dev, reject login
     if (
       user.roles == null ||
-      !(user.roles.roles.includes('ADMIN') || user.roles.roles.includes('DEV'))
+      !(user.roles.roles.includes('admin') || user.roles.roles.includes('dev'))
     ) {
       const err = UnauthorizedError(
         "User's roles do not match any allowed roles for this function",
