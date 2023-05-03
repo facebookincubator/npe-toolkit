@@ -98,6 +98,26 @@ export function api<I, O>(
   return key;
 }
 
+/**
+ * Create an API using the default server API implementation for the app.
+ */
+export function serverApi<I, O>(id: string, client?: UseApi<I, O>) {
+  return api(id, useDefaultServerApi, client);
+}
+
+function useDefaultServerApi<I, O>(key: ApiKey<I, O>) {
+  if (!defaultServerApi) {
+    throw Error('No default server API set');
+  }
+  return defaultServerApi(key);
+}
+
+let defaultServerApi: Opt<UseApi<any, any>> = null;
+
+export function setDefaultServerApi(api: Opt<UseApi<any, any>>) {
+  defaultServerApi = api;
+}
+
 // No-op client fallback function, if you want app to degrade gracefully
 // for a given server call not existing. The call must return `void` to use this
 // as a fallback

@@ -14,6 +14,7 @@ import {AppContextProvider} from '@toolkit/core/util/AppContext';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';
 import {FIRESTORE_DATASTORE} from '@toolkit/providers/firebase/DataStore';
+import {firebaseFn} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {googleAuthProvider} from '@toolkit/providers/login/GoogleLogin';
 import {Icon, registerIconPack} from '@toolkit/ui/components/Icon';
 import {usePaperComponents} from '@toolkit/ui/components/Paper';
@@ -24,6 +25,7 @@ import {
   FIREBASE_CONFIG,
   GOOGLE_LOGIN_CONFIG,
 } from '@app/common/Config';
+import {setDefaultServerApi} from '../../../lib/core/api/DataApi';
 import {APP_INFO} from './lib/Config';
 
 function initIcons() {
@@ -40,6 +42,7 @@ export default function AppShell() {
   initIcons();
   usePaperComponents();
   IdentityService.addProvider(googleAuthProvider(GOOGLE_LOGIN_CONFIG));
+  setDefaultServerApi(firebaseFn);
 
   const theme = {
     ...DefaultTheme,

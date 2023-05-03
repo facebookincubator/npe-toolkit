@@ -45,7 +45,11 @@ import {
 import {Fave, PROFILE_FIELDS, Thing} from '@app/common/DataTypes';
 import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
 
+const {defineSecret} = require('firebase-functions/params');
+
 const instance = getInstanceFor(getAppConfig());
+
+const notificationApiKey = defineSecret('fcm.server_key');
 
 /**
  * Convert Firebase Auth account to User
@@ -132,9 +136,9 @@ export const convertPushToken = functions.firestore
     const fcmTokenResp = Object.values(
       await apnsToFCMToken(
         change.get('sandbox')
-          ? 'com.facebook.npe.helloworld.localDevelopment'
-          : 'com.facebook.npe.helloworld',
-        functions.config().fcm.server_key,
+          ? 'com.npetoolkit.helloworld'
+          : 'com.npetoolkit.helloworld',
+        notificationApiKey.value(),
         [apnsToken],
         change.get('sandbox'),
       ),
