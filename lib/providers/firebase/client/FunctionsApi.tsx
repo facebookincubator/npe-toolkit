@@ -26,7 +26,6 @@ const EMULATOR_HOST = 'localhost';
 const FIREBASE_FUNCTIONS_PORT = 5001;
 
 const USE_EMULATOR_KEY = 'DEV.USE_EMULATOR';
-
 export function useEmulator() {
   return useStored(USE_EMULATOR_KEY, BOOL, false);
 }
@@ -44,8 +43,9 @@ export function firebaseFn<I, O>(key: ApiKey<I, O>) {
     );
     if (firebaseConfig.emulators?.functions?.useEmulator) {
       const emulatorConfig = firebaseConfig.emulators?.functions;
+
       functions.useEmulator(
-        emulatorConfig?.host ?? EMULATOR_HOST,
+        emulatorConfig?.host ?? getDebugHost() ?? EMULATOR_HOST,
         emulatorConfig?.port ?? FIREBASE_FUNCTIONS_PORT,
       );
     }
@@ -57,6 +57,16 @@ export function firebaseFn<I, O>(key: ApiKey<I, O>) {
       throw toCodedError(e) || e;
     }
   };
+}
+
+function getDebugHost() {
+  try {
+    const hostUri = Constants.manifest?.hostUri;
+    if (hostUri != null) {
+      return hostUri.split(':')[0];
+    }
+  } catch (e) {}
+  return null;
 }
 
 const toCodedError = function (error: Error): Opt<CodedError> {
