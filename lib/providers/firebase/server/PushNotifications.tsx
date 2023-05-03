@@ -7,7 +7,9 @@
 
 import axios from 'axios';
 import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
 import {getFirebaseNotificationsSendAPI} from '@toolkit/core/server/Notification';
+import {CodedError} from '@toolkit/core/util/CodedError';
 import {
   NotificationsSender,
   SendPush,
@@ -55,7 +57,13 @@ export const sendPush: SendPush = async (
     payload.data = data;
   }
 
-  await admin.messaging().sendToDevice(fcmTokens, payload);
+  const responses = await admin.messaging().sendToDevice(fcmTokens, payload);
+  for (const resp of responses.results) {
+    if (resp.error) {
+      const err = resp.error;
+      throw new CodedError(err.code, 'An unknown error occurred', err.message);
+    }
+  }
 };
 
 export const getSender = () => {
@@ -104,6 +112,7 @@ export async function apnsToFCMToken(
     apns_tokens: apnsTokens,
   };
 
+  functions.logger.debug(payload);
   const response = await axios.post(CONVERT_ENDPOINT, payload, {headers});
   const results = response.data.results as FCMTokenResp[];
 

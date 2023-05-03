@@ -5,9 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
-import {AuthData} from 'firebase-functions/lib/common/providers/https';
+import {
+  ADD_FAVE,
+  ADD_THING,
+  BROADCAST_ADMIN_NOTIF,
+  GET_USER,
+  SEND_ADMIN_NOTIF,
+  SEND_FAVE_NOTIF,
+  SEND_THING_DELETE_NOTIF,
+  UPDATE_USER,
+} from '@app/common/Api';
+import {Fave, PROFILE_FIELDS, Thing} from '@app/common/DataTypes';
+import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
 import {Profile, User, UserRoles} from '@toolkit/core/api/User';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {Updater} from '@toolkit/data/DataStore';
@@ -32,20 +41,14 @@ import {
   getSender,
 } from '@toolkit/providers/firebase/server/PushNotifications';
 import {getAllowlistMatchedRoles} from '@toolkit/providers/firebase/server/Roles';
-import {
-  ADD_FAVE,
-  ADD_THING,
-  BROADCAST_ADMIN_NOTIF,
-  GET_USER,
-  SEND_ADMIN_NOTIF,
-  SEND_FAVE_NOTIF,
-  SEND_THING_DELETE_NOTIF,
-  UPDATE_USER,
-} from '@app/common/Api';
-import {Fave, PROFILE_FIELDS, Thing} from '@app/common/DataTypes';
-import {NOTIF_CHANNELS} from '@app/common/NotifChannels';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import {AuthData} from 'firebase-functions/lib/common/providers/https';
+const {defineSecret} = require('firebase-functions/params');
 
 const instance = getInstanceFor(getAppConfig());
+
+const notificationApiKey = defineSecret('fcm.server_key');
 
 /**
  * Convert Firebase Auth account to User
@@ -132,9 +135,9 @@ export const convertPushToken = functions.firestore
     const fcmTokenResp = Object.values(
       await apnsToFCMToken(
         change.get('sandbox')
-          ? 'com.facebook.npe.helloworld.localDevelopment'
-          : 'com.facebook.npe.helloworld',
-        functions.config().fcm.server_key,
+          ? 'com.npetoolkit.helloworld'
+          : 'com.npetoolkit.helloworld',
+        notificationApiKey.value(),
         [apnsToken],
         change.get('sandbox'),
       ),

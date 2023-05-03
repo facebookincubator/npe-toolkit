@@ -98,7 +98,9 @@ export function initMiddlewares(setMiddlewares: Middleware[]) {
 // Firebase will convert all non-HttpsError errors to a generic `HttpsError{code:'internal' message:'INTERNAL'}`.
 // https://firebase.google.com/docs/functions/callable#handle_errors
 // This fn returns a new `HttpsError` with `error` converted to `CodedError` and embedded.
-const toHttpsError = function (error: Error): functions.https.HttpsError {
+export const toHttpsError = function (
+  error: Error,
+): functions.https.HttpsError {
   function newHttpsError(
     code: functions.https.FunctionsErrorCode,
     userVisibleMessage: string,
@@ -166,10 +168,7 @@ const toHttpsError = function (error: Error): functions.https.HttpsError {
  * - Setting up scope that allows us to not have to pass around a context object
  * - Running authentiacation handler
  */
-export type HandlerConfig = {
-  minInstances?: number;
-  maxInstances?: number;
-  timeoutSecs?: number;
+export type HandlerConfig = functions.RuntimeOptions & {
   allowedRoles?: Role[];
   regions?: string[];
 };
@@ -180,17 +179,7 @@ export function registerHandler<I, O>(
 ): FirebaseFunction {
   const regions = handlerConfig?.regions ?? [DEFAULT_FUNCTIONS_REGION];
 
-  const options: functions.RuntimeOptions = {
-    minInstances: handlerConfig?.minInstances,
-    maxInstances: handlerConfig?.maxInstances,
-  };
-
-  // Have to add timeout seconds to the object like this.
-  // If the `timeoutSeconds` key is set to null it's parsed as
-  // as "timeout":"undefineds"
-  if (handlerConfig?.timeoutSecs != null) {
-    options.timeoutSeconds = handlerConfig.timeoutSecs;
-  }
+  const options = handlerConfig ?? {};
 
   return functions
     .region(...regions)
