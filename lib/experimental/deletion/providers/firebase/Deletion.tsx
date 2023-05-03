@@ -330,7 +330,7 @@ export const dryrunDeletion = registerHandler(
   },
   {
     allowedRoles: ['admin', 'dev'],
-    timeoutSecs: 300, // 5mins
+    timeoutSeconds: 300, // 5mins
   },
 );
 
@@ -374,6 +374,6 @@ export const dryrunRestoration = registerHandler(
   },
   {
     allowedRoles: ['admin', 'dev'],
-    timeoutSecs: 300, // 5mins
+    timeoutSeconds: 300, // 5mins
   },
 );
