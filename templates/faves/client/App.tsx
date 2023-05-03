@@ -16,6 +16,7 @@ import {AppContextProvider} from '@toolkit/core/util/AppContext';
 import {filterHandledExceptions} from '@toolkit/core/util/Environment';
 import {initializeFirebase} from '@toolkit/providers/firebase/Config';
 import {FIRESTORE_DATASTORE} from '@toolkit/providers/firebase/DataStore';
+import {firebaseFn} from '@toolkit/providers/firebase/client/FunctionsApi';
 import {FIREBASE_LOGGER} from '@toolkit/providers/firebase/client/Logger';
 import {fbAuthProvider} from '@toolkit/providers/login/FacebookLogin';
 import {googleAuthProvider} from '@toolkit/providers/login/GoogleLogin';
@@ -53,6 +54,7 @@ import {StatusBar} from 'expo-status-bar';
 import 'react-native-gesture-handler';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {setDefaultServerApi} from '../../npe-toolkit/lib/core/api/DataApi';
 
 //
 /**
@@ -161,6 +163,7 @@ export default function App() {
   registerIconPack('ion', Ionicons);
   registerIconPack('mci', MaterialCommunityIcons);
   usePaperComponents();
+  setDefaultServerApi(firebaseFn);
 
   const {navScreens, linkingScreens} = useReactNavScreens(
     ROUTES,
