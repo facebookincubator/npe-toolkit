@@ -10,7 +10,10 @@ import {Image, ImageSourcePropType, StyleProp, ViewStyle} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {IconProps as ExpoIconProps} from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
-type IconProps = Partial<ExpoIconProps> & {style?: StyleProp<ViewStyle>};
+type IconProps = Partial<ExpoIconProps> & {
+  name: string;
+  style?: StyleProp<ViewStyle>;
+};
 
 /*
  * Utility to load icons by name.
