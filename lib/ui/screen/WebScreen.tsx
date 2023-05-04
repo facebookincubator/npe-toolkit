@@ -54,18 +54,20 @@ export function useOpenUrl() {
   };
 }
 
-export type UrlSpec = {
+export type OpenLinkAction = {
   id: string;
   label: string;
   url: string;
+  icon?: string;
 };
 
-export function openUrlAction(spec: UrlSpec): ActionItem {
-  const {id, label, url} = spec;
+export function openUrlAction(spec: OpenLinkAction): ActionItem {
+  const {id, label, url, icon} = spec;
 
   return {
     id: `LINK_TO_${id}`,
     label,
+    icon,
     action: actionHook(() => {
       const openUrl = useOpenUrl();
       return () => {
@@ -81,16 +83,22 @@ export function openUrlAction(spec: UrlSpec): ActionItem {
  *
  * This is a quick hack to limit usage - we need a list that is configurable per app.
  */
-const ALLOWED_URL_PREFIXES = [
-  'https://www.facebook.com/',
-  'https://npe.facebook.com/',
-  'https://m.facebook.com/',
-  'https://reactnative.dev/',
-  'https://metanpe.qualtrics.com/',
-];
+let allowedUrlPrefixes: string[] = [];
+
+export function allowWebScreenDomains(urls: string[]) {
+  console.log('allowWebScreenDomains', urls);
+  for (const url of urls) {
+    // Get the scheme and host
+    const match = url.match(/^(https?:\/\/[^\/]+)\//);
+    console.log(match, url);
+    if (match) {
+      allowedUrlPrefixes.push(match[0]);
+    }
+  }
+}
 
 function checkOkToLoad(url: string) {
-  for (const prefix of ALLOWED_URL_PREFIXES) {
+  for (const prefix of allowedUrlPrefixes) {
     if (url.indexOf(prefix) === 0) {
       return;
     }

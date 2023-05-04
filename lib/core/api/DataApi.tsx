@@ -85,7 +85,7 @@ export function useApi<I, O>(key: ApiKey<I, O>): Api<I, O> {
  *   iterations of the app and in local testing for client-only development:
  *   `api<string, void>(key, firebaseFn, (in: string) => {...})
  */
-export function api<I, O>(
+export function api<I = void, O = void>(
   id: string,
   fn: UseApi<I, O>,
   client?: UseApi<I, O>,
@@ -101,7 +101,10 @@ export function api<I, O>(
 /**
  * Create an API using the default server API implementation for the app.
  */
-export function serverApi<I, O>(id: string, client?: UseApi<I, O>) {
+export function serverApi<I = void, O = void>(
+  id: string,
+  client?: UseApi<I, O>,
+) {
   return api(id, useDefaultServerApi, client);
 }
 

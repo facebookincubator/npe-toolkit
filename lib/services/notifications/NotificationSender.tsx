@@ -62,6 +62,15 @@ export type NotificationsProvider = {
   sendSMS?: SendSMS;
 };
 
+export type SenderApi = (
+  userIds: string | string[],
+  channel: NotificationChannel,
+  titleParams?: Record<string, string> | null,
+  bodyParams?: Record<string, string> | null,
+  data?: Record<string, string> | null,
+  badge?: string,
+) => Promise<void>;
+
 /**
  * Configures a notification sender
  *
@@ -72,7 +81,7 @@ export type NotificationsProvider = {
 export const NotificationsSender = (
   notifSendAPI: NotificationsSendAPI,
   provider: NotificationsProvider,
-) => {
+): SenderApi => {
   const {getPreferredSendDestinations} = notifSendAPI;
   const {sendPush, sendEmail, sendSMS} = provider;
 

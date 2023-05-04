@@ -163,7 +163,8 @@ export const NotificationSettingsScreen: Screen<Props> = props => {
 };
 
 NotificationSettingsScreen.title = 'Notifications';
-NotificationSettingsScreen.load = async props => {
+
+NotificationSettingsScreen.load = async () => {
   const {getNotificationPrefs} = useNotifications();
   const channels = useNotificationChannels();
   const promises = Object.values(channels).map(async channel => {
