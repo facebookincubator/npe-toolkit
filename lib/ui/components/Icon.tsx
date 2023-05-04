@@ -6,11 +6,13 @@
  */
 
 import React from 'react';
-import {Image, ImageSourcePropType} from 'react-native';
+import {Image, ImageSourcePropType, StyleProp, ViewStyle} from 'react-native';
 import {useTheme} from 'react-native-paper';
-import {IconProps} from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
+import {IconProps as ExpoIconProps} from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
-/**
+type IconProps = Partial<ExpoIconProps> & {style?: StyleProp<ViewStyle>};
+
+/*
  * Utility to load icons by name.
  *
  * Name is of form "prefix:localName". Prefixes are
@@ -20,7 +22,6 @@ import {IconProps} from 'react-native-paper/lib/typescript/components/MaterialCo
  * To register an icon font library:
  * ```
  * import {Ionicons} from '@expo/vector-icons';
- *
  * registerIconProvider('ion', Ionicons);
  * ```
  *
@@ -35,7 +36,7 @@ import {IconProps} from 'react-native-paper/lib/typescript/components/MaterialCo
  * <IconButton name="image:loop" onPress={doSomething}/>
  * ```
  */
-export const Icon = (props: Partial<IconProps>) => {
+export const Icon = (props: IconProps) => {
   const {name = '', color, ...rest} = props;
 
   // Split into prefix and localName within that icon namespace
