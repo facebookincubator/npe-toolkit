@@ -13,6 +13,7 @@ import {CodedError} from '@toolkit/core/util/CodedError';
 import {
   NotificationsSender,
   SendPush,
+  SenderApi,
 } from '@toolkit/services/notifications/NotificationSender';
 
 /**
@@ -66,7 +67,7 @@ export const sendPush: SendPush = async (
   }
 };
 
-export const getSender = () => {
+export const getSender: () => SenderApi = () => {
   return NotificationsSender(getFirebaseNotificationsSendAPI(), {
     sendPush,
   });
