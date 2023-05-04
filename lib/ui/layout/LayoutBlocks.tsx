@@ -11,6 +11,7 @@
 import * as React from 'react';
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -19,6 +20,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {useRoute} from '@react-navigation/core';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import TriState from '@toolkit/core/client/TriState';
 import {Opt} from '@toolkit/core/util/Types';
@@ -107,17 +109,16 @@ export const ModalLayout = (props: LayoutProps) => {
   const key = route.key;
 
   const navStyle = style?.nav ?? 'full';
+  const Container = Platform.OS === 'android' ? SafeAreaView : View;
 
   return (
-    <View style={S.top}>
+    <Container style={S.top}>
       {navStyle == 'full' && (
         <View style={S.header}>
           <View style={S.backContainer}>
-            <IconButton
-              name="ion:chevron-back-outline"
-              size={28}
-              onPress={back}
-            />
+            <Pressable onPress={back}>
+              <Text style={S.done}>Done</Text>
+            </Pressable>
           </View>
           <View style={S.titleBox}>
             <Text style={S.title}>{' ' + title + ' '}</Text>
@@ -129,7 +130,7 @@ export const ModalLayout = (props: LayoutProps) => {
           <View style={{flex: 1}}>{children}</View>
         </TriState>
       </ScrollView>
-    </View>
+    </Container>
   );
 };
 
@@ -149,14 +150,25 @@ export const WaitForAppLoad = (props: {children: React.ReactNode}) => {
 };
 
 const S = StyleSheet.create({
-  top: {flex: 1, alignSelf: 'stretch', backgroundColor: '#FFF'},
-  container: {flex: 1, padding: 0, height: '100%'},
-  modalContent: {flex: 1, marginBottom: 30},
-  header: {
+  top: {
+    flex: 1,
+    alignSelf: 'stretch',
     backgroundColor: '#FFF',
+  },
+  container: {
+    flex: 1,
+    padding: 0,
+    height: '100%',
+  },
+  modalContent: {
+    flex: 1,
+    marginBottom: 20,
+  },
+  header: {
     width: '100%',
     paddingHorizontal: 8,
     paddingVertical: 12,
+    alignItems: 'center',
   },
   titleBox: {
     alignItems: 'center',
@@ -172,8 +184,13 @@ const S = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 2,
     position: 'absolute',
-    left: 12,
-    right: 12,
-    top: 14,
+    left: 20,
+    height: '100%',
+    alignItems: 'center',
+    marginVertical: 12,
+  },
+  done: {
+    fontSize: 18,
+    color: '#444',
   },
 });
