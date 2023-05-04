@@ -7,8 +7,8 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {ActionItem, useAction} from '@toolkit/core/client/Action';
+import {Icon} from '@toolkit/ui/components/Icon';
 import {Screen} from '@toolkit/ui/screen/Screen';
 
 export type Setting = ActionItem | string;
@@ -47,11 +47,9 @@ const SettingsItem = (props: SettingsItemProps) => {
   return (
     <TouchableOpacity style={S.itemRow} onPress={handler}>
       {item.icon != null && (
-        <Icon /* @ts-ignore */
-          name={item.icon}
-          size={28}
-          style={{opacity: 0.65, marginRight: 16, width: 28}}
-        />
+        <View style={S.iconBox}>
+          <Icon name={item.icon} size={28} style={{opacity: 0.65, width: 28}} />
+        </View>
       )}
       <Text style={S.itemTitle}>{item.label}</Text>
       {info && <Text style={S.itemInfo}>{info}</Text>}
@@ -89,6 +87,11 @@ const S = StyleSheet.create({
     opacity: 0.7,
     marginTop: 32,
     marginBottom: 8,
+  },
+  iconBox: {
+    width: 28,
+    height: 28,
+    marginRight: 16,
   },
 });
 
