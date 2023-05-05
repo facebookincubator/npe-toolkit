@@ -33,6 +33,7 @@ import {ActionItem, actionHook, useAction} from '@toolkit/core/client/Action';
 import {useUserMessaging} from '@toolkit/core/client/Status';
 import TriState from '@toolkit/core/client/TriState';
 import {routeKey} from '@toolkit/providers/navigation/ReactNavigation';
+import {useComponents} from '@toolkit/ui/components/Components';
 import Modal from '@toolkit/ui/components/ModalDialog';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
@@ -248,11 +249,10 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
     return unsubscribe;
   }, [reactNav]);
 
-  const titleEl = (
-    <Text style={{fontSize: 18, fontWeight: 'bold'}}>{title}</Text>
-  );
-
   const appbarTextColor = '#FFF';
+  const titleEl = (
+    <Text style={[S.title, {color: appbarTextColor}]}>{title}</Text>
+  );
 
   function hideNav() {
     setShowNav(false);
@@ -273,16 +273,14 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
   const showNavToggle = !showBackNav && (!navOver || curPageInNav);
   const includeNavBar = style?.nav !== 'none' && style?.type !== 'modal';
   const showNavHere = showNav && showNavToggle;
-  const navActionButtons = navActions.map((item, i) => (
-    <AppBarAction key={i} item={item} color={appbarTextColor} />
-  ));
+  let allActions = [...actions, ...navActions];
 
   // Show actions in a menu if there's more than 1. Otherwise, just show the icon in the action bar
   let screenActions =
-    actions.length === 1 ? (
-      <AppBarAction item={actions[0]} color={appbarTextColor} />
+    allActions.length === 1 ? (
+      <AppBarAction item={allActions[0]} color={appbarTextColor} />
     ) : (
-      <ActionMenu items={actions} color={appbarTextColor} />
+      <ActionMenu items={allActions} color={appbarTextColor} />
     );
 
   if (title != null) {
@@ -319,9 +317,8 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
           {home && includeNavBar && (
             <Appbar.Action icon="home" onPress={() => nav.navTo(home)} />
           )}
-          {includeNavBar && navActionButtons}
           <Appbar.Content title={titleEl} />
-          {actions.length > 0 && screenActions}
+          {allActions.length > 0 && screenActions}
         </Appbar.Header>
       )}
       <View style={{flex: 1, flexDirection: 'row'}}>
@@ -350,57 +347,6 @@ const DrawerLayout = (props: DrawerLayoutProps) => {
     </View>
   );
 };
-
-const S = StyleSheet.create({
-  container: {flex: 1},
-  bottomItems: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
-    bottom: 20,
-    zIndex: 1,
-    flexDirection: 'row',
-  },
-  modalLoading: {
-    backgroundColor: 'white',
-    width: 100,
-    height: 50,
-    borderRadius: 7,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontWeight: 'bold',
-    paddingVertical: 12,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  navbar: {
-    left: 0,
-    marginLeft: 0,
-    zIndex: 2,
-    bottom: 0,
-    top: 0,
-  },
-  over: {
-    position: 'absolute',
-  },
-  row: {
-    padding: 8,
-    marginTop: 12,
-    marginBottom: 0,
-  },
-  wash: {
-    opacity: 0.3,
-    backgroundColor: '#000',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-  },
-});
 
 export default DrawerLayout;
 
@@ -450,35 +396,89 @@ const ActionMenu = (props: ActionMenuProps) => {
     <Menu
       visible={menuVisible}
       onDismiss={hide}
-      style={styles.menu}
-      contentStyle={styles.menuContent}
+      style={S.menu}
+      contentStyle={S.menuContent}
       anchor={anchor}>
       {items.map((item, index) => (
         <Menu.Item
           key={item.id}
           onPress={() => menuItemSelected(index)}
-          style={styles.menuItem}
+          style={S.menuItem}
           icon={item.icon}
           title={item.label}
+          contentStyle={S.menuItemContent}
         />
       ))}
     </Menu>
   );
 };
 
-const styles = StyleSheet.create({
+const S = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+  },
+  bottomItems: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: 20,
+    zIndex: 1,
+    flexDirection: 'row',
+  },
+  modalLoading: {
+    backgroundColor: 'white',
+    width: 100,
+    height: 50,
+    borderRadius: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navbar: {
+    left: 0,
+    marginLeft: 0,
+    zIndex: 2,
+    bottom: 0,
+    top: 0,
+  },
+  over: {
+    position: 'absolute',
+  },
+  row: {
+    padding: 8,
+    marginTop: 12,
+    marginBottom: 0,
+  },
+  wash: {
+    opacity: 0.3,
+    backgroundColor: '#000',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+  },
   menu: {
     marginTop: 40,
+    padding: 0,
   },
   menuContent: {
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.4,
     shadowRadius: 6,
-    paddingHorizontal: 0,
+    paddingVertical: 0,
+    paddingRight: 8,
   },
   menuItem: {
     borderBottomWidth: 1,
     height: 48,
     borderColor: '#F0F0F0',
+  },
+  menuItemContent: {
+    marginLeft: -8,
   },
 });
