@@ -50,11 +50,21 @@ export function firebaseFn<I, O>(key: ApiKey<I, O>) {
         emulatorConfig?.port ?? FIREBASE_FUNCTIONS_PORT,
       );
     }
+    const functionPath = prefix + key.id;
 
     try {
-      const result = await functions.httpsCallable(prefix + key.id)(input);
+      const result = await functions.httpsCallable(functionPath)(input);
       return result.data as O;
     } catch (e: any) {
+      if (e.code === 'internal') {
+        const functionPath = prefix + key.id;
+        throw new CodedError(
+          'npe.config',
+          'An error occurred',
+          `Unable to call Firebase Function '${functionPath}'\n` +
+            `You may want to verify this function has been deployed.`,
+        );
+      }
       throw toCodedError(e) || e;
     }
   };

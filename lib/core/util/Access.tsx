@@ -5,6 +5,7 @@ import {
   BaseModel,
   Model,
   ModelClass,
+  ModelUtil,
   useDataStore,
 } from '@toolkit/data/DataStore';
 
@@ -39,15 +40,15 @@ export class CheckPrivacy extends BaseModel {}
 /**
  * Check if user has access to a give datastore table
  */
-export function useCheckAccess(type: ModelClass<BaseModel>) {
+export function useCheckAccess(type: ModelClass<BaseModel>, ifAccess: boolean) {
   const datastore = useDataStore(type);
 
   return async () => {
     try {
       await datastore.getAll();
-      return true;
+      return ifAccess;
     } catch (e: any) {
-      return false;
+      return !ifAccess;
     }
   };
 }
@@ -56,19 +57,19 @@ export function useCheckAccess(type: ModelClass<BaseModel>) {
  * Check if the current user has the admin role
  */
 export function useHasAdminRole() {
-  return useCheckAccess(CheckAdmin);
+  return useCheckAccess(CheckAdmin, true);
 }
 
 /**
  * Check if the current user is on the allowlist
  */
 export function useOnAllowlist() {
-  return useCheckAccess(CheckAllowlist);
+  return useCheckAccess(CheckAllowlist, true);
 }
 
 /**
  * Check if privacy rules are enabled
  */
 export function usePrivacyRulesEnabled() {
-  return useCheckAccess(CheckPrivacy);
+  return useCheckAccess(CheckPrivacy, false);
 }

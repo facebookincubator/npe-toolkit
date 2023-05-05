@@ -6,15 +6,19 @@
  */
 
 import React from 'react';
-import {Linking, StyleSheet} from 'react-native';
-import {View} from 'react-native';
+import {Linking, StyleSheet, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {useComponents} from '@toolkit/ui/components/Components';
 
-export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
-  const {onPress} = props;
+type LoginButtonProps = {
+  onPress: () => Promise<void> | void;
+  loading?: boolean;
+};
+
+export function FacebookButton(props: LoginButtonProps) {
+  const {onPress, loading = false} = props;
   const {Button} = useComponents();
 
   return (
@@ -22,32 +26,36 @@ export function FacebookButton(props: {onPress: () => Promise<void> | void}) {
       type="primary"
       style={[S.button, {backgroundColor: '#1877F2'}]}
       icon="mci:facebook"
+      loading={loading}
       onPress={onPress}>
       Sign in with Facebook
     </Button>
   );
 }
 
-export function GoogleButton(props: {onPress: () => Promise<void> | void}) {
-  // TODO Use real branding
-  const {onPress} = props;
+export function GoogleButton(props: LoginButtonProps) {
+  const {onPress, loading = false} = props;
   const {Button} = useComponents();
 
   return (
     <View>
-      <Button type="primary" style={S.button} onPress={onPress}>
+      <Button
+        type="primary"
+        style={S.button}
+        onPress={onPress}
+        loading={loading}>
         Sign in with Google
       </Button>
     </View>
   );
 }
 
-export function PhoneButton(props: {onPress: () => Promise<void> | void}) {
-  const {onPress} = props;
+export function PhoneButton(props: LoginButtonProps) {
+  const {onPress, loading = false} = props;
   const {Button} = useComponents();
 
   return (
-    <Button type="primary" style={S.button} onPress={onPress}>
+    <Button type="primary" style={S.button} onPress={onPress} loading={loading}>
       Sign in with Phone Number
     </Button>
   );

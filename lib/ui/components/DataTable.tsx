@@ -41,7 +41,7 @@ const ButtonCell = ({
 
   const button =
     icon != null && label == null ? (
-      <IconButton onPress={onPress} icon={icon} />
+      <IconButton onPress={onPress} icon={icon} style={{opacity: 0.5}} />
     ) : (
       <Button
         mode="outlined"

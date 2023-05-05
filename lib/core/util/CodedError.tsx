@@ -67,3 +67,13 @@ export function toUserMessage(error: any, defaultText?: string) {
     ? error.userVisibleMessage
     : defaultText ?? DEFAULT_ERROR_TEXT;
 }
+
+/**
+ * Throw an ad-hoc error with a generic error code user visible message.
+ *
+ * These can't be aggregated as cleanly, so don't use for common or expected errors
+ * as it will be more difficult to distinguish the call site.
+ */
+export function AdhocError(msg: string) {
+  return new CodedError('npe.adhoc', msg, msg);
+}

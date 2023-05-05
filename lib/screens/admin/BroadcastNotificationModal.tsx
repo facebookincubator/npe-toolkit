@@ -14,13 +14,12 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import {IconProps} from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 import {Icon} from '@toolkit/ui/components/Icon';
 
 type Props = {
   color: ColorValue;
   text: string;
-  iconProps: Pick<IconProps, 'name' | 'color'>;
+  iconProps: {name: string; color: string};
   textStyle?: StyleProp<TextStyle>;
   height?: number;
 };

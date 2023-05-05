@@ -188,6 +188,7 @@ export function useActionImpl<I extends ARGS, O>(
       setError(undefined);
       return await withTimeout(() => handler(...args), timeout);
     } catch (e: any) {
+      console.error(e);
       setError(e as Error);
       throw e;
     } finally {

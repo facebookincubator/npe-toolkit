@@ -104,7 +104,7 @@ const WELL_KNOWN_COMPONENT_APIS = {
   TextInput: makeComponentApi<TextInputProps>('TextInput'),
   Title: makeComponentApi<TextProps>('Title'),
   Subtitle: makeComponentApi<TextProps>('Subtitle'),
-  H3: makeComponentApi<TextProps>('H3'),
+  H2: makeComponentApi<TextProps>('H2'),
   Body: makeComponentApi<TextProps>('Body'),
   Info: makeComponentApi<TextProps>('Info'),
   Error: makeComponentApi<TextProps>('Error'),
@@ -118,7 +118,7 @@ export type WellKnownComponents = {
   TextInput: React.ComponentType<TextInputProps>;
   Title: React.ComponentType<TextProps>;
   Subtitle: React.ComponentType<TextProps>;
-  H3: React.ComponentType<TextProps>;
+  H2: React.ComponentType<TextProps>;
   Body: React.ComponentType<TextProps>;
   Info: React.ComponentType<TextProps>;
   Error: React.ComponentType<TextProps>;
