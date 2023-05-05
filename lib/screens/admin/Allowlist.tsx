@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {format as formatPhone, parse as parsePhone} from 'libphonenumber-js';
 import {Role, requireLoggedInUser} from '@toolkit/core/api/User';
 import {actionHook, useAction} from '@toolkit/core/client/Action';
@@ -14,6 +14,7 @@ import {useReload} from '@toolkit/core/client/Reload';
 import {CodedError} from '@toolkit/core/util/CodedError';
 import {useDataStore} from '@toolkit/data/DataStore';
 import {AllowlistEntry} from '@toolkit/tbd/Allowlist';
+import {useComponents} from '@toolkit/ui/components/Components';
 import DataTable from '@toolkit/ui/components/DataTable';
 import {useNav} from '@toolkit/ui/screen/Nav';
 import {Screen} from '@toolkit/ui/screen/Screen';
@@ -26,11 +27,12 @@ type Props = {
 };
 
 const AllowlistScreen: Screen<Props> = ({async: {entries}}: Props) => {
-  const {Row, TextCell, EditableTextCell, ButtonCell} = DataTable;
+  const {Row, TextCell, ButtonCell} = DataTable;
   const {navTo} = useNav();
   const allowlistStoreNew = useDataStore(AllowlistEntry);
   const reload = useReload();
   const [onDelete] = useAction(deleteEntry);
+  const {Body} = useComponents();
 
   async function deleteEntry(entry: AllowlistEntry) {
     const adminCount = entries.filter(e => e.roles.includes('admin')).length;
@@ -50,6 +52,17 @@ const AllowlistScreen: Screen<Props> = ({async: {entries}}: Props) => {
 
   function grow() {
     return {flexGrow: 100, flexBasis: 100};
+  }
+
+  if (entries.length === 0) {
+    return (
+      <View style={{padding: 32}}>
+        <Body>
+          No allowlist entries have been created yet. Click on the plus button
+          to create one.
+        </Body>
+      </View>
+    );
   }
 
   return (

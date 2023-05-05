@@ -86,11 +86,9 @@ export function openUrlAction(spec: OpenLinkAction): ActionItem {
 let allowedUrlPrefixes: string[] = [];
 
 export function allowWebScreenDomains(urls: string[]) {
-  console.log('allowWebScreenDomains', urls);
   for (const url of urls) {
     // Get the scheme and host
     const match = url.match(/^(https?:\/\/[^\/]+)\//);
-    console.log(match, url);
     if (match) {
       allowedUrlPrefixes.push(match[0]);
     }
