@@ -171,6 +171,7 @@ export function usePaperComponents() {
       fontSize: 30,
       fontWeight: '600',
     },
+    H2: {fontSize: 22, fontWeight: '500', marginBottom: 4},
     Subtitle: {fontSize: 17, fontWeight: '500'},
     Body: {fontSize: 16},
     Info: {fontSize: 14, opacity: 0.9},
