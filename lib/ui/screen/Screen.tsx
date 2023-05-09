@@ -54,6 +54,11 @@ export interface ScreenProps {
 
   // Custom loading view for this page
   loading?: React.ComponentType<any>;
+
+  // Whether the screen is linkable (defaults true).
+  // If false, screen will not be able to be deep linked to
+  // and not have it's own URL when navigating on web
+  linkable?: boolean;
 }
 
 // All screens are also Loadable, for async data loading
