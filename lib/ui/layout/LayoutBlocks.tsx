@@ -57,7 +57,7 @@ export type NavItem = {
 };
 
 export type NavItems = {
-  /* The main app navigatio entries */
+  /* The main app navigation entries */
   main: NavItem[];
   /* Extra navigtaion entries, usually rendered in the top right */
   extra: NavItem[];
