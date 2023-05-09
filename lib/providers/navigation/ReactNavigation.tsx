@@ -16,6 +16,7 @@ import {
 import {
   NavigationState,
   StackActions,
+  getPathFromState as getPathFromStateInternal,
   useNavigation,
 } from '@react-navigation/native';
 import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
@@ -99,6 +100,7 @@ export function useReactNavScreens(
 ): {
   navScreens: React.ReactNode;
   linkingScreens: any;
+  getPathFromState: typeof getPathFromStateInternal;
 } {
   const linkingScreens = linkingFromRoutes(routes);
 
@@ -135,7 +137,22 @@ export function useReactNavScreens(
     [routes],
   );
 
-  return {navScreens, linkingScreens};
+  const unlinkableScreens: string[] = [];
+  for (const key in routes) {
+    if (routes[key].linkable === false) {
+      unlinkableScreens.push(key);
+    }
+  }
+
+  const getPathFromState = (state: any, options?: any): any => {
+    const curRoute = state.routes[state.routes.length - 1];
+    if (unlinkableScreens.indexOf(curRoute.name) !== -1) {
+      return null;
+    }
+    return getPathFromStateInternal(state, options);
+  };
+
+  return {navScreens, linkingScreens, getPathFromState};
 }
 
 function parseJsonParam(value: Opt<string>) {
