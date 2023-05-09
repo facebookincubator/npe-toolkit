@@ -26,7 +26,6 @@ import {Opt} from '@toolkit/core/util/Types';
 import {ApplyLayout, LayoutComponent} from '@toolkit/ui/screen/Layout';
 import {NAV_CONTEXT_KEY, NAV_STATE_KEY, Routes} from '@toolkit/ui/screen/Nav';
 import {Screen, ScreenType} from '@toolkit/ui/screen/Screen';
-import {getPrivacyRules} from '../../../../sltk/lib/experimental/privacy/privacy';
 
 /**
  * Utiltiy for logging all page transitiions in react-navigation.
