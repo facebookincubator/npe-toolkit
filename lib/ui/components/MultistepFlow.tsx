@@ -86,16 +86,15 @@ export const FADE_ANIMATOR: Animator = {
  */
 // TODO: Make animation configurable
 export function MultistepFlow(props: Props) {
-  const {onFinish, onCancel, animator = SLIDE_ANIMATOR} = props;
-  const onFinishRef = React.useRef(onFinish);
-  onFinishRef.current = onFinish;
+  const {onCancel, animator = SLIDE_ANIMATOR} = props;
+  const onFinish = useLatestCallback(props.onFinish);
   const children = React.Children.toArray(props.children);
   const [curPage, setCurPage] = React.useState(0);
   const {prevStyle, nextStyle, animation} = animator;
 
   async function next() {
     if (isLast()) {
-      await onFinishRef.current();
+      await onFinish.current();
     } else {
       LayoutAnimation.configureNext(animation);
       setCurPage(curPage + 1);
@@ -135,6 +134,17 @@ export function MultistepFlow(props: Props) {
       </View>
     </FlowApiContext.Provider>
   );
+}
+
+/**
+ * Use the latest value of a callback prop passed into a component.
+ *
+ * Can be used to ensure that callbacks aren't made to parent components with stale state.
+ */
+function useLatestCallback<I extends any[], T>(fn: (...args: I) => T) {
+  const ref = React.useRef(fn);
+  ref.current = fn;
+  return ref;
 }
 
 type FlowApi = {
@@ -186,14 +196,14 @@ export function Step(props: StepProps) {
     if (onNext) {
       await onNext();
     }
-    flow.next();
+    await flow.next();
   }
 
   async function skip() {
     if (onSkip) {
       await onSkip();
     }
-    flow.next();
+    await flow.next();
   }
   const skippy = React.useCallback(skip, [onSkip, flow]);
 
@@ -262,5 +272,3 @@ const S = StyleSheet.create({
     marginBottom: 12,
   },
 });
-
-export default MultistepFlow;
