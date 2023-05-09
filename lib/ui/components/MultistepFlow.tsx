@@ -7,9 +7,11 @@
 
 import React, {useContext} from 'react';
 import {
+  Keyboard,
   KeyboardAvoidingView,
   LayoutAnimation,
   LayoutAnimationConfig,
+  Platform,
   ScrollView,
   StyleSheet,
   View,
@@ -197,6 +199,7 @@ export function Step(props: StepProps) {
       await onNext();
     }
     await flow.next();
+    Keyboard.dismiss();
   }
 
   async function skip() {
@@ -204,6 +207,7 @@ export function Step(props: StepProps) {
       await onSkip();
     }
     await flow.next();
+    Keyboard.dismiss();
   }
   const skippy = React.useCallback(skip, [onSkip, flow]);
 
@@ -213,9 +217,9 @@ export function Step(props: StepProps) {
   return (
     <KeyboardAvoidingView
       style={S.containerRoot}
-      behavior={'padding'}
+      behavior={Platform.OS === 'android' ? 'height' : 'padding'}
       keyboardVerticalOffset={top}>
-      <SafeAreaView style={[S.container]}>
+      <View style={[S.container]}>
         <KeyboardDismissPressable />
         <LoginFlowBackButton back={flow.back} />
 
@@ -240,7 +244,7 @@ export function Step(props: StepProps) {
             </Button>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   );
 }
