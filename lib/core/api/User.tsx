@@ -85,6 +85,11 @@ export class User extends BaseModel {
    * Whether the email has been verified
    */
   emailVerified?: Opt<boolean>;
+
+  /**
+   * Reason user can't log in
+   */
+  cantLoginReason?: 'onboarding' | 'suspended' | 'unknown';
 }
 
 /**

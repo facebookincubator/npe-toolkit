@@ -39,6 +39,9 @@ export type SimpleLoginScreenConfig = {
   // Defaults to 'Home'
   home?: string;
 
+  // React nav screen to go to if 'onboarding' response type is returned from login attempt
+  onboarding?: string;
+
   // Markdown for terms of service and privacy policy links. It is important
   // to have well defined policies for production applications, and you should
   // get legal advice for terms of service before launching.
@@ -96,7 +99,7 @@ const GOOGLE_SCOPES = {scopes: ['email']};
 export function AuthenticationButtons(props: {
   config: SimpleLoginScreenConfig;
 }) {
-  const {authTypes, home} = props.config;
+  const {authTypes, home, onboarding} = props.config;
   const auth = useAuth();
   const {navigate} = useNavigation<any>();
   const route: any = useRoute();
@@ -111,8 +114,12 @@ export function AuthenticationButtons(props: {
     setLoginErrorMessage(null);
     const tryConnect = type === 'google' ? tryGoogleLogin : tryFacebookLogin;
     const creds = await tryConnect();
-    await auth.login(creds);
-    navigate(next);
+    const user = await auth.login(creds);
+    if (user.canLogin) {
+      navigate(next);
+    } else if (user.cantLoginReason === 'onboarding' && onboarding != null) {
+      navigate(onboarding, {user});
+    }
   }
 
   // TODO: Add loading state

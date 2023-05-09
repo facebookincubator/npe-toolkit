@@ -7,12 +7,19 @@
 
 import React, {useContext} from 'react';
 import {
+  KeyboardAvoidingView,
   LayoutAnimation,
   LayoutAnimationConfig,
+  ScrollView,
   StyleSheet,
   View,
   ViewStyle,
 } from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useAction} from '@toolkit/core/client/Action';
+import {LoginFlowBackButton} from '@toolkit/screens/login/LoginScreenParts';
+import {useComponents} from './Components';
+import {KeyboardDismissPressable} from './Tools';
 
 type Props = {
   children?: React.ReactNode;
@@ -78,15 +85,16 @@ export const FADE_ANIMATOR: Animator = {
  * }
  */
 // TODO: Make animation configurable
-function MultistepFlow(props: Props) {
-  const {onFinish, onCancel, animator = SLIDE_ANIMATOR} = props;
+export function MultistepFlow(props: Props) {
+  const {onCancel, animator = SLIDE_ANIMATOR} = props;
+  const onFinish = useLatestCallback(props.onFinish);
   const children = React.Children.toArray(props.children);
   const [curPage, setCurPage] = React.useState(0);
   const {prevStyle, nextStyle, animation} = animator;
 
   async function next() {
     if (isLast()) {
-      await onFinish();
+      await onFinish.current();
     } else {
       LayoutAnimation.configureNext(animation);
       setCurPage(curPage + 1);
@@ -128,6 +136,17 @@ function MultistepFlow(props: Props) {
   );
 }
 
+/**
+ * Use the latest value of a callback prop passed into a component.
+ *
+ * Can be used to ensure that callbacks aren't made to parent components with stale state.
+ */
+function useLatestCallback<I extends any[], T>(fn: (...args: I) => T) {
+  const ref = React.useRef(fn);
+  ref.current = fn;
+  return ref;
+}
+
 type FlowApi = {
   next: () => Promise<void>;
   back: () => Promise<void>;
@@ -148,6 +167,84 @@ export function useFlow(): FlowApi {
   return api;
 }
 
+type StepProps = {
+  title?: string;
+  subtitle?: string;
+  submitText?: string;
+  required?: boolean;
+  nextOk?: boolean;
+  onNext?: () => void | Promise<void>;
+  onSkip?: () => void | Promise<void>;
+  children?: React.ReactNode;
+};
+
+/**
+ * A convience layout container for a multi-step flow that automatically
+ * adds buttons for back and next/skip/continue.
+ *
+ * Feel free to implement your own though :)
+ */
+export function Step(props: StepProps) {
+  const {title, subtitle, submitText, onNext, onSkip, children} = props;
+  const {required = true, nextOk = true} = props;
+  const flow = useFlow();
+  const {top} = useSafeAreaInsets();
+  const {Button, Body, Title} = useComponents();
+  const [onNextStep, loading] = useAction(nextStep);
+
+  async function nextStep() {
+    if (onNext) {
+      await onNext();
+    }
+    await flow.next();
+  }
+
+  async function skip() {
+    if (onSkip) {
+      await onSkip();
+    }
+    await flow.next();
+  }
+  const skippy = React.useCallback(skip, [onSkip, flow]);
+
+  const nextText = flow.isLast() ? submitText ?? 'Finish' : 'Continue';
+  const skipText = flow.isLast() ? 'Skip & Finish' : 'Skip';
+
+  return (
+    <KeyboardAvoidingView
+      style={S.containerRoot}
+      behavior={'padding'}
+      keyboardVerticalOffset={top}>
+      <SafeAreaView style={[S.container]}>
+        <KeyboardDismissPressable />
+        <LoginFlowBackButton back={flow.back} />
+
+        <View style={S.spaced}>
+          <ScrollView style={{marginBottom: 20, flexGrow: 1}}>
+            {title && <Title mb={16}>{title}</Title>}
+            {subtitle && <Body>{subtitle}</Body>}
+            <View style={S.content}>{children}</View>
+          </ScrollView>
+          <View>
+            {!required && (
+              <Button type="secondary" onPress={skippy} style={S.skip}>
+                {skipText}
+              </Button>
+            )}
+            <Button
+              type="primary"
+              onPress={onNextStep}
+              disabled={!nextOk}
+              loading={loading}>
+              {nextText}
+            </Button>
+          </View>
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
+  );
+}
+
 const S = StyleSheet.create({
   fullscreen: {
     flex: 1,
@@ -156,6 +253,22 @@ const S = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  containerRoot: {
+    flex: 1,
+  },
+  container: {
+    padding: 24,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  spaced: {
+    marginTop: 18,
+    flex: 1,
+  },
+  content: {
+    marginTop: 32,
+  },
+  skip: {
+    marginBottom: 12,
+  },
 });
-
-export default MultistepFlow;

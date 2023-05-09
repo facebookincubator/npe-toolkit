@@ -46,7 +46,7 @@ the name of your app):
 
 ```
 git clone https://github.com/facebookincubator/npe-toolkit.git
-yarn create expo-app your-toolkit-app -t ./npe-toolkit/templates/faves
+yarn create expo-app your-toolkit-app -t favezilla
 ```
 
 Because the toolkit is under active, daily development and hasn't cut an initial
@@ -81,23 +81,6 @@ peer, using the following command:
 
 ```
 ln -snf $PATH_TO_NPE_TOOLKIT $YOUR_APP_DIR/../npe-toolkit
-```
-
-### (future plans) How apps will be created in General Availability
-
-When we're in GA, the toolkit will be packaged into an NPM package and you can
-get started without cloning the NPE Toolkit Github project.
-
-It will be a single step to get started, calling either
-
-```
-> npx create-expo-app your-app-name -t @npe-toolkit/template-name
-```
-
-**or**
-
-```
-> yarn create expo-app your-app-name -t @npe-toolkit/template-name
 ```
 
 ## License
