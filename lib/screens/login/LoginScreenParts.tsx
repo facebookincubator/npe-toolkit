@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import {Linking, StyleSheet, View} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@toolkit/core/client/Theme';
 import {useComponents} from '@toolkit/ui/components/Components';
+import {Icon} from '@toolkit/ui/components/Icon';
 
 type LoginButtonProps = {
   onPress: () => Promise<void> | void;
@@ -65,20 +65,27 @@ export function LoginFlowBackButton(props: {back?: () => void}) {
   const {back} = props;
   const nav = useNavigation<any>();
   const {textColor} = useTheme();
+  const show = back || nav.canGoBack();
+
+  function onBack() {
+    if (back) {
+      back();
+    } else {
+      nav.goBack();
+    }
+  }
 
   return (
     <>
-      {nav.canGoBack() && (
-        <>
-          <Ionicons
-            suppressHighlighting={true}
-            name="chevron-back"
+      {show && (
+        <Pressable onPress={onBack}>
+          <Icon
+            name="ion:chevron-back"
             size={36}
-            onPress={() => (back ? back() : nav.goBack())}
             style={S.backButton}
             color={textColor}
           />
-        </>
+        </Pressable>
       )}
     </>
   );
