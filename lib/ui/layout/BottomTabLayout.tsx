@@ -22,6 +22,7 @@ import {
 } from '@toolkit/ui/layout/LayoutBlocks';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
 import {useNav, useNavState} from '@toolkit/ui/screen/Nav';
+import {Screen} from '@toolkit/ui/screen/Screen';
 
 /**
  * Create a tab-based layout. Allows customizing the tabs and the items
@@ -46,25 +47,34 @@ export function bottomTabLayout(tabProps: NavItems): LayoutComponent {
   );
 }
 
-const TabLayout = (props: LayoutProps & NavItems) => {
-  const {title = '', children, style, main: tabs, extra: headerRight} = props;
+type TabLayoutProps = LayoutProps &
+  NavItems & {
+    home?: Screen<any>;
+  };
+
+const TabLayout = (props: TabLayoutProps) => {
+  const {title = '', children, style, main, extra, home} = props;
   const loadingView = props.loading ?? LoadingView;
   const onError = props.onError ?? logError;
-  const nav = useNav();
 
   const route = useRoute();
   const key = route.key;
 
   const navStyle = style?.nav ?? 'full';
   const navType = style?.type ?? 'std';
-  const showBack = nav.backOk() && navType !== 'top';
+  const showBack = navType !== 'top';
   const showTabs = navType === 'top' && navStyle === 'full';
 
   return (
     <SafeAreaView style={S.top}>
       <View style={S.innerTop}>
         {navStyle === 'full' && (
-          <Header title={title} navItems={headerRight} showBack={showBack} />
+          <Header
+            title={title}
+            navItems={extra}
+            home={home}
+            showBack={showBack}
+          />
         )}
         <View style={S.content}>
           <TriState key={key} onError={onError} loadingView={loadingView}>
@@ -73,7 +83,7 @@ const TabLayout = (props: LayoutProps & NavItems) => {
             </WaitForAppLoad>
           </TriState>
         </View>
-        {showTabs && <BottomTabs tabs={tabs} />}
+        {showTabs && <BottomTabs tabs={main} />}
       </View>
     </SafeAreaView>
   );
@@ -81,28 +91,39 @@ const TabLayout = (props: LayoutProps & NavItems) => {
 
 type HeaderProps = {
   title: string;
+  home?: Screen<any>;
   navItems?: NavItem[];
   showBack: boolean;
 };
 
-const Header = ({title, navItems = [], showBack}: HeaderProps) => {
+const Header = ({title, home, navItems = [], showBack}: HeaderProps) => {
   const {location, routes} = useNavState();
-  const {navTo, back} = useNav();
+  const nav = useNav();
 
   function visible(item: NavItem) {
     return routeKey(item.screen, routes) !== location.route;
   }
+
+  function goBack() {
+    if (nav.backOk()) {
+      nav.back();
+    } else if (home) {
+      nav.reset(home);
+    }
+  }
+
+  const canBack = showBack && (nav.backOk() || home);
 
   const navs = navItems.filter(item => visible(item));
 
   return (
     <View style={S.header}>
       <View style={S.headerActions}>
-        {showBack && (
+        {canBack && (
           <IconButton
             name="ion:chevron-back-outline"
             size={28}
-            onPress={back}
+            onPress={goBack}
           />
         )}
         <View style={{flexGrow: 1}} />
@@ -111,7 +132,7 @@ const Header = ({title, navItems = [], showBack}: HeaderProps) => {
             name={getIcon(item)}
             size={28}
             style={S.headerRight}
-            onPress={() => navTo(item.screen)}
+            onPress={() => nav.navTo(item.screen)}
             key={idx}
           />
         ))}
