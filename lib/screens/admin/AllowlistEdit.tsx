@@ -33,7 +33,7 @@ const AllowlistEdit: Screen<Props> = (props: Props) => {
   const {Subtitle, Button} = useComponents();
   const [UserKeyInput, userKey] = useTextInput(formatKey(entry?.userKey ?? ''));
   const [roles, setRoles] = React.useState(entry?.roles ?? []);
-  const [onSave, saving] = useAction(save);
+  const [onSave, saving] = useAction('AllowlistSave', save);
   const allowlistStore = useDataStore(AllowlistEntry);
 
   const title = entry ? 'Edit Allowlist Entry' : 'New Allowlist Entry';

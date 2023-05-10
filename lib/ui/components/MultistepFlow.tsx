@@ -192,7 +192,7 @@ export function Step(props: StepProps) {
   const flow = useFlow();
   const {top} = useSafeAreaInsets();
   const {Button, Body, Title} = useComponents();
-  const [onNextStep, loading] = useAction(nextStep);
+  const [onNextStep, loading] = useAction('NextStep:', nextStep);
 
   async function nextStep() {
     if (onNext) {
