@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as React from 'react';
-import {Platform} from 'react-native';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import {
   context,
@@ -15,6 +13,10 @@ import {
   useAppContext,
 } from '@toolkit/core/util/AppContext';
 import {CodedError} from '@toolkit/core/util/CodedError';
+import 'firebase/analytics';
+import * as React from 'react';
+import {Platform} from 'react-native';
+import {Opt} from '../util/Types';
 
 /**
  * For logging events, most clients should use either:
@@ -172,14 +174,17 @@ export function MultiLogger(useLogApis: UseLogApi[]) {
 
 function useCreateLogEvent(): (name: string) => LogEvent {
   // Ideally we want the version here that doesn't throw at startup. Hmm
-  const user = useLoggedInUser();
+  let userId: Opt<string> = null;
+  try {
+    // We never want this to fail, as we always want to log.
+    // This also avoids issue where user isn't set during startup events
+    const user = useLoggedInUser();
+    userId = user?.id;
+  } catch (e) {}
   const {where} = useCallerId();
-  //console.log('where', where);
 
-  // TODO: Get where from navigation
-  // TODO: Get user from auth
   return (name: string) => ({
-    user: user?.id,
+    user: userId,
     name,
     where,
     when: Date.now(),
@@ -188,8 +193,12 @@ function useCreateLogEvent(): (name: string) => LogEvent {
   });
 }
 
+function fullEventName(event: LogEvent) {
+  return (event.where != null ? event.where + '::' : '') + event.name;
+}
+
 export function eventToString(event: LogEvent) {
-  let str = (event.where != null ? event.where + '::' : '') + event.name;
+  let str = fullEventName(event);
 
   if (event.when) {
     const d = new Date(event.when);
@@ -250,7 +259,7 @@ export function useCallerId(): CallerId {
  */
 type LogEvent = {
   /** ID of the user at device or for whose data this is being executed */
-  user?: string;
+  user?: Opt<string>;
 
   /** Event name */
   name: string;
