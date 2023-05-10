@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as React from 'react';
+import {Platform} from 'react-native';
 import {useLoggedInUser} from '@toolkit/core/api/User';
 import {
   context,
@@ -13,9 +15,6 @@ import {
   useAppContext,
 } from '@toolkit/core/util/AppContext';
 import {CodedError} from '@toolkit/core/util/CodedError';
-import 'firebase/analytics';
-import * as React from 'react';
-import {Platform} from 'react-native';
 import {Opt} from '../util/Types';
 
 /**
@@ -193,7 +192,7 @@ function useCreateLogEvent(): (name: string) => LogEvent {
   });
 }
 
-function fullEventName(event: LogEvent) {
+export function fullEventName(event: LogEvent) {
   return (event.where != null ? event.where + '::' : '') + event.name;
 }
 
@@ -257,7 +256,7 @@ export function useCallerId(): CallerId {
  *
  * Most clients will only interact with a small set of these fields directly.
  */
-type LogEvent = {
+export type LogEvent = {
   /** ID of the user at device or for whose data this is being executed */
   user?: Opt<string>;
 

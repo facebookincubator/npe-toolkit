@@ -8,7 +8,7 @@
 //
 
 import * as Analytics from 'expo-firebase-analytics';
-import {ClientLogParams, LOG_CONTEXT_KEY} from '@toolkit/core/api/Log';
+import {LOG_CONTEXT_KEY, LogEvent, fullEventName} from '@toolkit/core/api/Log';
 import {context} from '@toolkit/core/util/AppContext';
 
 function FirebaseLogger() {
@@ -17,9 +17,9 @@ function FirebaseLogger() {
   // TODO: Fork FirebaseAnalytics so we don't have to use global firebase analytics config.
   // (or determine that it's OK to use initFirebase() fields
 
-  return (event: string, payload?: ClientLogParams): void => {
+  return (event: LogEvent): void => {
     // TODO: Verify that payload params all fit into Firebase log fields
-    Analytics.logEvent(event, payload);
+    Analytics.logEvent(fullEventName(event), event);
   };
 }
 
