@@ -7,6 +7,7 @@
 
 import * as React from 'react';
 import {Text} from 'react-native';
+import {CallerIdContext} from '@toolkit/core/api/Log';
 import {ErrorHandler} from '@toolkit/core/client/TriState';
 import {
   contextKey,
@@ -15,6 +16,7 @@ import {
 } from '@toolkit/core/util/AppContext';
 import {PropsFor, useAsyncLoad} from '@toolkit/core/util/Loadable';
 import {Screen, ScreenProps} from '@toolkit/ui/screen/Screen';
+import {useNavState} from './Nav';
 
 export type LayoutProps = ScreenProps & {
   children?: React.ReactNode;
@@ -42,6 +44,7 @@ export function ApplyLayout<S extends Screen<any>>(props: Props<S>) {
   const [screenProps, setScreenProps] =
     React.useState<ScreenProps>(baseScreenProps);
   const Component = useAsyncLoad(screen);
+  const {location} = useNavState();
 
   const getScreenState = () => {
     return screenProps;
@@ -63,15 +66,18 @@ export function ApplyLayout<S extends Screen<any>>(props: Props<S>) {
   const api = {getScreenState, setScreenState};
 
   setInitialAppContext(SCREEN_API_KEY, api);
+  const callerId = {where: location.route ?? 'Unknown'};
 
   return (
-    <Layout {...screenProps}>
-      {Component ? (
-        <Component {...params} />
-      ) : (
-        <Text>No Screen for "[location.route]"</Text>
-      )}
-    </Layout>
+    <CallerIdContext.Provider value={callerId}>
+      <Layout {...screenProps}>
+        {Component ? (
+          <Component {...params} />
+        ) : (
+          <Text>No Screen for ${location.route}</Text>
+        )}
+      </Layout>
+    </CallerIdContext.Provider>
   );
 }
 

@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import {useLogEvent} from '@toolkit/core/api/Log';
+import {useLogPromise} from '@toolkit/core/api/Log';
 import {
   StatusApiType,
   useBackgroundStatus,
@@ -162,7 +162,7 @@ export function useAction<I extends ARGS, O>(
 
   // TODO: Warn if name is anonymous and no ID provided
   // TODO: Add screen info to ID
-  const id = typeof arg1 === 'string' ? arg1 : action.name;
+  const id = typeof arg0 === 'string' ? arg0 : action.name;
   const opts = arg2 ?? (arg1 as ActionOpts) ?? {};
 
   return useActionImpl(id, action, {...opts});
@@ -171,14 +171,14 @@ export function useAction<I extends ARGS, O>(
 const DEFAULT_TIMEOUT = 60000;
 
 export function useActionImpl<I extends ARGS, O>(
-  id: Opt<string>,
+  id: string,
   action: Action<I, O>,
   opts: ActionOpts,
 ): ActionStatus<I, O> {
   const {timeout = DEFAULT_TIMEOUT, type = 'screen'} = opts;
   const {error, setError} =
     type === 'app' ? useBackgroundStatus() : useStatus();
-  const logEvent = useLogEvent();
+  const logPromise = useLogPromise();
   const [pending, setPending] = React.useState(false);
   const handler = executeHooks(action);
 
@@ -186,16 +186,15 @@ export function useActionImpl<I extends ARGS, O>(
     try {
       setPending(true);
       setError(undefined);
-      return await withTimeout(() => handler(...args), timeout);
+      const promise = withTimeout(() => handler(...args), timeout);
+      logPromise(promise, id);
+      return await promise;
     } catch (e: any) {
       console.error(e);
       setError(e as Error);
       throw e;
     } finally {
       setPending(false);
-      // TODO: Log errors
-      // TODO: Get app ID, user from context
-      logEvent('ACTION_' + id);
     }
   }
 
