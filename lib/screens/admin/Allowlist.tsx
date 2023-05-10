@@ -31,7 +31,7 @@ const AllowlistScreen: Screen<Props> = ({async: {entries}}: Props) => {
   const {navTo} = useNav();
   const allowlistStoreNew = useDataStore(AllowlistEntry);
   const reload = useReload();
-  const [onDelete] = useAction(deleteEntry);
+  const [onDelete] = useAction('AllowlistDelete', deleteEntry);
   const {Body} = useComponents();
 
   async function deleteEntry(entry: AllowlistEntry) {

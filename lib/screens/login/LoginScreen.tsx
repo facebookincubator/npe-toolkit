@@ -108,7 +108,7 @@ export function AuthenticationButtons(props: {
   const tryFacebookLogin = auth.useTryConnect('facebook', FB_SCOPES);
   const tryGoogleLogin = auth.useTryConnect('google', GOOGLE_SCOPES);
   const {Body, Error} = useComponents();
-  const [tryLoginAction, loggingIn] = useAction(tryLogin);
+  const [tryLoginAction, loggingIn] = useAction('TryLogin', tryLogin);
 
   async function tryLogin(type: AuthType): Promise<void> {
     setLoginErrorMessage(null);

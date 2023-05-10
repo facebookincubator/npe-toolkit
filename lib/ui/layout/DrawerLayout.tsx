@@ -202,10 +202,10 @@ const GO_BACK = {
 
 function AppBarAction(props: {item: ActionItem; color: string}) {
   const {
-    item: {icon, label, action},
+    item: {id, icon, label, action},
     color,
   } = props;
-  const [handler] = useAction(action);
+  const [handler] = useAction(id, action);
 
   if (icon == null) {
     return <></>;
@@ -356,7 +356,7 @@ type ActionFABProps = WithoutIcon & {item: ActionItem; icon?: string};
 function ActionFAB(props: ActionFABProps) {
   const {item, icon, ...fabProps} = props;
 
-  const [handler] = useAction(item.action);
+  const [handler] = useAction(item.id, item.action);
   const iconSpec = item.icon || icon;
 
   if (!iconSpec) {
@@ -375,7 +375,7 @@ type ActionMenuProps = {
 const ActionMenu = (props: ActionMenuProps) => {
   const {size = 18, color, items} = props;
   const handlers = items.map(item => {
-    const [handler] = useAction(item.action);
+    const [handler] = useAction(item.id, item.action);
     return handler;
   });
   const [menuVisible, setMenuVisible] = React.useState(false);

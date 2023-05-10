@@ -14,46 +14,16 @@ import {
   useRoute,
 } from '@react-navigation/core';
 import {
-  NavigationState,
   StackActions,
   getPathFromState as getPathFromStateInternal,
   useNavigation,
 } from '@react-navigation/native';
-import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
 import {setInitialAppContext} from '@toolkit/core/util/AppContext';
 import {PropsFor} from '@toolkit/core/util/Loadable';
 import {Opt} from '@toolkit/core/util/Types';
 import {ApplyLayout, LayoutComponent} from '@toolkit/ui/screen/Layout';
 import {NAV_CONTEXT_KEY, NAV_STATE_KEY, Routes} from '@toolkit/ui/screen/Nav';
 import {Screen, ScreenType} from '@toolkit/ui/screen/Screen';
-
-/**
- * Utiltiy for logging all page transitiions in react-navigation.
- *
- * Usage:
- * ```
- * const navLogger = useReactNavigationLogger();
- * ...
- * <NavigationContainer onStateChange={navLogger}>
- *   ...
- * </NavigationContainer>
- */
-export function useReactNavigationLogger() {
-  const lastRoute = React.useRef<string | undefined>();
-  const logEvent = useLogEvent();
-
-  function onNavStateChange(state: NavigationState | undefined) {
-    const route = state?.routes[state?.index ?? 0]?.name;
-    if (route !== lastRoute.current) {
-      lastRoute.current = route;
-      if (route != null) {
-        logEvent('VIEW_' + eventFromCamelCase(route));
-      }
-    }
-  }
-
-  return onNavStateChange;
-}
 
 const DEFAULT_SCREEN_OPTIONS = {
   modal: {presentation: Platform.OS === 'web' ? 'transparentModal' : 'modal'},

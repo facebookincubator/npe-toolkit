@@ -9,7 +9,7 @@ import * as React from 'react';
 import {useRoute} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 import {canLoggingInFix} from '@toolkit/core/api/Auth';
-import {eventFromCamelCase, useLogEvent} from '@toolkit/core/api/Log';
+import {useLogEvent} from '@toolkit/core/api/Log';
 import {useUserMessaging} from '@toolkit/core/client/Status';
 import {deviceIsMobile} from '@toolkit/core/util/Environment';
 import {LayoutComponent, LayoutProps} from '@toolkit/ui/screen/Layout';
@@ -43,7 +43,7 @@ const LayoutSelector = (props: Layouts & LayoutProps) => {
     // Clear user messages when navigating
     const unsubscribe = reactNav.addListener('focus', () => {
       userMessaging.clear();
-      logEvent(eventNameFromScreen(route.name));
+      logEvent('View');
     });
 
     return unsubscribe;
@@ -70,7 +70,3 @@ const LayoutSelector = (props: Layouts & LayoutProps) => {
 
   return <Layout {...props} onError={onError} />;
 };
-
-function eventNameFromScreen(screen: string) {
-  return 'VIEW_' + eventFromCamelCase(screen.replace('Screen', ''));
-}
