@@ -15,6 +15,7 @@ import {
   useAppContext,
 } from '@toolkit/core/util/AppContext';
 import {CodedError} from '@toolkit/core/util/CodedError';
+import {Opt} from '../util/Types';
 
 /**
  * For logging events, most clients should use either:
@@ -70,7 +71,8 @@ export function useLogPromise<T>(): (
       if (e instanceof CodedError) {
         event.statusCode = e.type;
       }
-      event.debug = e?.message + '\n' + e?.stack;
+      event.errMsg = e.message;
+      event.stack = e?.stack;
     } finally {
       event.duration = Date.now() - event.when!;
     }
@@ -111,7 +113,7 @@ setContextDefault(LOG_CONTEXT_KEY, NULL_LOGGER);
  * Logger that stores the last 500 log events in memory,
  * for display in developer tools.
  */
-function DevLogger() {
+export function DevLogger() {
   return (event: LogEvent) => {
     DEV_LOG_EVENTS.push(event);
     if (DEV_LOG_EVENTS.length > MAX_DEV_LOG_EVENTS) {
@@ -136,7 +138,7 @@ export function ConsoleLogger() {
     if (__DEV__) {
       const eventStr = eventToString(event);
       if (event.status === 'error') {
-        console.error(`[Error] ${eventStr}`, `[Details] ${event.debug}`);
+        console.error(`[Error] ${eventStr}`);
       } else {
         console.log(`[Log] ${eventStr}`);
       }
@@ -171,14 +173,17 @@ export function MultiLogger(useLogApis: UseLogApi[]) {
 
 function useCreateLogEvent(): (name: string) => LogEvent {
   // Ideally we want the version here that doesn't throw at startup. Hmm
-  const user = useLoggedInUser();
+  let userId: Opt<string> = null;
+  try {
+    // We never want this to fail, as we always want to log.
+    // This also avoids issue where user isn't set during startup events
+    const user = useLoggedInUser();
+    userId = user?.id;
+  } catch (e) {}
   const {where} = useCallerId();
-  //console.log('where', where);
 
-  // TODO: Get where from navigation
-  // TODO: Get user from auth
   return (name: string) => ({
-    user: user?.id,
+    user: userId,
     name,
     where,
     when: Date.now(),
@@ -187,8 +192,12 @@ function useCreateLogEvent(): (name: string) => LogEvent {
   });
 }
 
-function eventToString(event: LogEvent) {
-  let str = (event.where != null ? event.where + '::' : '') + event.name;
+export function fullEventName(event: LogEvent) {
+  return (event.where != null ? event.where + '::' : '') + event.name;
+}
+
+export function eventToString(event: LogEvent) {
+  let str = fullEventName(event);
 
   if (event.when) {
     const d = new Date(event.when);
@@ -198,14 +207,14 @@ function eventToString(event: LogEvent) {
   if (event.duration != null) {
     str += `, Duration Ms: ${event.duration}`;
   }
-  if (event.user) {
-    str += ', Has User';
-  }
 
   if (event.status !== 'ok') {
     str += `, Status: ${event.status}`;
     if (event.statusCode != null) {
       str += ` [${event.statusCode}]`;
+    }
+    if (event.errMsg != null) {
+      str += `, ${event.errMsg}`;
     }
   }
 
@@ -247,9 +256,9 @@ export function useCallerId(): CallerId {
  *
  * Most clients will only interact with a small set of these fields directly.
  */
-type LogEvent = {
+export type LogEvent = {
   /** ID of the user at device or for whose data this is being executed */
-  user?: string;
+  user?: Opt<string>;
 
   /** Event name */
   name: string;
@@ -269,8 +278,11 @@ type LogEvent = {
   /** Status code, for more information on error status results */
   statusCode?: string;
 
-  /** Debug information, including full stack trace */
-  debug?: string;
+  /** Error message, when available */
+  errMsg?: string;
+
+  /** Full stack trace, when available */
+  stack?: string;
 
   /** Platform from which this request came */
   platform?: typeof Platform.OS | 'server';
