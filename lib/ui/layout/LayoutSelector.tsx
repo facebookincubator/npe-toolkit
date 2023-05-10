@@ -37,7 +37,6 @@ const LayoutSelector = (props: Layouts & LayoutProps) => {
   const userMessaging = useUserMessaging();
   const isMobile = deviceIsMobile();
   const logEvent = useLogEvent();
-  const route = useRoute();
 
   React.useEffect(() => {
     // Clear user messages when navigating
