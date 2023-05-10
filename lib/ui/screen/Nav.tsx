@@ -105,7 +105,7 @@ export function navToAction(spec: NavSpec): ActionItem {
   const {to, label, icon, params} = spec;
 
   const screen = 'getScreen' in to ? to.getScreen() : to;
-  const id = `NavTo${screen.displayName ?? label.replaceAll(' ', '')}`;
+  const id = `NavTo${screen.displayName ?? label.replace(/ /g, '')}`;
 
   return {
     id,
