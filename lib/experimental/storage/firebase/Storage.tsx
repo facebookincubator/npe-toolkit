@@ -53,6 +53,7 @@ export const useFirebaseStorage = () => {
         const type = mime.getType(uri) ?? file.type;
         const uploadTask = ref.put(file, {
           contentType: type,
+          cacheControl: 'private,max-age=86400',
           customMetadata,
         });
 
