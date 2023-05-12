@@ -20,6 +20,7 @@ function useFileStore<T extends BaseModel>(
 ): FileStore {
   const storage = useFirebaseStorage();
   const maxBytes = opts.maxBytes ?? DEFAULT_MAX_BYTES;
+
   async function upload(toUploadUri: string) {
     const path = `${ModelUtil.getName(dataType)}/${field.toString()}`;
 
@@ -52,3 +53,16 @@ export const FIRESTORE_FILESTORE = context(
   FILE_STORE_PROVIDER_KEY,
   useFileStore,
 );
+
+type UriResolver = {
+  getUrl: (storageUri: StorageUri) => Promise<string>;
+  scheme: string;
+};
+
+export function useFirebaseStorageResolver(): UriResolver {
+  const storage = useFirebaseStorage();
+  return {
+    getUrl: storage.download,
+    scheme: 'firebasestorage',
+  };
+}
